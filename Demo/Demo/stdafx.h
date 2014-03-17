@@ -37,7 +37,7 @@
 
 
 
-
+#include "..\\..\\PluginSupport\\PluginSupport\\PluginLibrary.h"
 
 
 
