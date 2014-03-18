@@ -2,7 +2,10 @@ Plugin Framework based on MFC
 ======
 
 Demo:
-MDI Application using plugin framework
+MDI application using plugin framework
 
 PluginSupport:
-Core of plugin framework
+core of plugin framework
+
+DrawPlugin:
+example of merge plugin's menu&toolbar
