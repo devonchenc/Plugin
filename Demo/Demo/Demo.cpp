@@ -11,6 +11,7 @@
 #include "ChildFrm.h"
 #include "DemoDoc.h"
 #include "DemoView.h"
+#include "Log.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -26,6 +27,10 @@ BEGIN_MESSAGE_MAP(CDemoApp, CWinAppEx)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
+	ON_COMMAND(ID_LANGUAGE_ENG, &CDemoApp::OnLanguageEng)
+	ON_UPDATE_COMMAND_UI(ID_LANGUAGE_ENG, &CDemoApp::OnUpdateLanguageEng)
+	ON_COMMAND(ID_LANGUAGE_CHS, &CDemoApp::OnLanguageChs)
+	ON_UPDATE_COMMAND_UI(ID_LANGUAGE_CHS, &CDemoApp::OnUpdateLanguageChs)
 END_MESSAGE_MAP()
 
 
@@ -98,6 +103,11 @@ BOOL CDemoApp::InitInstance()
 	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
 	LoadStdProfileSettings(4);  // Load standard INI file options (including MRU)
 
+	// switch language
+	SwitchLanguage();
+
+	// replace document manager
+	ReplaceDocManager();
 
 	InitContextMenuManager();
 
@@ -135,7 +145,6 @@ BOOL CDemoApp::InitInstance()
 	ParseCommandLine(cmdInfo);
 
 
-
 	// Dispatch commands specified on the command line.  Will return FALSE if
 	// app was launched with /RegServer, /Register, /Unregserver or /Unregister.
 	if (!ProcessShellCommand(cmdInfo))
@@ -143,6 +152,11 @@ BOOL CDemoApp::InitInstance()
 	// The main window has been initialized, so show and update it
 	pMainFrame->ShowWindow(m_nCmdShow);
 	pMainFrame->UpdateWindow();
+
+	PIInitPlugin(this);
+
+	// register plugin document templates
+	PIRegisterDocTemplates();
 
 	return TRUE;
 }
@@ -178,6 +192,7 @@ protected:
 
 CAboutDlg::CAboutDlg() : CDialogEx(CAboutDlg::IDD)
 {
+
 }
 
 void CAboutDlg::DoDataExchange(CDataExchange* pDX)
@@ -218,5 +233,63 @@ void CDemoApp::SaveCustomState()
 
 // CDemoApp message handlers
 
+// write log
+void CDemoApp::WriteLog(CString strLog)
+{
+	CLog::Out(strLog);
+}
 
+// replace default document manager
+void CDemoApp::ReplaceDocManager()
+{
+	// make sure m_pDocManager hasn't been created
+	ASSERT(m_pDocManager == NULL);
+	// MFC only creates its own one if m_pDocManager is NULL
+	// we replace the default doc manager
+	m_pDocManager = new CPIDocManager;
+}
 
+void CDemoApp::RemovePluginDocTemplate()
+{
+	CPIDocManager* pDocManager = (CPIDocManager*)m_pDocManager;
+	pDocManager->RemovePluginDocTemplate();
+}
+
+// switch language
+void CDemoApp::SwitchLanguage()
+{
+	int nLanguage = GetProfileInt(_T("Settings"), _T("Language"), 0);
+
+	LANGID id;
+	if (nLanguage == 0)
+	{
+		id = MAKELCID(MAKELANGID(LANG_ENGLISH, SUBLANG_ENGLISH_US), SORT_DEFAULT);
+	}
+	else
+	{
+		id = MAKELCID(MAKELANGID(LANG_CHINESE, SUBLANG_CHINESE_SIMPLIFIED), SORT_DEFAULT);
+	}
+	SetThreadUILanguage(id);
+}
+
+void CDemoApp::OnLanguageEng()
+{
+	WriteProfileInt(_T("Settings"), _T("Language"), 0);
+}
+
+void CDemoApp::OnUpdateLanguageEng(CCmdUI* pCmdUI)
+{
+	int nLanguage = GetProfileInt(_T("Settings"), _T("Language"), 0);
+	pCmdUI->SetCheck(nLanguage == 0);
+}
+
+void CDemoApp::OnLanguageChs()
+{
+	WriteProfileInt(_T("Settings"), _T("Language"), 1);
+}
+
+void CDemoApp::OnUpdateLanguageChs(CCmdUI* pCmdUI)
+{
+	int nLanguage = GetProfileInt(_T("Settings"), _T("Language"), 0);
+	pCmdUI->SetCheck(nLanguage == 1);
+}

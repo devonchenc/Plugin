@@ -5,7 +5,7 @@
 #pragma once
 
 
-class CDemoView : public CView
+class CDemoView : public CPIView
 {
 protected: // create from serialization only
 	CDemoView();

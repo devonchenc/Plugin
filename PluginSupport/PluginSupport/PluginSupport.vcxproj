@@ -70,7 +70,8 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Debug</Command>
+      <Command>mkdir $(SolutionDir)..\\Demo\\Debug
+copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Debug</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -100,7 +101,8 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <PostBuildEvent>
-      <Command>copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command>
+      <Command>mkdir $(SolutionDir)..\\Demo\\Release
+copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -111,6 +113,7 @@
     <ClCompile Include="PIMDIFrameWndEx.cpp" />
     <ClCompile Include="PIMultiDocTemplate.cpp" />
     <ClCompile Include="PIToolBar.cpp" />
+    <ClCompile Include="PIView.cpp" />
     <ClCompile Include="PluginLibrary.cpp" />
     <ClCompile Include="PluginImpl.cpp" />
     <ClCompile Include="PluginSupport.cpp" />
@@ -125,6 +128,7 @@
     <ClInclude Include="PIMDIFrameWndEx.h" />
     <ClInclude Include="PIMultiDocTemplate.h" />
     <ClInclude Include="PIToolBar.h" />
+    <ClInclude Include="PIView.h" />
     <ClInclude Include="PluginLibrary.h" />
     <ClInclude Include="PluginImpl.h" />
     <ClInclude Include="PluginSupport.h" />

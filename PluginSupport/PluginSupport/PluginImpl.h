@@ -62,6 +62,6 @@ struct ToolbarInfo
 #endif
 
 #include "PIToolBar.h"
-//#include "PIView.h"
+#include "PIView.h"
 #include "PIDocManager.h"
 #include "PIMDIFrameWndEx.h"

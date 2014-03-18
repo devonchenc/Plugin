@@ -19,12 +19,12 @@
 
 // CDemoView
 
-IMPLEMENT_DYNCREATE(CDemoView, CView)
+IMPLEMENT_DYNCREATE(CDemoView, CPIView)
 
-BEGIN_MESSAGE_MAP(CDemoView, CView)
+BEGIN_MESSAGE_MAP(CDemoView, CPIView)
 	// Standard printing commands
-	ON_COMMAND(ID_FILE_PRINT, &CView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT, &CPIView::OnFilePrint)
+	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CPIView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CDemoView::OnFilePrintPreview)
 	ON_WM_CONTEXTMENU()
 	ON_WM_RBUTTONUP()
@@ -47,7 +47,7 @@ BOOL CDemoView::PreCreateWindow(CREATESTRUCT& cs)
 	// TODO: Modify the Window class or styles here by modifying
 	//  the CREATESTRUCT cs
 
-	return CView::PreCreateWindow(cs);
+	return CPIView::PreCreateWindow(cs);
 }
 
 // CDemoView drawing
@@ -108,12 +108,12 @@ void CDemoView::OnContextMenu(CWnd* /* pWnd */, CPoint point)
 #ifdef _DEBUG
 void CDemoView::AssertValid() const
 {
-	CView::AssertValid();
+	CPIView::AssertValid();
 }
 
 void CDemoView::Dump(CDumpContext& dc) const
 {
-	CView::Dump(dc);
+	CPIView::Dump(dc);
 }
 
 CDemoDoc* CDemoView::GetDocument() const // non-debug version is inline

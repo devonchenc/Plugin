@@ -105,6 +105,7 @@
     <ClInclude Include="Demo.h" />
     <ClInclude Include="DemoDoc.h" />
     <ClInclude Include="DemoView.h" />
+    <ClInclude Include="Log.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="Demo.cpp" />
     <ClCompile Include="DemoDoc.cpp" />
     <ClCompile Include="DemoView.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -45,6 +45,9 @@
     <ClCompile Include="PIMDIFrameWndEx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PIView.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PluginSupport.h">
@@ -78,6 +81,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PIMDIFrameWndEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PIView.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
