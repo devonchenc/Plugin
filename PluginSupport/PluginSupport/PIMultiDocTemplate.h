@@ -1,7 +1,6 @@
 #pragma once
 
-#include "afxwin.h"
-#include "PluginImpl.h"
+#include "PluginDefine.h"
 
 class PLUGIN_EXT_CLASS CPIMultiDocTemplate : public CMultiDocTemplate
 {

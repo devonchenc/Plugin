@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PluginImpl.h"
+#include "PluginDefine.h"
 
 class PLUGIN_EXT_CLASS CPIDocManager : public CDocManager
 {

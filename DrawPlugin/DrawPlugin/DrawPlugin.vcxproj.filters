@@ -18,39 +18,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginSupport.cpp">
+    <ClCompile Include="DrawPlugin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginImpl.cpp">
+    <ClCompile Include="PluginInterface.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginLibrary.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIToolBar.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIDocManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PluginWrapper.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIMultiDocTemplate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIMDIFrameWndEx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIView.cpp">
+    <ClCompile Include="Shape.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PluginSupport.h">
+    <ClInclude Include="DrawPlugin.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -62,45 +44,26 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginImpl.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginLibrary.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIToolBar.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIDocManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginWrapper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIMultiDocTemplate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIMDIFrameWndEx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginDefine.h">
+    <ClInclude Include="Shape.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginSupport.def">
+    <None Include="DrawPlugin.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\PluginSupport.rc2">
+    <None Include="res\DrawPlugin.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginSupport.rc">
+    <ResourceCompile Include="DrawPlugin.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar1.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
 </Project>

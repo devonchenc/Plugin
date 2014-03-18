@@ -1,6 +1,6 @@
 #pragma once
 
-#include "PluginImpl.h"
+#include "PluginDefine.h"
 
 // CPIMDIFrameWndEx ¿ò¼Ü
 

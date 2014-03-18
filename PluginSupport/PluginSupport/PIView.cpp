@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "PluginLibrary.h"
 #include "PIView.h"
+#include "PluginImpl.h"
 
 // CPIView
 

@@ -26,6 +26,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_REGISTERED_MESSAGE(AFX_WM_CREATETOOLBAR, &CMainFrame::OnToolbarCreateNew)
 	ON_COMMAND_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnApplicationLook)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
+	ON_MESSAGE(WM_MENU_EVENT, &CMainFrame::OnMenuEvent)
+	ON_MESSAGE(WM_TOOLBAR_EVENT, &CMainFrame::OnToolbarEvent)
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -303,3 +306,129 @@ BOOL CMainFrame::LoadFrame(UINT nIDResource, DWORD dwDefaultStyle, CWnd* pParent
 	return TRUE;
 }
 
+void CMainFrame::OnClose()
+{
+	CDemoApp* pApp = (CDemoApp*)AfxGetApp();
+	pApp->RemovePluginDocTemplate();
+
+	CPIMDIFrameWndEx::OnClose();
+}
+
+LRESULT CMainFrame::OnMenuEvent(WPARAM wParam, LPARAM lParam)
+{
+	BOOL bFlag = (BOOL)wParam;
+	ASSERT(lParam != NULL);
+
+	if (bFlag)
+	{
+		// create menu
+		CMenu* pMenu = (CMenu*)lParam;
+		m_wndMenuBar.CreateFromMenu(*pMenu, FALSE, TRUE);
+	}
+	else
+	{
+		// return menu
+		HMENU* pMenu = (HMENU*)lParam;
+		*pMenu = m_wndMenuBar.GetHMenu();
+	}
+
+	return 0;
+}
+
+LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
+{
+	BOOL bFlag = (BOOL)wParam;
+	ToolbarInfo* pInfo = (ToolbarInfo*)lParam;
+	ASSERT(pInfo != NULL);
+
+	// save current resource handle
+	HINSTANCE hCurrentInstance = AfxGetResourceHandle();
+	AfxSetResourceHandle(pInfo->hInstance);
+
+	int nCommandCount = 0;
+	if (bFlag)
+	{
+		// merge toolbar
+		CMFCToolBar PluginToolBar;
+		if (PluginToolBar.LoadToolBar(pInfo->nIDResource))
+		{
+			nCommandCount = PluginToolBar.GetCount();
+			for (int i=0; i<nCommandCount; i++)
+			{
+				UINT nID;
+				UINT nStyle;
+				int iImage;
+				PluginToolBar.GetButtonInfo(i, nID, nStyle, iImage);
+
+				CString str;
+				str.LoadString(pInfo->hInstance, nID);
+				CMFCToolBarButton ToolBarButton(pInfo->nCommandIDIndex + i, iImage, str);
+				if (m_wndToolBar.InsertButton(ToolBarButton) == -1)
+				{
+					TRACE(_T("Plugin: InsertButton id = %d failed!\n"), nID);
+				}
+				else
+				{
+					// add new command
+					PIAddNewCommand(pInfo->nPluginIndex, nID);
+				}
+			}
+			m_wndToolBar.RestoreOriginalState();
+		}
+	}
+	else
+	{
+		// insert toolbar
+		CPIToolBar* pToolBar = new CPIToolBar();
+		if (!pToolBar->CreateEx(this, TBSTYLE_FLAT, WS_CHILD | WS_VISIBLE | CBRS_TOP | CBRS_GRIPPER | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC) ||
+			!pToolBar->LoadToolBar(pInfo->nIDResource))
+		{
+			TRACE(_T("Plugin: InsertToolbar resource = %d failed!\n"), pInfo->nIDResource);
+			return -1;
+		}
+		nCommandCount = pToolBar->GetCount();
+		for (int i=0; i<nCommandCount; i++)
+		{
+			UINT nID;
+			UINT nStyle;
+			int iImage;
+			pToolBar->GetButtonInfo(i, nID, nStyle, iImage);
+
+			// replace command id
+			pToolBar->SetButtonInfo(i, pInfo->nCommandIDIndex + i, nStyle, iImage);
+			// set button text
+			CString str;
+			str.LoadString(pInfo->hInstance, nID);
+			pToolBar->SetButtonText(i, str);
+			// add new command
+			PIAddNewCommand(pInfo->nPluginIndex, nID);
+		}
+
+		pToolBar->SetWindowText(pInfo->strText);
+		pToolBar->EnableDocking(CBRS_ALIGN_ANY);
+
+		//	DockPane(&m_wndToolBar);
+		//	DockPaneLeftOf(pToolBar, &m_wndToolBar);
+		DockPane(pToolBar);
+		DockPaneLeftOf(&m_wndToolBar, pToolBar);
+
+		// add to toolbar array
+		m_ToolBarArray.Add(pToolBar);
+	}
+
+	// restore resource handle
+	AfxSetResourceHandle(hCurrentInstance);
+
+	return nCommandCount;
+}
+
+void CMainFrame::GetMessageString(UINT nID, CString& rMessage) const
+{
+	if (nID >= PLUGIN_COMMAND_BEGIN && nID <= PLUGIN_COMMAND_END)
+	{
+		PIGetCommandString(nID, rMessage);
+		return;
+	}
+
+	return CPIMDIFrameWndEx::GetMessageString(nID, rMessage);
+}

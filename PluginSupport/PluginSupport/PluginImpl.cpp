@@ -33,9 +33,6 @@ PLUGIN_EXPORT void PIRegisterDocTemplates()
 			// plugin said it had one, but didn't supply it
 			ASSERT(pDocTemplate);
 			pMainApp->AddDocTemplate(pDocTemplate);
-
-		//	CDocTemplate* p1 = NULL;
-		//	CPIMultiDocTemplate* p2 = p1;
 		}
 	}
 }

@@ -166,6 +166,12 @@ int CDemoApp::ExitInstance()
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
 
+	// release plugin
+	PIReleasePlugin();
+
+	// removes all UI information about the application from registry
+	CleanState();
+
 	return CWinAppEx::ExitInstance();
 }
 

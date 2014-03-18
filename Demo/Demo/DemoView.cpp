@@ -52,7 +52,7 @@ BOOL CDemoView::PreCreateWindow(CREATESTRUCT& cs)
 
 // CDemoView drawing
 
-void CDemoView::OnDraw(CDC* /*pDC*/)
+void CDemoView::OnDraw(CDC* pDC)
 {
 	CDemoDoc* pDoc = GetDocument();
 	ASSERT_VALID(pDoc);
@@ -60,11 +60,10 @@ void CDemoView::OnDraw(CDC* /*pDC*/)
 		return;
 
 	// TODO: add draw code for native data here
+	CPIView::OnDraw(pDC);
 }
 
-
 // CDemoView printing
-
 
 void CDemoView::OnFilePrintPreview()
 {

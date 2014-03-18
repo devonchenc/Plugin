@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "PluginSupport.h"
 #include "PIToolBar.h"
+#include "PluginImpl.h"
 
 
 // CPIToolBar

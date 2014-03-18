@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4752F8EF-F997-4D41-9769-CC7FB118CC00}</ProjectGuid>
-    <RootNamespace>PluginSupport</RootNamespace>
+    <ProjectGuid>{47788D9E-BAE5-4B9F-BD4B-EC07789565B9}</ProjectGuid>
+    <RootNamespace>DrawPlugin</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>.\PluginSupport.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\DrawPlugin.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -89,7 +89,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Debug</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\PluginSupport.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\DrawPlugin.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -109,48 +109,37 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PIDocManager.cpp" />
-    <ClCompile Include="PIMDIFrameWndEx.cpp" />
-    <ClCompile Include="PIMultiDocTemplate.cpp" />
-    <ClCompile Include="PIToolBar.cpp" />
-    <ClCompile Include="PIView.cpp" />
-    <ClCompile Include="PluginLibrary.cpp" />
-    <ClCompile Include="PluginImpl.cpp" />
-    <ClCompile Include="PluginSupport.cpp" />
-    <ClCompile Include="PluginWrapper.cpp" />
+    <ClCompile Include="DrawPlugin.cpp" />
+    <ClCompile Include="PluginInterface.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PIDocManager.h" />
-    <ClInclude Include="PIMDIFrameWndEx.h" />
-    <ClInclude Include="PIMultiDocTemplate.h" />
-    <ClInclude Include="PIToolBar.h" />
-    <ClInclude Include="PIView.h" />
-    <ClInclude Include="PluginDefine.h" />
-    <ClInclude Include="PluginLibrary.h" />
-    <ClInclude Include="PluginImpl.h" />
-    <ClInclude Include="PluginSupport.h" />
-    <ClInclude Include="PluginWrapper.h" />
+    <ClInclude Include="DrawPlugin.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginSupport.def" />
-    <None Include="res\PluginSupport.rc2" />
+    <None Include="DrawPlugin.def" />
+    <None Include="res\DrawPlugin.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginSupport.rc" />
+    <ResourceCompile Include="DrawPlugin.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="toolbar1.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="PluginSupport.rc" />
+      <UserProperties RESOURCE_FILE="DrawPlugin.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

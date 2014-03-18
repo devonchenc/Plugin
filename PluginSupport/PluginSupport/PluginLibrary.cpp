@@ -190,7 +190,7 @@ PLUGIN_EXPORT BOOL MergeMenu(int nPluginIndex, const CMenu* pMenuAdd, BOOL bTopL
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
 
-	HMENU hMenu;
+	HMENU hMenu = NULL;
 	pMainApp->m_pMainWnd->SendMessage(WM_MENU_EVENT, (WPARAM)FALSE, (LPARAM)&hMenu);
 	ASSERT(hMenu != NULL);
 

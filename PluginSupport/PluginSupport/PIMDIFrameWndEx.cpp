@@ -2,9 +2,8 @@
 //
 
 #include "stdafx.h"
-//#include "PluginLibrary.h"
 #include "PIMDIFrameWndEx.h"
-
+#include "PluginImpl.h"
 
 // CPIMDIFrameWndEx
 
