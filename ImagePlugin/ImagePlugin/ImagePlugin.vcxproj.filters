@@ -18,42 +18,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginSupport.cpp">
+    <ClCompile Include="ImagePlugin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginImpl.cpp">
+    <ClCompile Include="PluginInterface.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginLibrary.cpp">
+    <ClCompile Include="ImageDocument.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PIToolBar.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIDocManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PluginWrapper.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIMultiDocTemplate.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIMDIFrameWndEx.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIView.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="PIDocument.cpp">
+    <ClCompile Include="ImageView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PluginSupport.h">
+    <ClInclude Include="ImagePlugin.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -65,47 +47,23 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginImpl.h">
+    <ClInclude Include="ImageDocument.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginLibrary.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIToolBar.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIDocManager.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginWrapper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIMultiDocTemplate.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIMDIFrameWndEx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PluginDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="PIDocument.h">
+    <ClInclude Include="ImageView.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginSupport.def">
+    <None Include="ImagePlugin.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\PluginSupport.rc2">
+    <None Include="res\ImagePlugin.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginSupport.rc">
+    <ResourceCompile Include="ImagePlugin.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

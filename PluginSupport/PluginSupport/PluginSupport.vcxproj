@@ -109,6 +109,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="PIDocument.cpp" />
     <ClCompile Include="PIDocManager.cpp" />
     <ClCompile Include="PIMDIFrameWndEx.cpp" />
     <ClCompile Include="PIMultiDocTemplate.cpp" />
@@ -124,6 +125,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PIDocument.h" />
     <ClInclude Include="PIDocManager.h" />
     <ClInclude Include="PIMDIFrameWndEx.h" />
     <ClInclude Include="PIMultiDocTemplate.h" />

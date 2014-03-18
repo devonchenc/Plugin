@@ -35,6 +35,7 @@ CDemoDoc::CDemoDoc()
 
 CDemoDoc::~CDemoDoc()
 {
+
 }
 
 BOOL CDemoDoc::OnNewDocument()
@@ -47,9 +48,6 @@ BOOL CDemoDoc::OnNewDocument()
 
 	return TRUE;
 }
-
-
-
 
 // CDemoDoc serialization
 

@@ -76,4 +76,4 @@ public:
 #endif
 
 #include "PIMultiDocTemplate.h"
-//#include "PIDocument.h"
+#include "PIDocument.h"
