@@ -115,6 +115,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClCompile Include="PIMultiDocTemplate.cpp" />
     <ClCompile Include="PIToolBar.cpp" />
     <ClCompile Include="PIView.cpp" />
+    <ClCompile Include="Plugin.cpp" />
     <ClCompile Include="PluginLibrary.cpp" />
     <ClCompile Include="PluginImpl.cpp" />
     <ClCompile Include="PluginSupport.cpp" />
@@ -131,6 +132,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClInclude Include="PIMultiDocTemplate.h" />
     <ClInclude Include="PIToolBar.h" />
     <ClInclude Include="PIView.h" />
+    <ClInclude Include="Plugin.h" />
     <ClInclude Include="PluginDefine.h" />
     <ClInclude Include="PluginLibrary.h" />
     <ClInclude Include="PluginImpl.h" />

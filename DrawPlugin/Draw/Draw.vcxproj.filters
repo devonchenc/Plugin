@@ -18,27 +18,21 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginBrowser.cpp">
+    <ClCompile Include="Draw.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginBrowserDlg.cpp">
+    <ClCompile Include="DrawPlugin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ListViewPage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="TreeViewPage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser.cpp">
+    <ClCompile Include="Shape.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PluginBrowser.h">
+    <ClInclude Include="Draw.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -50,29 +44,23 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginBrowserDlg.h">
+    <ClInclude Include="DrawPlugin.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ListViewPage.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="TreeViewPage.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser.h">
+    <ClInclude Include="Shape.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginBrowser.def">
+    <None Include="Draw.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\PluginBrowser.rc2">
+    <None Include="res\Draw.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginBrowser.rc">
+    <ResourceCompile Include="Draw.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

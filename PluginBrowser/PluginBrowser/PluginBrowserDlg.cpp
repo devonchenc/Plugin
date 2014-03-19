@@ -123,21 +123,22 @@ void CPluginBrowserDlg::LoadDLL(CString strFileName)
 	HINSTANCE hInstance = LoadLibrary(strFileName);
 	if (hInstance != NULL)
 	{
-		// get pointers to functions
-		// add others here, if you add your own wrapper functions. Note also you
-		// must modify the copy constructor and the operator= as well!
-		INITPLUGIN pFNInitPlugin = (INITPLUGIN)GetProcAddress(hInstance, "Init");
-		RELEASPLUGIN pFNReleasePlugin = (RELEASPLUGIN)GetProcAddress(hInstance, "Release");
-		QUERYPLUGIN pFNQueryPlugin = (QUERYPLUGIN)GetProcAddress(hInstance, "Query");
+		GETINSTANCE pfnGetInstance = (GETINSTANCE)GetProcAddress(hInstance, "GetInstance");
+		if (pfnGetInstance == NULL)
+		{
+			FreeLibrary(hInstance);
+			return;
+		}
 
-		if (pFNInitPlugin == NULL || pFNReleasePlugin == NULL || pFNQueryPlugin == NULL)
+		CPlugin* pPlugin = pfnGetInstance();
+		if (pPlugin == NULL)
 		{
 			FreeLibrary(hInstance);
 			return;
 		}
 
 		CPluginInfo* pInfo = new CPluginInfo;
-		pFNQueryPlugin(*pInfo);
+		pPlugin->Query(*pInfo);
 		m_PluginInfoArray.Add(pInfo);
 
 		FreeLibrary(hInstance);

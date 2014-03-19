@@ -12,25 +12,21 @@ CPluginWrapper::CPluginWrapper()
 	m_strFileName = _T("");			// no filename
 
 	// initialize function pointers
-	m_pFNInitPlugin = NULL;
-	m_pFNReleasePlugin = NULL;
-	m_pFNQueryPlugin = NULL;
-	m_pFNExecutePlugin = NULL;
-	m_pFNDrawPlugin = NULL;
-	m_pFNGetDocTemplateCount = NULL;
-	m_pFNGetDocTemplate = NULL;
-}
-
-CPluginWrapper::CPluginWrapper(CPluginWrapper& other)
-{
-	// use the operator= functionality so its all done in one place
-	*this = other;
+	m_pfnGetInstance = NULL;
+	m_pPlugin = NULL;
 }
 
 CPluginWrapper::~CPluginWrapper()
 {
 	// release any loaded DLL
-	ReleaseDLL();
+	if (m_hInstance != NULL)
+	{
+		FreeLibrary(m_hInstance);	// release library
+		m_hInstance = NULL;
+		m_strFileName = "";
+		// kill any function pointers
+		m_pfnGetInstance = NULL;
+	}
 }
 
 BOOL CPluginWrapper::LoadDLL(CString strFileName)
@@ -40,18 +36,15 @@ BOOL CPluginWrapper::LoadDLL(CString strFileName)
 
 	if (m_hInstance != NULL)
 	{
-		// get pointers to functions
-		// add others here, if you add your own wrapper functions. Note also you
-		// must modify the copy constructor and the operator= as well!
-		m_pFNInitPlugin = (INITPLUGIN)GetProcAddress(m_hInstance, "Init");
-		m_pFNReleasePlugin = (RELEASPLUGIN)GetProcAddress(m_hInstance, "Release");
-		m_pFNQueryPlugin = (QUERYPLUGIN)GetProcAddress(m_hInstance, "Query");
-		m_pFNExecutePlugin = (EXECUTEPLUGIN)GetProcAddress(m_hInstance, "Execute");
-		m_pFNDrawPlugin = (DRAWPLUGIN)GetProcAddress(m_hInstance, "Draw");
-		m_pFNGetDocTemplateCount = (GETDOCTEMPLATECOUNT)GetProcAddress(m_hInstance, "GetDocTemplateCount");
-		m_pFNGetDocTemplate = (GETDOCTEMPLATE)GetProcAddress(m_hInstance, "GetDocTemplate");
+		m_pfnGetInstance = (GETINSTANCE)GetProcAddress(m_hInstance, "GetInstance");
+		if (m_pfnGetInstance == NULL)
+		{
+			FreeLibrary(m_hInstance);
+			return FALSE;
+		}
 
-		if (m_pFNInitPlugin == NULL || m_pFNReleasePlugin == NULL || m_pFNQueryPlugin == NULL)
+		m_pPlugin = m_pfnGetInstance();
+		if (m_pPlugin == NULL)
 		{
 			FreeLibrary(m_hInstance);
 			return FALSE;
@@ -60,82 +53,22 @@ BOOL CPluginWrapper::LoadDLL(CString strFileName)
 	return (m_hInstance != NULL);
 }
 
-BOOL CPluginWrapper::ReleaseDLL()
-{
-	// release any loaded DLL
-	if (m_hInstance != NULL)
-	{
-		FreeLibrary(m_hInstance);		// release library
-		m_hInstance = NULL;
-		m_strFileName = "";
-		// kill any function pointers
-		m_pFNInitPlugin = NULL;
-		m_pFNReleasePlugin = NULL;
-		m_pFNQueryPlugin = NULL;
-		m_pFNExecutePlugin = NULL;
-		m_pFNDrawPlugin = NULL;
-		m_pFNGetDocTemplateCount = NULL;
-		m_pFNGetDocTemplate = NULL;
-	}
-	return TRUE;
-}
-
-CPluginWrapper& CPluginWrapper::operator=(CPluginWrapper& other)
-{
-	// NOTE: This operator= does not work as a regular operator= in that both object will not be the same
-	// after assignment! If the local object wraps a DLL already, then it is freed. The other object gets
-	// copied across and removed from the other object, so that 2 CDLLWrapper object cannot wrap the same
-	// object. This makes them unique
-	ReleaseDLL();						// free our DLL if we have one
-	m_strFileName = other.m_strFileName;
-	other.m_strFileName = "";
-	m_hInstance = other.m_hInstance;
-	other.m_hInstance = NULL;
-	m_pFNInitPlugin = other.m_pFNInitPlugin;
-	other.m_pFNInitPlugin = NULL;
-	m_pFNReleasePlugin = other.m_pFNReleasePlugin;
-	other.m_pFNReleasePlugin  = NULL;
-	m_pFNQueryPlugin = other.m_pFNQueryPlugin;
-	other.m_pFNQueryPlugin = NULL;
-	m_pFNExecutePlugin = other.m_pFNExecutePlugin;
-	other.m_pFNExecutePlugin = NULL;
-	m_pFNDrawPlugin = other.m_pFNDrawPlugin;
-	other.m_pFNDrawPlugin = NULL;
-	m_pFNGetDocTemplateCount = other.m_pFNGetDocTemplateCount;
-	other.m_pFNGetDocTemplateCount = NULL;
-	m_pFNGetDocTemplate = other.m_pFNGetDocTemplate;
-	other.m_pFNGetDocTemplate = NULL;
-
-	// allow cascading =
-	// a = b = c; etc
-	return *this;
-}
-
 void CPluginWrapper::InitPlugin(CWinApp* pApp, int nPluginIndex)
 {
 	// map virtual plugin command id
 	SetFirstVirtualID(CPluginWrapper::GetCommandIDIndex());
 
-	if (m_pFNInitPlugin != NULL)
-	{
-		m_pFNInitPlugin(pApp, nPluginIndex);
-	}
+	m_pPlugin->Init(pApp, nPluginIndex);
 }
 
 void CPluginWrapper::ReleasePlugin()
 {
-	if (m_pFNReleasePlugin)
-	{
-		m_pFNReleasePlugin();
-	}
+	m_pPlugin->Release();
 }
 
 void CPluginWrapper::QueryPlugin()
 {
-	if (m_pFNQueryPlugin)
-	{
-		m_pFNQueryPlugin(m_PluginInfo);
-	}
+	m_pPlugin->Query(m_PluginInfo);
 }
 
 void CPluginWrapper::ExecutePlugin(UINT nCommandID, CCmdUI* pCmdUI)
@@ -143,44 +76,24 @@ void CPluginWrapper::ExecutePlugin(UINT nCommandID, CCmdUI* pCmdUI)
 	UINT nActualID = FindCommand(nCommandID);
 	ASSERT(nActualID != 0);
 
-	if (m_pFNExecutePlugin)
-	{
-		m_pFNExecutePlugin(nActualID, pCmdUI);
-	}
+	m_pPlugin->Execute(nActualID, pCmdUI);
 }
 
 void CPluginWrapper::Draw(CDC* pDC)
 {
-	if (m_pFNDrawPlugin)
-	{
-		m_pFNDrawPlugin(pDC);
-	}
+	m_pPlugin->Draw(pDC);
 }
 
 int CPluginWrapper::GetDocTemplateCount()
 {
-	if (m_pFNGetDocTemplateCount)
-	{
-		return m_pFNGetDocTemplateCount();
-	}
-	else
-	{
-		return 0;
-	}
+	return m_pPlugin->GetDocTemplateCount();
 }
 
 CPIMultiDocTemplate* CPluginWrapper::GetDocTemplate(int nIndex)
 {
-	if (m_pFNGetDocTemplate)
-	{
-		ASSERT(nIndex >= 0);
-		ASSERT(nIndex < GetDocTemplateCount());
-		return m_pFNGetDocTemplate(nIndex);
-	}
-	else
-	{
-		return NULL;
-	}
+	ASSERT(nIndex >= 0);
+	ASSERT(nIndex < GetDocTemplateCount());
+	return m_pPlugin->GetDocTemplate(nIndex);
 }
 
 HINSTANCE CPluginWrapper::GetInstance() const

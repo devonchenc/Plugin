@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{93F48DB5-53B2-4029-A28A-772B6D23BB90}</ProjectGuid>
-    <RootNamespace>PluginBrowser</RootNamespace>
+    <ProjectGuid>{BA5C840D-BC84-4868-B478-0D720C330DE4}</ProjectGuid>
+    <RootNamespace>Draw</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -58,7 +58,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>.\PluginBrowser.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\Draw.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -89,7 +89,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Debug</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\PluginBrowser.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\Draw.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -109,39 +109,35 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Browser.cpp" />
-    <ClCompile Include="ListViewPage.cpp" />
-    <ClCompile Include="PluginBrowser.cpp" />
-    <ClCompile Include="PluginBrowserDlg.cpp" />
+    <ClCompile Include="Draw.cpp" />
+    <ClCompile Include="DrawPlugin.cpp" />
+    <ClCompile Include="Shape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TreeViewPage.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Browser.h" />
-    <ClInclude Include="ListViewPage.h" />
-    <ClInclude Include="PluginBrowser.h" />
-    <ClInclude Include="PluginBrowserDlg.h" />
+    <ClInclude Include="Draw.h" />
+    <ClInclude Include="DrawPlugin.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="Shape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TreeViewPage.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginBrowser.def" />
-    <None Include="res\PluginBrowser.rc2" />
+    <None Include="Draw.def" />
+    <None Include="res\Draw.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginBrowser.rc" />
+    <ResourceCompile Include="Draw.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="PluginBrowser.rc" />
+      <UserProperties RESOURCE_FILE="Draw.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

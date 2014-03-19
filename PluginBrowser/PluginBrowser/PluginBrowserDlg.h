@@ -6,9 +6,7 @@
 
 // CPluginBrowserDlg ¶Ô»°¿ò
 
-typedef void (*INITPLUGIN)(CWinApp* pApp, int nPluginIndex);
-typedef void (*RELEASPLUGIN)();
-typedef void (*QUERYPLUGIN)(CPluginInfo& pluginfo);
+typedef CPlugin* (*GETINSTANCE)();
 
 typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
 

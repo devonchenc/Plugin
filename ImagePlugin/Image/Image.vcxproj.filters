@@ -18,27 +18,24 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="PluginBrowser.cpp">
+    <ClCompile Include="Image.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginBrowserDlg.cpp">
+    <ClCompile Include="ImagePlugin.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="ListViewPage.cpp">
+    <ClCompile Include="ImageDocument.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="TreeViewPage.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Browser.cpp">
+    <ClCompile Include="ImageView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PluginBrowser.h">
+    <ClInclude Include="Image.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
@@ -50,29 +47,26 @@
     <ClInclude Include="Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginBrowserDlg.h">
+    <ClInclude Include="ImagePlugin.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ListViewPage.h">
+    <ClInclude Include="ImageDocument.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TreeViewPage.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Browser.h">
+    <ClInclude Include="ImageView.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="PluginBrowser.def">
+    <None Include="Image.def">
       <Filter>源文件</Filter>
     </None>
-    <None Include="res\PluginBrowser.rc2">
+    <None Include="res\Image.rc2">
       <Filter>资源文件</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="PluginBrowser.rc">
+    <ResourceCompile Include="Image.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>

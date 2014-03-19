@@ -18,7 +18,6 @@
 #define WM_GET_ACTIVE_VIEW			WM_USER + 106
 #define WM_PREPARE_DC_EVENT			WM_USER + 107
 
-
 #ifndef PLUGIN_COMMAND
 	#define PLUGIN_COMMAND
 	// plugin command begin & end
@@ -30,3 +29,29 @@
 		UINT nVirtualID;
 	};
 #endif
+
+class CPluginInfo
+{
+/*	* @name:		the plugin's name
+	* @blurb:		a short text describing what the plugin does
+	* @help:		the help text for the plugin (usually considerably longer than @blurb)
+	* @author:		the plugin's author(s)
+	* @copyright:	the plugin's copyright
+	* @date:		the date the plugin was added
+	* @menu_label:	the label to use for the plugin's menu entry, or #NULL if the plugin has no menu entry
+	* @image_types:	the drawable types the plugin can handle
+	* @type:		the type of the plugin
+	* @n_params:	the number of parameters the plugin takes
+	* @n_return_vals:the number of return values the plugin returns
+	* @params:		the plugin's parameters
+	* @return_vals:	the plugin's return values
+*/
+public:
+	CString m_strName;
+	CString m_strBlurb;
+	CString m_strHelp;
+	CString m_strAuthor;
+	CString m_strCopyRight;
+	CString m_strDate;
+	CString m_strMenuLabel;
+};
