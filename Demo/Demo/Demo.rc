@@ -374,8 +374,8 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "&Language"
         BEGIN
-            MENUITEM "&English",                    32772
-            MENUITEM "&Chinese Simplified",         32773
+            MENUITEM "&English",                    ID_LANGUAGE_ENG
+            MENUITEM "&Chinese Simplified",         ID_LANGUAGE_CHS
         END
     END
     POPUP "&Window"

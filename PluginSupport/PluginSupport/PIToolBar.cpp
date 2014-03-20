@@ -6,6 +6,7 @@
 #include "PIToolBar.h"
 #include "PluginImpl.h"
 
+#define AFX_TOOLBAR_BUTTON_MARGIN 6
 
 // CPIToolBar
 
@@ -78,4 +79,115 @@ INT_PTR CPIToolBar::OnToolHitTest(CPoint point, TOOLINFO* pTI) const
 	pTI->lpszText = pBuf;
 
 	return hInt;
+}
+
+BOOL CPIToolBar::LoadToolBarExtend(UINT uiResID, UINT nCommandIDIndex, UINT uiColdResID, UINT uiMenuResID, BOOL bLocked, UINT uiDisabledResID, UINT uiMenuDisabledResID, UINT uiHotResID)
+{
+	CMFCToolBarInfo params;
+
+	params.m_uiColdResID = uiColdResID;
+	params.m_uiHotResID = uiHotResID;
+	params.m_uiDisabledResID = uiDisabledResID;
+	params.m_uiMenuResID = uiMenuResID;
+	params.m_uiMenuDisabledResID= uiMenuDisabledResID;
+
+	return LoadToolBarEx2(uiResID, nCommandIDIndex, params, bLocked);
+}
+
+BOOL CPIToolBar::LoadToolBarEx2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCToolBarInfo& params, BOOL bLocked)
+{
+	struct CToolBarData
+	{
+		WORD wVersion;
+		WORD wWidth;
+		WORD wHeight;
+		WORD wItemCount;
+
+		WORD* items() { return(WORD*)(this+1); }
+	};
+
+	ASSERT_VALID(this);
+
+	ENSURE(uiToolbarResID != 0);
+
+	// determine location of the bitmap in resource fork:
+	HINSTANCE hInst = AfxFindResourceHandle(MAKEINTRESOURCE(uiToolbarResID), RT_TOOLBAR);
+	HRSRC hRsrc = ::FindResourceW(hInst, MAKEINTRESOURCEW(uiToolbarResID), (LPWSTR) RT_TOOLBAR);
+	if (hRsrc == NULL)
+		return FALSE;
+
+	HGLOBAL hGlobal = LoadResource(hInst, hRsrc);
+	if (hGlobal == NULL)
+		return FALSE;
+
+	CToolBarData* pData = (CToolBarData*)LockResource(hGlobal);
+	if (pData == NULL)
+		return FALSE;
+	ASSERT(pData->wVersion == 1);
+
+	UINT* pItems = new UINT[pData->wItemCount];
+	ENSURE(pItems != NULL);
+
+	CSize sizeImage(pData->wWidth, pData->wHeight);
+	CSize sizeButton(pData->wWidth + AFX_TOOLBAR_BUTTON_MARGIN, pData->wHeight + AFX_TOOLBAR_BUTTON_MARGIN);
+
+	BOOL bDontScaleImages = bLocked ? m_bDontScaleLocked : m_bDontScaleImages;
+
+	if (!bDontScaleImages && GetGlobalData()->GetRibbonImageScale() != 1.)
+	{
+		double dblImageScale = GetGlobalData()->GetRibbonImageScale();
+		sizeButton = CSize ((int)(.5 + sizeButton.cx * dblImageScale), (int)(.5 + sizeButton.cy * dblImageScale));
+	}
+
+	if (bLocked)
+	{
+		SetLockedSizes(sizeButton, sizeImage);
+	}
+	else if (!m_Images.IsScaled())
+	{
+		SetSizes(sizeButton, sizeImage);
+	}
+
+	BOOL bResult = TRUE;
+
+	if (params.m_uiHotResID == 0) // Use toolbar resource as hot image
+	{
+		params.m_uiHotResID = uiToolbarResID;
+	}
+
+	if (m_uiOriginalResID != 0 || LoadBitmapEx(params, bLocked))
+	{
+		int iImageIndex = m_iImagesOffset;
+		for (int i = 0; i < pData->wItemCount; i++)
+		{
+		//	pItems[i] = pData->items()[i];
+			pItems[i] = nCommandIDIndex + i;
+
+			if (!bLocked && pItems [i] > 0)
+			{
+				m_DefaultImages.SetAt(pItems[i], iImageIndex ++);
+			}
+		}
+
+		m_uiOriginalResID = uiToolbarResID;
+		bResult = SetButtons(pItems, pData->wItemCount);
+
+		if (!bResult)
+		{
+			m_uiOriginalResID = 0;
+		}
+	}
+
+	delete[] pItems;
+
+	UnlockResource(hGlobal);
+	FreeResource(hGlobal);
+
+	return bResult;
+}
+
+// edit image id
+void CPIToolBar::RemapImage(UINT nCommandID, int nImageIndex)
+{
+	m_DefaultImages.SetAt(nCommandID, nImageIndex);
 }

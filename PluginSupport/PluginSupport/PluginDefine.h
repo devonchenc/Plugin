@@ -25,6 +25,7 @@
 	#define PLUGIN_COMMAND_END		57599
 	struct PluginCommand
 	{
+		int nPluginIndex;
 		UINT nActualID;
 		UINT nVirtualID;
 	};

@@ -7,15 +7,14 @@ CBrowserPlugin::CBrowserPlugin()
 
 }
 
-void CBrowserPlugin::Init(CWinApp* pApp, int nPluginIndex)
+void CBrowserPlugin::Init(CWinApp* pApp)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	ASSERT(pApp != NULL);
 
 	// merge menu
 	CMenu append;
 	append.LoadMenu(IDR_BROWSER_MENU);
-	MergeMenu(nPluginIndex, &append, TRUE);
+	MergeMenu(&append, TRUE);
 }
 
 void CBrowserPlugin::Release()

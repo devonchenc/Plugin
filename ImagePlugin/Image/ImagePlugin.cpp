@@ -7,7 +7,7 @@ CImagePlugin::CImagePlugin()
 
 }
 
-void CImagePlugin::Init(CWinApp* pApp, int nPluginIndex)
+void CImagePlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 }

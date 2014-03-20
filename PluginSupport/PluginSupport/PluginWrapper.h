@@ -49,10 +49,17 @@ public:
 	// get command string
 	void GetCommandString(UINT nVirtualID, CString& str);
 
-private:
 	// member variables
-	CString m_strFileName;		// filename of DLL
-	HINSTANCE m_hInstance;		// Instance of DLL
+private:
+	// filename of DLL
+	CString m_strFileName;
+
+	// Instance of DLL
+	HINSTANCE m_hInstance;
+
+	// index of all plugin
+	int m_nPluginIndex;
+
 	CPluginInfo m_PluginInfo;
 
 	// first virtual ID

@@ -7,18 +7,17 @@ CDrawPlugin::CDrawPlugin()
 
 }
 
-void CDrawPlugin::Init(CWinApp* pApp, int nPluginIndex)
+void CDrawPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	ASSERT(pApp != NULL);
 
 	// merge menu
 	CMenu append;
 	append.LoadMenu(IDR_DRAW_MENU);
-	MergeMenu(nPluginIndex, &append, TRUE);
+	MergeMenu(&append, TRUE);
 
 	// merge toolbar
-	MergeToolbar(nPluginIndex, IDR_DRAW_TOOLBAR);
+	MergeToolbar(IDR_DRAW_TOOLBAR);
 }
 
 void CDrawPlugin::Release()

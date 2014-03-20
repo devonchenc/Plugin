@@ -1,7 +1,6 @@
 
 #include "stdafx.h"
 #include "PluginWrapper.h"
-
 #include "PIMultiDocTemplate.h"
 
 UINT CPluginWrapper::m_nCommandIDIndex = PLUGIN_COMMAND_BEGIN;
@@ -55,10 +54,13 @@ BOOL CPluginWrapper::LoadDLL(CString strFileName)
 
 void CPluginWrapper::InitPlugin(CWinApp* pApp, int nPluginIndex)
 {
+	m_nPluginIndex = nPluginIndex;
+
 	// map virtual plugin command id
 	SetFirstVirtualID(CPluginWrapper::GetCommandIDIndex());
 
-	m_pPlugin->Init(pApp, nPluginIndex);
+	m_pPlugin->SetPluginIndex(nPluginIndex);
+	m_pPlugin->Init();
 }
 
 void CPluginWrapper::ReleasePlugin()
@@ -136,6 +138,7 @@ const CommandArray& CPluginWrapper::GetCommandArray() const
 void CPluginWrapper::AddCommand(UINT nActualID)
 {
 	PluginCommand command;
+	command.nPluginIndex = m_nPluginIndex;
 	command.nActualID = nActualID;
 	command.nVirtualID = GetCommandIDIndex();
 	m_CommandArray.Add(command);

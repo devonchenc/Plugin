@@ -8,7 +8,7 @@ protected:
 public:
 	static CImagePlugin* Instance() { static CImagePlugin _instance; return &_instance; }
 
-	virtual void Init(CWinApp* pApp, int nPluginIndex);
+	virtual void Init();
 
 	virtual void Release();
 

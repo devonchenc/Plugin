@@ -349,7 +349,8 @@ LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
 	if (bFlag)
 	{
 		// merge toolbar
-		CMFCToolBar PluginToolBar;
+		CPIToolBar PluginToolBar;
+	//	if (PluginToolBar.LoadToolBarExtend(pInfo->nIDResource, pInfo->nCommandIDIndex - 4))
 		if (PluginToolBar.LoadToolBar(pInfo->nIDResource))
 		{
 			nCommandCount = PluginToolBar.GetCount();
@@ -359,6 +360,7 @@ LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
 				UINT nStyle;
 				int iImage;
 				PluginToolBar.GetButtonInfo(i, nID, nStyle, iImage);
+			//	PluginToolBar.RemapImage(pInfo->nCommandIDIndex + i, iImage);
 
 				CString str;
 				str.LoadString(pInfo->hInstance, nID);

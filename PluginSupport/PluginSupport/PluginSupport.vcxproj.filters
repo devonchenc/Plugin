@@ -51,7 +51,7 @@
     <ClCompile Include="PIDocument.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Plugin.cpp">
+    <ClCompile Include="PluginClass.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -98,7 +98,7 @@
     <ClInclude Include="PIDocument.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Plugin.h">
+    <ClInclude Include="PluginClass.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

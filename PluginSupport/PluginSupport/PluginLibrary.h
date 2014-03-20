@@ -17,12 +17,6 @@
 	#endif
 #endif
 
-PLUGIN_EXPORT int MergeMenu(int nPluginIndex, const CMenu* pMenuAdd, BOOL bTopLevel = FALSE);
-
-PLUGIN_EXPORT int MergeToolbar(int nPluginIndex, UINT nIDResource);
-
-PLUGIN_EXPORT int InsertToolbar(int nPluginIndex, UINT nIDResource, CString strText);
-
 PLUGIN_EXPORT void PIEnableUI(CCmdUI* pCmdUI, BOOL bEnable);
 
 PLUGIN_EXPORT void PICheckUI(CCmdUI* pCmdUI, BOOL bCheck);
@@ -51,6 +45,6 @@ PLUGIN_EXPORT CView* PIGetActiveView();
 	#endif
 #endif
 
-#include "Plugin.h"
+#include "PluginClass.h"
 //#include "PIMultiDocTemplate.h"
 #include "PIDocument.h"
