@@ -91,10 +91,10 @@ BOOL CPIToolBar::LoadToolBarExtend(UINT uiResID, UINT nCommandIDIndex, UINT uiCo
 	params.m_uiMenuResID = uiMenuResID;
 	params.m_uiMenuDisabledResID= uiMenuDisabledResID;
 
-	return LoadToolBarEx2(uiResID, nCommandIDIndex, params, bLocked);
+	return LoadToolBarExtend2(uiResID, nCommandIDIndex, params, bLocked);
 }
 
-BOOL CPIToolBar::LoadToolBarEx2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCToolBarInfo& params, BOOL bLocked)
+BOOL CPIToolBar::LoadToolBarExtend2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCToolBarInfo& params, BOOL bLocked)
 {
 	struct CToolBarData
 	{
@@ -160,8 +160,8 @@ BOOL CPIToolBar::LoadToolBarEx2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCT
 		int iImageIndex = m_iImagesOffset;
 		for (int i = 0; i < pData->wItemCount; i++)
 		{
-		//	pItems[i] = pData->items()[i];
-			pItems[i] = nCommandIDIndex + i;
+		//	pItems[i] = pData->items()[i];			// origin version
+			pItems[i] = nCommandIDIndex + i;		// new version
 
 			if (!bLocked && pItems [i] > 0)
 			{

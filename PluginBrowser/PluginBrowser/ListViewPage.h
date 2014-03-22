@@ -4,8 +4,6 @@
 
 // CListViewPage ¶Ô»°¿ò
 
-typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
-
 class CListViewPage : public CDialogEx
 {
 	DECLARE_DYNAMIC(CListViewPage)

@@ -66,7 +66,7 @@ LRESULT CPIMDIFrameWndEx::OnGetActiveDocument(WPARAM wParam, LPARAM lParam)
 {
 	CDocument** pActiveDoc = (CDocument**)wParam;
 
-	// Get the active MDI child window.
+	// Get the active MDI child window
 	CMDIChildWnd* pActiveChild = MDIGetActive();
 	if (pActiveChild)
 	{
@@ -80,7 +80,7 @@ LRESULT CPIMDIFrameWndEx::OnGetActiveView(WPARAM wParam, LPARAM lParam)
 {
 	CView** pActiveView = (CView**)wParam;
 
-	// Get the active MDI child window.
+	// Get the active MDI child window
 	CMDIChildWnd* pActiveChild = MDIGetActive();
 	if (pActiveChild)
 	{

@@ -360,7 +360,6 @@ LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
 				UINT nStyle;
 				int iImage;
 				PluginToolBar.GetButtonInfo(i, nID, nStyle, iImage);
-			//	PluginToolBar.RemapImage(pInfo->nCommandIDIndex + i, iImage);
 
 				// add new command
 				int nVirtualID = PIAddNewCommand(pInfo->nPluginIndex, nID);
@@ -372,7 +371,10 @@ LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
 					if (m_wndToolBar.InsertButton(ToolBarButton) == -1)
 					{
 						TRACE(_T("Plugin: InsertButton id = %d failed!\n"), nID);
-					} 
+					}
+
+				//	PluginToolBar.RemapImage(nVirtualID, iImage);
+				//	m_wndToolBar.ResetImages()
 				}
 			}
 			m_wndToolBar.RestoreOriginalState();

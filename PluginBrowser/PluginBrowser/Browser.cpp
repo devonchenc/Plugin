@@ -7,7 +7,7 @@ CBrowserPlugin::CBrowserPlugin()
 
 }
 
-void CBrowserPlugin::Init(CWinApp* pApp)
+void CBrowserPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 

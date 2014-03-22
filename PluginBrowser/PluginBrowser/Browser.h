@@ -8,7 +8,7 @@ protected:
 public:
 	static CBrowserPlugin* Instance() { static CBrowserPlugin _instance; return &_instance; }
 
-	virtual void Init(CWinApp* pApp);
+	virtual void Init();
 
 	virtual void Release();
 

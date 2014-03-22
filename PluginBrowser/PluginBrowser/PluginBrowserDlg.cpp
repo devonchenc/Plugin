@@ -68,6 +68,7 @@ BOOL CPluginBrowserDlg::OnInitDialog()
 
 	// display plugin info
 	m_PageList.DisplayPluginInfo(m_PluginInfoArray);
+	m_PageTree.DisplayPluginInfo(m_PluginInfoArray);
 
 	// display plugin num
 	DisplayPluginNum();
@@ -237,41 +238,26 @@ void CPluginBrowserDlg::PrintPluginInfo(int nIndex)
 		CPluginInfo* pInfo = m_pActiveArray->GetAt(nIndex);
 		if (pInfo)
 		{
+			CString strName;
+			strName.LoadString(IDS_STRING_PLUGIN_NAME);
+			CString strBlurd;
+			strBlurd.LoadString(IDS_STRING_PLUGIN_BLURD);
+			CString strHelp;
+			strHelp.LoadString(IDS_STRING_PLUGIN_HELP);
+			CString strAuthor;
+			strAuthor.LoadString(IDS_STRING_PLUGIN_AUTHOR);
+			CString strCopyright;
+			strCopyright.LoadString(IDS_STRING_PLUGIN_COPYRIGHT);
+			CString strDate;
+			strDate.LoadString(IDS_STRING_PLUGIN_DATE);
+			CString strMenuLabel;
+			strMenuLabel.LoadString(IDS_STRING_PLUGIN_MENU_LABLE);
+
 			CString strOutput;
-			strOutput = _T("Plugin Name:");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strName;
-			strOutput += _T("\n");
-			strOutput += _T("Blurd£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strBlurb;
-			strOutput += _T("\n");
-			strOutput += _T("Help£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strHelp;
-			strOutput += _T("\n");
-			strOutput += _T("Author£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strAuthor;
-			strOutput += _T("\n");
-			strOutput += _T("Copyright£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strCopyRight;
-			strOutput += _T("\n");
-			strOutput += _T("Date£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strDate;
-			strOutput += _T("\n");
-			strOutput += _T("Menu Label£º");
-			strOutput += _T("\n");
-			strOutput += _T("    ");
-			strOutput += pInfo->m_strMenuLabel;
+			strOutput.Format(_T("%s:\n    %s\n\n%s:\n    %s\n\n%s:\n    %s\n\n%s:\n    %s\n\n%s:\n    %s\n\n%s:\n    %s\n\n%s:\n    %s"),
+							strName, pInfo->m_strName, strBlurd, pInfo->m_strBlurb, strHelp, pInfo->m_strHelp,
+							strAuthor, pInfo->m_strAuthor, strCopyright, pInfo->m_strCopyRight, strDate, pInfo->m_strDate,
+							strMenuLabel, pInfo->m_strMenuLabel);
 			SetDlgItemText(IDC_RICHEDIT21, strOutput);
 			return;
 		}

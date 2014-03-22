@@ -336,7 +336,7 @@ BEGIN
         MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
         MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
         MENUITEM SEPARATOR
-        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END

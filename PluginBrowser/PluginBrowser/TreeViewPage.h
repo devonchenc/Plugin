@@ -4,7 +4,13 @@
 
 // CTreeViewPage 对话框
 
-typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
+struct PluginPair
+{
+	int nIndex;
+	CString strName;
+};
+
+//typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
 
 class CTreeViewPage : public CDialogEx
 {
@@ -17,6 +23,17 @@ public:
 public:
 	void DisplayPluginInfo(const PluginInfoArray& array);
 
+private:
+	HTREEITEM SearchChildItem(CString strChildName);
+
+	int GetItemIndex(HTREEITEM hItem);
+
+private:
+	// root item
+	HTREEITEM m_hRootMenu;
+
+	CArray<PluginPair, PluginPair> m_PairArray;
+
 public:
 // 对话框数据
 	enum { IDD = IDD_TREE_VIEW_PAGE };
@@ -28,4 +45,5 @@ protected:
 public:
 	CTreeCtrl m_ctrlPluginTree;
 	virtual BOOL OnInitDialog();
+	afx_msg void OnTvnSelchangedPluginTree(NMHDR* pNMHDR, LRESULT* pResult);
 };

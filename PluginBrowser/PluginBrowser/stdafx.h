@@ -39,3 +39,5 @@
 
 #include "..\\..\\PluginSupport\\PluginSupport\\PluginLibrary.h"
 #include <afxcontrolbars.h>
+
+typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;

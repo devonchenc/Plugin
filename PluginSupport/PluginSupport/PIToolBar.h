@@ -25,7 +25,7 @@ public:
 	virtual INT_PTR OnToolHitTest(CPoint point, TOOLINFO* pTI) const;
 	virtual BOOL LoadToolBarExtend(UINT uiResID, UINT nCommandIDIndex, UINT uiColdResID = 0, UINT uiMenuResID = 0,
 					BOOL bLocked = FALSE, UINT uiDisabledResID = 0, UINT uiMenuDisabledResID = 0,  UINT uiHotResID = 0);
-	virtual BOOL LoadToolBarEx2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCToolBarInfo& params, BOOL bLocked = FALSE);
+	virtual BOOL LoadToolBarExtend2(UINT uiToolbarResID, UINT nCommandIDIndex, CMFCToolBarInfo& params, BOOL bLocked = FALSE);
 
 protected:
 	DECLARE_MESSAGE_MAP()

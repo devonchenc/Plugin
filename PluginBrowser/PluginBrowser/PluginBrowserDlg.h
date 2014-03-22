@@ -8,8 +8,6 @@
 
 typedef CPlugin* (*GETINSTANCE)();
 
-typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
-
 class CPluginBrowserDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CPluginBrowserDlg)
