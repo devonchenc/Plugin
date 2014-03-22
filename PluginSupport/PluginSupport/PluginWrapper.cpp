@@ -135,15 +135,27 @@ const CommandArray& CPluginWrapper::GetCommandArray() const
 }
 
 // add new command
-void CPluginWrapper::AddCommand(UINT nActualID)
+int CPluginWrapper::AddCommand(UINT nActualID)
 {
-	PluginCommand command;
+	for (int i=0; i<m_CommandArray.GetCount(); i++)
+	{
+		CPluginCommand command = m_CommandArray.GetAt(i);
+		if (m_nPluginIndex == command.nPluginIndex && nActualID == command.nActualID)
+		{
+			// already exist
+			return command.nVirtualID;
+		}
+	}
+
+	CPluginCommand command;
 	command.nPluginIndex = m_nPluginIndex;
 	command.nActualID = nActualID;
 	command.nVirtualID = GetCommandIDIndex();
 	m_CommandArray.Add(command);
 
 	m_nCommandIDIndex++;
+
+	return command.nVirtualID;
 }
 
 // find actual command id
@@ -151,7 +163,7 @@ UINT CPluginWrapper::FindCommand(UINT nVirtualID)
 {
 	for (int i=0; i<m_CommandArray.GetCount(); i++)
 	{
-		PluginCommand command = m_CommandArray.GetAt(i);
+		CPluginCommand command = m_CommandArray.GetAt(i);
 		if (command.nVirtualID == nVirtualID)
 		{
 			return command.nActualID;

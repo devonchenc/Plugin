@@ -362,17 +362,17 @@ LRESULT CMainFrame::OnToolbarEvent(WPARAM wParam, LPARAM lParam)
 				PluginToolBar.GetButtonInfo(i, nID, nStyle, iImage);
 			//	PluginToolBar.RemapImage(pInfo->nCommandIDIndex + i, iImage);
 
-				CString str;
-				str.LoadString(pInfo->hInstance, nID);
-				CMFCToolBarButton ToolBarButton(pInfo->nCommandIDIndex + i, iImage, str);
-				if (m_wndToolBar.InsertButton(ToolBarButton) == -1)
+				// add new command
+				int nVirtualID = PIAddNewCommand(pInfo->nPluginIndex, nID);
+				if (nVirtualID)
 				{
-					TRACE(_T("Plugin: InsertButton id = %d failed!\n"), nID);
-				}
-				else
-				{
-					// add new command
-					PIAddNewCommand(pInfo->nPluginIndex, nID);
+					CString str;
+					str.LoadString(pInfo->hInstance, nID);
+					CMFCToolBarButton ToolBarButton(nVirtualID, iImage, str);
+					if (m_wndToolBar.InsertButton(ToolBarButton) == -1)
+					{
+						TRACE(_T("Plugin: InsertButton id = %d failed!\n"), nID);
+					} 
 				}
 			}
 			m_wndToolBar.RestoreOriginalState();

@@ -23,7 +23,7 @@
 	// plugin command begin & end
 	#define PLUGIN_COMMAND_BEGIN	50000
 	#define PLUGIN_COMMAND_END		57599
-	struct PluginCommand
+	struct CPluginCommand
 	{
 		int nPluginIndex;
 		UINT nActualID;

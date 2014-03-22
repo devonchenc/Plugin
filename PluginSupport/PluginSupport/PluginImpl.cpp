@@ -59,7 +59,7 @@ PLUGIN_EXPORT void PICommand(UINT nCommandID, CCmdUI* pCmdUI)
 	TRACE(_T("Plugin: message CommandID = %d is not processed\n"), nCommandID);
 }
 
-PLUGIN_EXPORT void PIAddNewCommand(int nPluginIndex, UINT nActualID)
+PLUGIN_EXPORT int PIAddNewCommand(int nPluginIndex, UINT nActualID)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -68,7 +68,7 @@ PLUGIN_EXPORT void PIAddNewCommand(int nPluginIndex, UINT nActualID)
 	ASSERT(pPluginWrapper != NULL);
 
 	// add new command
-	pPluginWrapper->AddCommand(nActualID);
+	return pPluginWrapper->AddCommand(nActualID);
 }
 
 PLUGIN_EXPORT void PIGetCommandString(UINT nCommandID, CString& str)

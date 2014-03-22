@@ -5,7 +5,7 @@
 
 typedef CPlugin* (*GETINSTANCE)();
 
-typedef CArray<PluginCommand, PluginCommand> CommandArray;
+typedef CArray<CPluginCommand, CPluginCommand> CommandArray;
 
 class CPluginWrapper
 {
@@ -41,7 +41,7 @@ public:
 	// return command array
 	const CommandArray& GetCommandArray() const;
 	// add new command
-	void AddCommand(UINT nActualID);
+	int AddCommand(UINT nActualID);
 	// find actual command id
 	UINT FindCommand(UINT nVirtualID);
 	// get count of command

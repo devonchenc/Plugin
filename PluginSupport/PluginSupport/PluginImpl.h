@@ -12,7 +12,7 @@ PLUGIN_EXPORT void PIRegisterDocTemplates();
 
 PLUGIN_EXPORT void PICommand(UINT nCommandID, CCmdUI* pCmdUI);
 
-PLUGIN_EXPORT void PIAddNewCommand(int nPluginIndex, UINT nActualID);
+PLUGIN_EXPORT int PIAddNewCommand(int nPluginIndex, UINT nActualID);
 
 PLUGIN_EXPORT void PIGetCommandString(UINT nCommandID, CString& str);
 
