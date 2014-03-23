@@ -11,7 +11,6 @@
 IMPLEMENT_DYNCREATE(CImageDocument, CPIDocument)
 
 CImageDocument::CImageDocument()
-	: m_pImage(NULL)
 {
 
 }

@@ -13,8 +13,10 @@ public:
 	virtual ~CPIDocument();
 
 public:
-	// 
-//	CxImage* GetCxImage();
+	CImage* GetImage()	{ return m_pImage;}
+
+protected:
+	CImage* m_pImage;
 
 public:
 #ifndef _WIN32_WCE

@@ -11,6 +11,7 @@
 IMPLEMENT_DYNCREATE(CPIDocument, CDocument)
 
 CPIDocument::CPIDocument()
+	: m_pImage(NULL)
 {
 
 }

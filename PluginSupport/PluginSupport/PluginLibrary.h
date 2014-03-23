@@ -47,4 +47,5 @@ PLUGIN_EXPORT CView* PIGetActiveView();
 
 #include "PluginClass.h"
 //#include "PIMultiDocTemplate.h"
+#include <atlimage.h>
 #include "PIDocument.h"

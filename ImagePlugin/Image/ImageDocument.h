@@ -24,12 +24,6 @@ public:
 	// find supported image type
 	int FindType(const CString strExt);
 
-public:
-	CImage* GetImage()	{ return m_pImage;}
-
-private:
-	CImage* m_pImage;
-
 #ifndef _WIN32_WCE
 	virtual void Serialize(CArchive& ar);   // ÎªÎÄµµ I/O ÖØÐ´
 #endif
