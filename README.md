@@ -15,3 +15,6 @@ example of insert MultiDocTemplate to main application
 
 PluginBrowser:
 GIMP-like plugin browser
+
+ImageProcessingPlugin:
+inverse image
