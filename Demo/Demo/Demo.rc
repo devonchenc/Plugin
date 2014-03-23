@@ -96,6 +96,10 @@ BEGIN
         MENUITEM "复制(&C)\tCtrl+C",              ID_EDIT_COPY
         MENUITEM "粘贴(&P)\tCtrl+V",              ID_EDIT_PASTE
     END
+    POPUP "图像(&I)"
+    BEGIN
+        MENUITEM SEPARATOR
+    END
     POPUP "视图(&V)"
     BEGIN
         POPUP "工具栏和停靠窗口(&T)"
@@ -347,6 +351,10 @@ BEGIN
         MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
         MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
         MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+    END
+    POPUP "&Image"
+    BEGIN
+        MENUITEM SEPARATOR
     END
     POPUP "&View"
     BEGIN

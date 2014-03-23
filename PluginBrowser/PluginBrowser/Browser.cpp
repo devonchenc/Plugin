@@ -29,7 +29,7 @@ void CBrowserPlugin::Query(CPluginInfo& plugininfo)
 	plugininfo.m_strName = _T("PluginBrowser");
 	plugininfo.m_strBlurb = _T("Show Plugin Information");
 	plugininfo.m_strHelp = _T("PluginBrowser");
-	plugininfo.m_strAuthor = _T("Rolin");
+	plugininfo.m_strAuthor = _T("Zhao Shusen");
 	plugininfo.m_strCopyRight = _T("Copyright Rolin");
 	plugininfo.m_strDate = _T("2014.3.17");
 	CString str;

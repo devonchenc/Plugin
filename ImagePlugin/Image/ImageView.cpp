@@ -31,15 +31,24 @@ void CImageView::OnInitialUpdate()
 	CScrollView::OnInitialUpdate();
 
 	CSize sizeTotal;
-	// TODO: 计算此视图的合计大小
-	sizeTotal.cx = sizeTotal.cy = 100;
+
+	CImageDocument* pDoc = GetDocument();
+	CImage* pImage = pDoc->GetImage();
+	if(pImage)
+	{
+		sizeTotal.cx = pImage->GetWidth();
+		sizeTotal.cy = pImage->GetHeight();
+	}
+	else
+	{
+		sizeTotal.cx = sizeTotal.cy = 100;
+	}
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
 void CImageView::OnDraw(CDC* pDC)
 {
 	CImageDocument* pDoc = GetDocument();
-	// TODO: 在此添加绘制代码
 	CImage* pImage = pDoc->GetImage();
 	if(pImage)
 	{

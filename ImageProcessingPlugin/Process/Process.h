@@ -25,4 +25,5 @@ public:
 
 	DECLARE_MESSAGE_MAP()
 	afx_msg void OnImageInverse();
+	afx_msg void OnUpdateImageInverse(CCmdUI* pCmdUI);
 };

@@ -37,6 +37,7 @@
 
 BEGIN_MESSAGE_MAP(CProcessApp, CWinApp)
 	ON_COMMAND(ID_IMAGE_INVERSE, &CProcessApp::OnImageInverse)
+	ON_UPDATE_COMMAND_UI(ID_IMAGE_INVERSE, &CProcessApp::OnUpdateImageInverse)
 END_MESSAGE_MAP()
 
 
@@ -91,4 +92,11 @@ void CProcessApp::OnImageInverse()
 	}
 
 	PIGetActiveView()->Invalidate(FALSE);
+}
+
+
+void CProcessApp::OnUpdateImageInverse(CCmdUI* pCmdUI)
+{
+	CDocument* pDoc = PIGetActiveDocument();
+	PIEnableUI(pCmdUI, pDoc != NULL);
 }
