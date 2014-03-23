@@ -72,19 +72,21 @@ void CProcessApp::OnImageInverse()
 		return;
 
 	CImage* pImage = ((CPIDocument*)pDoc)->GetImage();
-
 	int nWidth = pImage->GetWidth();
 	int nHeight = pImage->GetHeight();
+	BYTE* pImageData = (BYTE*)pImage->GetBits();
+	int nPitch = pImage->GetPitch();
+	int nBitCount = pImage->GetBPP() / 8;
 
 	for (int j=0; j<nHeight; j++)
 	{
 		for (int i=0; i<nWidth; i++)
 		{
-			COLORREF color = pImage->GetPixel(i, j);
-			BYTE red = 255 - GetRValue(color);
-			BYTE green = 255 - GetGValue(color);
-			BYTE blue = 255 - GetBValue(color);
-			pImage->SetPixel(i, j, RGB(red, green, blue));
+			int nPixelIndex = j * nPitch + i * nBitCount;
+			BYTE* pPixel = pImageData + j * nPitch + i * nBitCount;
+			*(pPixel) = 255 - *(pPixel);
+			*(pPixel + 1) = 255 - *(pPixel + 1);
+			*(pPixel + 2) = 255 - *(pPixel + 2);
 		}
 	}
 
