@@ -34,7 +34,7 @@ void CImageView::OnInitialUpdate()
 
 	CImageDocument* pDoc = GetDocument();
 	CImage* pImage = pDoc->GetImage();
-	if(pImage)
+	if (pImage)
 	{
 		sizeTotal.cx = pImage->GetWidth();
 		sizeTotal.cy = pImage->GetHeight();
@@ -50,7 +50,7 @@ void CImageView::OnDraw(CDC* pDC)
 {
 	CImageDocument* pDoc = GetDocument();
 	CImage* pImage = pDoc->GetImage();
-	if(pImage)
+	if (pImage)
 	{
 		pImage->Draw(pDC->GetSafeHdc(), 0, 0);
 	}
