@@ -27,4 +27,6 @@ public:
 	CListCtrl m_ctrlPluginList;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnNMClickPluginList(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual void OnOK();
+	virtual void OnCancel();
 };

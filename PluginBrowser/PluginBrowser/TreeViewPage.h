@@ -10,8 +10,6 @@ struct PluginPair
 	CString strName;
 };
 
-//typedef CArray<CPluginInfo*, CPluginInfo*> PluginInfoArray;
-
 class CTreeViewPage : public CDialogEx
 {
 	DECLARE_DYNAMIC(CTreeViewPage)
@@ -46,4 +44,6 @@ public:
 	CTreeCtrl m_ctrlPluginTree;
 	virtual BOOL OnInitDialog();
 	afx_msg void OnTvnSelchangedPluginTree(NMHDR* pNMHDR, LRESULT* pResult);
+	virtual void OnOK();
+	virtual void OnCancel();
 };

@@ -130,3 +130,13 @@ int CTreeViewPage::GetItemIndex(HTREEITEM hItem)
 	}
 	return -1;
 }
+
+void CTreeViewPage::OnOK()
+{
+	return;
+}
+
+void CTreeViewPage::OnCancel()
+{
+	return;
+}

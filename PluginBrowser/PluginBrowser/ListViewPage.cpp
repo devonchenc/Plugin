@@ -88,3 +88,13 @@ void CListViewPage::OnNMClickPluginList(NMHDR* pNMHDR, LRESULT* pResult)
 
 	*pResult = 0;
 }
+
+void CListViewPage::OnOK()
+{
+	return;
+}
+
+void CListViewPage::OnCancel()
+{
+	return;
+}

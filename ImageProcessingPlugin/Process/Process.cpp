@@ -94,7 +94,6 @@ void CProcessApp::OnImageInverse()
 	PIGetActiveView()->Invalidate(FALSE);
 }
 
-
 void CProcessApp::OnUpdateImageInverse(CCmdUI* pCmdUI)
 {
 	CDocument* pDoc = PIGetActiveDocument();
