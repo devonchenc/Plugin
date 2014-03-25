@@ -88,25 +88,25 @@ BOOL CImageDocument::OnOpenDocument(LPCTSTR lpszPathName)
 
 int CImageDocument::FindType(const CString strExt)
 {
-	if (strExt.CompareNoCase(_T("bmp")))
+	if (strExt.CompareNoCase(_T("bmp")) == 0)
 	{
 		return IMAGE_FORMAT_BMP;
 	}
-	else if (strExt.CompareNoCase(_T("jpg")))
+	else if (strExt.CompareNoCase(_T("jpg")) == 0 || strExt.CompareNoCase(_T("jpeg")) == 0)
 	{
 		return IMAGE_FORMAT_JPG;
 	}
-	else if (strExt.CompareNoCase(_T("gif")))
+	else if (strExt.CompareNoCase(_T("gif")) == 0)
 	{
 		return IMAGE_FORMAT_GIF;
 	}
-	else if (strExt.CompareNoCase(_T("png")))
+	else if (strExt.CompareNoCase(_T("png")) == 0)
 	{
 		return IMAGE_FORMAT_PNG;
 	}
-	else if (strExt.CompareNoCase(_T("tif")))
+	else if (strExt.CompareNoCase(_T("tif")) == 0 || strExt.CompareNoCase(_T("tifF")) == 0)
 	{
-		return IMAGE_FORMAT_PNG;
+		return IMAGE_FORMAT_TIF;
 	}
 
 	return IMAGE_FORMAT_UNKNOWN;
