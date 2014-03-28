@@ -21,3 +21,5 @@ inverse image
 
 CurvePlugin:
 adjust image with curves
+
+test
