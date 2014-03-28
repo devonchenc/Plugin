@@ -112,6 +112,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClCompile Include="Curve.cpp" />
     <ClCompile Include="CurveDlg.cpp" />
     <ClCompile Include="CurvePlugin.cpp" />
+    <ClCompile Include="CurveWnd.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -121,6 +122,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClInclude Include="Curve.h" />
     <ClInclude Include="CurveDlg.h" />
     <ClInclude Include="CurvePlugin.h" />
+    <ClInclude Include="CurveWnd.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />

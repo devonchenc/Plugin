@@ -30,6 +30,9 @@
     <ClCompile Include="CurveDlg.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="CurveWnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Curve.h">
@@ -48,6 +51,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="CurveDlg.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="CurveWnd.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

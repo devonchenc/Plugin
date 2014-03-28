@@ -18,3 +18,6 @@ GIMP-like plugin browser
 
 ImageProcessingPlugin:
 inverse image
+
+CurvePlugin:
+adjust image with curves
