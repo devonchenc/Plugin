@@ -74,7 +74,7 @@ void CDrawPlugin::Draw(CDC* pDC)
 
 		memDC.SelectObject(pOldPen);
 
-		pDC->BitBlt(0,0,rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
+		pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &memDC, 0, 0, SRCCOPY);
 
 		bitmap.DeleteObject();
 		memDC.DeleteDC();
