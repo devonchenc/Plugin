@@ -28,6 +28,9 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_MESSAGE(WM_MENU_EVENT, &CMainFrame::OnMenuEvent)
 	ON_MESSAGE(WM_TOOLBAR_EVENT, &CMainFrame::OnToolbarEvent)
+	ON_MESSAGE(WM_PROGRESS_INIT, &CMainFrame::OnProgressInit)
+	ON_MESSAGE(WM_PROGRESS_PERCENT, &CMainFrame::OnProgressPercent)
+	ON_MESSAGE(WM_PROGRESS_DONE, &CMainFrame::OnProgressDone)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
@@ -435,4 +438,39 @@ void CMainFrame::GetMessageString(UINT nID, CString& rMessage) const
 	}
 
 	return CPIMDIFrameWndEx::GetMessageString(nID, rMessage);
+}
+
+UINT ShowProgressDlgThread(LPVOID pParam)
+{
+	CProgressDlg* pProgressDlg = (CProgressDlg*)pParam;
+	pProgressDlg->DoModal();
+
+	return 0;
+}
+
+LRESULT CMainFrame::OnProgressInit(WPARAM wParam, LPARAM lParam)
+{
+	AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
+
+	return (LRESULT)&m_wndProgressDlg;
+}
+
+LRESULT CMainFrame::OnProgressPercent(WPARAM wParam, LPARAM lParam)
+{
+	if (m_wndProgressDlg.GetSafeHwnd())
+	{
+		m_wndProgressDlg.SetPercent(int(lParam));
+	}
+
+	return 0;
+}
+
+LRESULT CMainFrame::OnProgressDone(WPARAM wParam, LPARAM lParam)
+{
+	if (m_wndProgressDlg.GetSafeHwnd())
+	{
+		m_wndProgressDlg.SendMessage(WM_CLOSE);
+	}
+
+	return 0;
 }

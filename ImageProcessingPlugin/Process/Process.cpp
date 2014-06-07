@@ -64,15 +64,17 @@ BOOL CProcessApp::InitInstance()
 	return TRUE;
 }
 
-void CProcessApp::OnImageInverse()
+UINT InverseThread(LPVOID pParam)
 {
-	CDocument* pDoc = PIGetActiveDocument();
-	if (pDoc == NULL)
-		return;
-	if (!pDoc->IsKindOf(RUNTIME_CLASS(CPIDocument)))
-		return;
+	LANGID id = PIGetThreadUILanguage();
+	SetThreadUILanguage(id);
 
-	CImage* pImage = ((CPIDocument*)pDoc)->GetImage();
+	CString str;
+	str.LoadString(ID_IMAGE_INVERSE);
+	PIProgressInit(str);
+
+	CImage* pImage = (CImage*)pParam;
+
 	int nWidth = pImage->GetWidth();
 	int nHeight = pImage->GetHeight();
 	BYTE* pImageData = (BYTE*)pImage->GetBits();
@@ -89,9 +91,31 @@ void CProcessApp::OnImageInverse()
 			*(pPixel + 1) = 255 - *(pPixel + 1);
 			*(pPixel + 2) = 255 - *(pPixel + 2);
 		}
+
+		PIProgressPercent(j * 100 / nHeight);
 	}
 
+	PIProgressDone();
+
+	// refresh view
 	PIGetActiveView()->Invalidate(FALSE);
+
+	return 0;
+}
+
+void CProcessApp::OnImageInverse()
+{
+	CDocument* pDoc = PIGetActiveDocument();
+	if (pDoc == NULL)
+		return;
+	if (!pDoc->IsKindOf(RUNTIME_CLASS(CPIDocument)))
+		return;
+
+	CImage* pImage = ((CPIDocument*)pDoc)->GetImage();
+	if (pImage == NULL)
+		return;
+
+	AfxBeginThread(InverseThread, pImage);
 }
 
 void CProcessApp::OnUpdateImageInverse(CCmdUI* pCmdUI)

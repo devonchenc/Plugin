@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "ProgressDlg.h"
+
 typedef CArray<CMFCToolBar*, CMFCToolBar*> ToolBarArray;
 
 class CMainFrame : public CPIMDIFrameWndEx
@@ -32,10 +34,12 @@ public:
 #endif
 
 protected:  // control bar embedded members
-	CMFCMenuBar       m_wndMenuBar;
-	CMFCToolBar       m_wndToolBar;
-	CMFCStatusBar     m_wndStatusBar;
-	CMFCToolBarImages m_UserImages;
+	CMFCMenuBar			m_wndMenuBar;
+	CMFCToolBar			m_wndToolBar;
+	CMFCStatusBar		m_wndStatusBar;
+	CMFCToolBarImages	m_UserImages;
+
+	CProgressDlg		m_wndProgressDlg;
 
 private:
 	// plugin toolbar
@@ -52,6 +56,9 @@ protected:
 	afx_msg void OnClose();
 	afx_msg LRESULT OnMenuEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnToolbarEvent(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnProgressInit(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnProgressPercent(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnProgressDone(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void GetMessageString(UINT nID, CString& rMessage) const;

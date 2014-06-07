@@ -37,6 +37,15 @@ PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 
 PLUGIN_EXPORT CView* PIGetActiveView();
 
+// Progress Dialog
+PLUGIN_EXPORT void PIProgressInit(LPCTSTR lpszText = NULL);
+
+PLUGIN_EXPORT void PIProgressPercent(int nPercent);
+
+PLUGIN_EXPORT void PIProgressDone();
+
+PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
+
 #ifndef PLUGIN_EXT_CLASS
 	#ifdef _AFXDLL
 		#define PLUGIN_EXT_CLASS	AFX_CLASS_EXPORT

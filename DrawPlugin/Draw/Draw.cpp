@@ -157,7 +157,7 @@ void CDrawApp::ReleaseShape()
 
 	std::map<CWnd*, CShape*>::iterator iter;
 
-	for (iter=m_ShapeMap.begin();iter!=m_ShapeMap.end();iter++)
+	for (iter=m_ShapeMap.begin(); iter!=m_ShapeMap.end(); iter++)
 	{
 		delete iter->second;
 	}
