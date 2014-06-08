@@ -8,6 +8,9 @@
 
 typedef CArray<CMFCToolBar*, CMFCToolBar*> ToolBarArray;
 
+const int nStatusProgress = 0;
+const int nStatusInfo = 1;
+
 class CMainFrame : public CPIMDIFrameWndEx
 {
 	DECLARE_DYNAMIC(CMainFrame)
@@ -19,6 +22,8 @@ public:
 
 // Operations
 public:
+	// Initialize StatusBar
+	void InitStatusBar();
 
 // Overrides
 public:

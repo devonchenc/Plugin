@@ -36,6 +36,7 @@ END_MESSAGE_MAP()
 
 static UINT indicators[] =
 {
+	ID_INDICATOR_PROGRESS,	// progress bar
 	ID_SEPARATOR,           // status line indicator
 	ID_INDICATOR_CAPS,
 	ID_INDICATOR_NUM,
@@ -145,6 +146,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// improves the usability of the taskbar because the document name is visible with the thumbnail.
 	ModifyStyle(0, FWS_PREFIXTITLE);
 
+	// Initialize StatusBar
+	InitStatusBar();
+
 	return 0;
 }
 
@@ -174,6 +178,19 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 
 // CMainFrame message handlers
+
+// Initialize StatusBar
+void CMainFrame::InitStatusBar()
+{
+	// 设置自定义的Indicator宽度
+	int nIndex = m_wndStatusBar.CommandToIndex(ID_INDICATOR_PROGRESS);
+	m_wndStatusBar.SetPaneWidth(nStatusProgress, 100);
+	
+	nIndex = m_wndStatusBar.CommandToIndex(ID_SEPARATOR);
+	m_wndStatusBar.SetPaneStyle(nStatusInfo, SBPS_STRETCH | SBPS_NOBORDERS);
+
+	m_wndStatusBar.EnablePaneDoubleClick();
+}
 
 void CMainFrame::OnWindowManager()
 {
@@ -450,9 +467,22 @@ UINT ShowProgressDlgThread(LPVOID pParam)
 
 LRESULT CMainFrame::OnProgressInit(WPARAM wParam, LPARAM lParam)
 {
-	AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
-
-	return (LRESULT)&m_wndProgressDlg;
+	if (wParam == PI_PROGRESS_DLG)
+	{
+		AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
+		return (LRESULT)&m_wndProgressDlg;
+	}
+	else if (wParam == PI_PROGRESS_BAR)
+	{
+		m_wndStatusBar.SetTipText(nStatusProgress, LPCTSTR(lParam));
+		m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
+		return NULL;	
+	}
+	else
+	{
+		ASSERT(FALSE);
+		return FALSE;
+	}
 }
 
 LRESULT CMainFrame::OnProgressPercent(WPARAM wParam, LPARAM lParam)
@@ -461,6 +491,8 @@ LRESULT CMainFrame::OnProgressPercent(WPARAM wParam, LPARAM lParam)
 	{
 		m_wndProgressDlg.SetPercent(int(lParam));
 	}
+
+	m_wndStatusBar.SetPaneProgress(nStatusProgress, int(lParam));
 
 	return 0;
 }
@@ -471,6 +503,9 @@ LRESULT CMainFrame::OnProgressDone(WPARAM wParam, LPARAM lParam)
 	{
 		m_wndProgressDlg.SendMessage(WM_CLOSE);
 	}
+
+	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
+	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
 
 	return 0;
 }

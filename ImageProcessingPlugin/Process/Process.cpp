@@ -71,7 +71,8 @@ UINT InverseThread(LPVOID pParam)
 
 	CString str;
 	str.LoadString(ID_IMAGE_INVERSE);
-	PIProgressInit(str);
+//	PIProgressInit(PI_PROGRESS_DLG, str);
+	PIProgressInit(PI_PROGRESS_BAR, str);
 
 	CImage* pImage = (CImage*)pParam;
 

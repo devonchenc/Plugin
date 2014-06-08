@@ -36,6 +36,7 @@
 #define ID_LANGUAGE_CHS                 32773
 #define ID_IMAGE                        32774
 #define ID_32775                        32775
+#define ID_INDICATOR_PROGRESS           59142
 
 // Next default values for new objects
 // 

@@ -121,7 +121,7 @@ PLUGIN_EXPORT CView* PIGetActiveView()
 }
 
 // Progress Dialog
-PLUGIN_EXPORT void PIProgressInit(LPCTSTR lpszText)
+PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -130,7 +130,7 @@ PLUGIN_EXPORT void PIProgressInit(LPCTSTR lpszText)
 	if (pMainWnd == NULL)
 		return;
 
-	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)NULL, (LPARAM)lpszText);
+	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)bDlgOrBar, (LPARAM)lpszText);
 	if (pDialog == NULL)
 		return;
 

@@ -38,7 +38,9 @@ PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 PLUGIN_EXPORT CView* PIGetActiveView();
 
 // Progress Dialog
-PLUGIN_EXPORT void PIProgressInit(LPCTSTR lpszText = NULL);
+#define PI_PROGRESS_DLG		0
+#define PI_PROGRESS_BAR		1
+PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar = PI_PROGRESS_DLG, LPCTSTR lpszText = NULL);
 
 PLUGIN_EXPORT void PIProgressPercent(int nPercent);
 

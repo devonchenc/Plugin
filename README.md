@@ -17,9 +17,7 @@ PluginBrowser:
 GIMP-like plugin browser
 
 ImageProcessingPlugin:
-inverse image
+inverse image using multi-threading
 
 CurvePlugin:
 adjust image with curves
-
-test2
