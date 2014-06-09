@@ -10,6 +10,7 @@
 IMPLEMENT_DYNCREATE(CPIMDIFrameWndEx, CMDIFrameWndEx)
 
 CPIMDIFrameWndEx::CPIMDIFrameWndEx()
+	: m_bPluginThreadRunning(FALSE)
 {
 
 }

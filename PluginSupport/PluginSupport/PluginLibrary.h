@@ -42,7 +42,7 @@ PLUGIN_EXPORT CView* PIGetActiveView();
 #define PI_PROGRESS_BAR		1
 PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar = PI_PROGRESS_DLG, LPCTSTR lpszText = NULL);
 
-PLUGIN_EXPORT void PIProgressPercent(int nPercent);
+PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent);
 
 PLUGIN_EXPORT void PIProgressDone();
 

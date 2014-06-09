@@ -11,7 +11,14 @@ protected:
 	CPIMDIFrameWndEx();           // 动态创建所使用的受保护的构造函数
 	virtual ~CPIMDIFrameWndEx();
 
-protected:
+public:
+	void SetPluginThreadRunning(BOOL bFlag)		{ m_bPluginThreadRunning = bFlag; }
+
+	BOOL GetPluginThreadRunning()				{ return m_bPluginThreadRunning; }
+
+private:
+	// Plugin thread running flag
+	BOOL m_bPluginThreadRunning;
 
 protected:
 	afx_msg LRESULT OnUIEnableEvent(WPARAM wParam, LPARAM lParam);

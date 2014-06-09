@@ -131,12 +131,13 @@ PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 		return;
 
 	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)bDlgOrBar, (LPARAM)lpszText);
-	if (pDialog == NULL)
+	if (bDlgOrBar != PI_PROGRESS_DLG && pDialog == NULL)
 		return;
 
 	int nCount = 0;
 	while (pDialog->GetSafeHwnd() == NULL && nCount < 10)
 	{
+		// The maximum wait time is one second
 		nCount++;
 		Sleep(100);
 	}
@@ -160,7 +161,7 @@ PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 	}
 }
 
-PLUGIN_EXPORT void PIProgressPercent(int nPercent)
+PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -168,7 +169,11 @@ PLUGIN_EXPORT void PIProgressPercent(int nPercent)
 	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
 	if (pMainWnd)
 	{
-		pMainWnd->SendMessage(WM_PROGRESS_PERCENT, (WPARAM)NULL, (LPARAM)nPercent);
+		return pMainWnd->SendMessage(WM_PROGRESS_PERCENT, (WPARAM)NULL, (LPARAM)nPercent);
+	}
+	else
+	{
+		return 0;
 	}
 }
 

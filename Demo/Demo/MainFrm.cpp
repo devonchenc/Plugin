@@ -182,11 +182,8 @@ void CMainFrame::Dump(CDumpContext& dc) const
 // Initialize StatusBar
 void CMainFrame::InitStatusBar()
 {
-	// 设置自定义的Indicator宽度
-	int nIndex = m_wndStatusBar.CommandToIndex(ID_INDICATOR_PROGRESS);
 	m_wndStatusBar.SetPaneWidth(nStatusProgress, 100);
 	
-	nIndex = m_wndStatusBar.CommandToIndex(ID_SEPARATOR);
 	m_wndStatusBar.SetPaneStyle(nStatusInfo, SBPS_STRETCH | SBPS_NOBORDERS);
 
 	m_wndStatusBar.EnablePaneDoubleClick();
@@ -467,6 +464,8 @@ UINT ShowProgressDlgThread(LPVOID pParam)
 
 LRESULT CMainFrame::OnProgressInit(WPARAM wParam, LPARAM lParam)
 {
+	SetPluginThreadRunning(TRUE);
+
 	if (wParam == PI_PROGRESS_DLG)
 	{
 		AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
@@ -476,7 +475,7 @@ LRESULT CMainFrame::OnProgressInit(WPARAM wParam, LPARAM lParam)
 	{
 		m_wndStatusBar.SetTipText(nStatusProgress, LPCTSTR(lParam));
 		m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
-		return NULL;	
+		return NULL;
 	}
 	else
 	{
@@ -492,9 +491,9 @@ LRESULT CMainFrame::OnProgressPercent(WPARAM wParam, LPARAM lParam)
 		m_wndProgressDlg.SetPercent(int(lParam));
 	}
 
-	m_wndStatusBar.SetPaneProgress(nStatusProgress, int(lParam));
+//	m_wndStatusBar.SetPaneProgress(nStatusProgress, int(lParam));
 
-	return 0;
+	return GetPluginThreadRunning();
 }
 
 LRESULT CMainFrame::OnProgressDone(WPARAM wParam, LPARAM lParam)
@@ -504,8 +503,10 @@ LRESULT CMainFrame::OnProgressDone(WPARAM wParam, LPARAM lParam)
 		m_wndProgressDlg.SendMessage(WM_CLOSE);
 	}
 
-	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
-	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
+//	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
+//	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
+
+	SetPluginThreadRunning(FALSE);
 
 	return 0;
 }

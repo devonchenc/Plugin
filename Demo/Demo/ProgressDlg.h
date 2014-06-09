@@ -25,5 +25,6 @@ protected:
 public:
 	CProgressCtrl m_ctrlProgress;
 	virtual BOOL OnInitDialog();
+	virtual void OnCancel();
 	afx_msg LRESULT OnNcHitTest(CPoint point);
 };
