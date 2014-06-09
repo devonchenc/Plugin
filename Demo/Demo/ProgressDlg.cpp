@@ -63,7 +63,7 @@ void CProgressDlg::OnCancel()
 	// TODO: 在此添加专用代码和/或调用基类
 	CDemoApp* pApp = (CDemoApp*)AfxGetApp();
 	CMainFrame* pMainFrame = (CMainFrame*)pApp->m_pMainWnd;
-	pMainFrame->SetPluginThreadRunning(FALSE);
+	pMainFrame->SetProgressThreadRunning(FALSE);
 
 	CDialog::OnCancel();
 }

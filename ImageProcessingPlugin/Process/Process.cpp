@@ -99,8 +99,6 @@ UINT InverseThread(LPVOID pParam)
 			// exit thread
 			return 0;
 		}
-
-		Sleep(2);
 	}
 
 	PIProgressDone();

@@ -31,7 +31,7 @@ void CImageProcessingPlugin::Query(CPluginInfo& plugininfo)
 	plugininfo.m_strHelp = _T("For Image Processing");
 	plugininfo.m_strAuthor = _T("Rolin");
 	plugininfo.m_strCopyRight = _T("Copyright Rolin");
-	plugininfo.m_strDate = _T("2014.3.23");
+	plugininfo.m_strDate = _T("2014.6.9");
 	CString str;
 	str.LoadString(IDS_STRING_MENU_LABEL);
 	plugininfo.m_strMenuLabel = str;

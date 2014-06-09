@@ -30,6 +30,10 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual BOOL LoadFrame(UINT nIDResource, DWORD dwDefaultStyle = WS_OVERLAPPEDWINDOW | FWS_ADDTOTITLE, CWnd* pParentWnd = NULL, CCreateContext* pContext = NULL);
 
+	virtual void ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialog);
+	virtual BOOL ProgressPercent(int nPercent);
+	virtual void ProgressDone();
+
 // Implementation
 public:
 	virtual ~CMainFrame();
@@ -61,9 +65,6 @@ protected:
 	afx_msg void OnClose();
 	afx_msg LRESULT OnMenuEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnToolbarEvent(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnProgressInit(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnProgressPercent(WPARAM wParam, LPARAM lParam);
-	afx_msg LRESULT OnProgressDone(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void GetMessageString(UINT nID, CString& rMessage) const;

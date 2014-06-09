@@ -129,9 +129,9 @@ PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
 	if (pMainWnd == NULL)
 		return;
-
+	
 	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)bDlgOrBar, (LPARAM)lpszText);
-	if (bDlgOrBar != PI_PROGRESS_DLG && pDialog == NULL)
+	if (bDlgOrBar != PI_PROGRESS_DLG || pDialog == NULL)
 		return;
 
 	int nCount = 0;

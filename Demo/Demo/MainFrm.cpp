@@ -28,9 +28,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_MESSAGE(WM_MENU_EVENT, &CMainFrame::OnMenuEvent)
 	ON_MESSAGE(WM_TOOLBAR_EVENT, &CMainFrame::OnToolbarEvent)
-	ON_MESSAGE(WM_PROGRESS_INIT, &CMainFrame::OnProgressInit)
-	ON_MESSAGE(WM_PROGRESS_PERCENT, &CMainFrame::OnProgressPercent)
-	ON_MESSAGE(WM_PROGRESS_DONE, &CMainFrame::OnProgressDone)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
@@ -187,6 +184,65 @@ void CMainFrame::InitStatusBar()
 	m_wndStatusBar.SetPaneStyle(nStatusInfo, SBPS_STRETCH | SBPS_NOBORDERS);
 
 	m_wndStatusBar.EnablePaneDoubleClick();
+}
+
+UINT ShowProgressDlgThread(LPVOID pParam)
+{
+	CProgressDlg* pProgressDlg = (CProgressDlg*)pParam;
+	pProgressDlg->DoModal();
+
+	return 0;
+}
+
+void CMainFrame::ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialog)
+{
+	CPIMDIFrameWndEx::ProgressInit(bDlgOrBar, lpszText, pDialog);
+
+	if (bDlgOrBar == PI_PROGRESS_DLG)
+	{
+		AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
+		*pDialog = &m_wndProgressDlg;
+	}
+	else if (bDlgOrBar == PI_PROGRESS_BAR)
+	{
+		m_wndStatusBar.SetTipText(nStatusProgress, lpszText);
+		m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
+	}
+}
+
+BOOL CMainFrame::ProgressPercent(int nPercent)
+{
+	if (GetProgressType() == PI_PROGRESS_DLG)
+	{
+		if (m_wndProgressDlg.GetSafeHwnd())
+		{
+			m_wndProgressDlg.SetPercent(nPercent);
+		}
+	}
+	else if (GetProgressType() == PI_PROGRESS_BAR)
+	{
+		m_wndStatusBar.SetPaneProgress(nStatusProgress, nPercent);
+	}
+
+	return CPIMDIFrameWndEx::ProgressPercent(nPercent);
+}
+
+void CMainFrame::ProgressDone()
+{
+	CPIMDIFrameWndEx::ProgressDone();
+
+	if (GetProgressType() == PI_PROGRESS_DLG)
+	{
+		if (m_wndProgressDlg.GetSafeHwnd())
+		{
+			m_wndProgressDlg.SendMessage(WM_CLOSE);
+		}
+	}
+	else if (GetProgressType() == PI_PROGRESS_BAR)
+	{
+		m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
+		m_wndStatusBar.SetTipText(nStatusProgress, NULL);
+	}
 }
 
 void CMainFrame::OnWindowManager()
@@ -452,61 +508,4 @@ void CMainFrame::GetMessageString(UINT nID, CString& rMessage) const
 	}
 
 	return CPIMDIFrameWndEx::GetMessageString(nID, rMessage);
-}
-
-UINT ShowProgressDlgThread(LPVOID pParam)
-{
-	CProgressDlg* pProgressDlg = (CProgressDlg*)pParam;
-	pProgressDlg->DoModal();
-
-	return 0;
-}
-
-LRESULT CMainFrame::OnProgressInit(WPARAM wParam, LPARAM lParam)
-{
-	SetPluginThreadRunning(TRUE);
-
-	if (wParam == PI_PROGRESS_DLG)
-	{
-		AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
-		return (LRESULT)&m_wndProgressDlg;
-	}
-	else if (wParam == PI_PROGRESS_BAR)
-	{
-		m_wndStatusBar.SetTipText(nStatusProgress, LPCTSTR(lParam));
-		m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
-		return NULL;
-	}
-	else
-	{
-		ASSERT(FALSE);
-		return FALSE;
-	}
-}
-
-LRESULT CMainFrame::OnProgressPercent(WPARAM wParam, LPARAM lParam)
-{
-	if (m_wndProgressDlg.GetSafeHwnd())
-	{
-		m_wndProgressDlg.SetPercent(int(lParam));
-	}
-
-//	m_wndStatusBar.SetPaneProgress(nStatusProgress, int(lParam));
-
-	return GetPluginThreadRunning();
-}
-
-LRESULT CMainFrame::OnProgressDone(WPARAM wParam, LPARAM lParam)
-{
-	if (m_wndProgressDlg.GetSafeHwnd())
-	{
-		m_wndProgressDlg.SendMessage(WM_CLOSE);
-	}
-
-//	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
-//	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
-
-	SetPluginThreadRunning(FALSE);
-
-	return 0;
 }
