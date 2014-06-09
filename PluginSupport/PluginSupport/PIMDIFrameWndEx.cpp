@@ -122,7 +122,14 @@ LRESULT CPIMDIFrameWndEx::OnProgressInit(WPARAM wParam, LPARAM lParam)
 
 LRESULT CPIMDIFrameWndEx::OnProgressPercent(WPARAM wParam, LPARAM lParam)
 {
-	return ProgressPercent(int(lParam));
+	if (m_bProgressThreadRunning)
+	{
+		return ProgressPercent(int(lParam));
+	}
+	else
+	{
+		return m_bProgressThreadRunning;
+	}
 }
 
 LRESULT CPIMDIFrameWndEx::OnProgressDone(WPARAM wParam, LPARAM lParam)

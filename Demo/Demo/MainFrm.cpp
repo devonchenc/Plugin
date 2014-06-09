@@ -28,6 +28,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_APPLOOK_WIN_2000, ID_VIEW_APPLOOK_WINDOWS_7, &CMainFrame::OnUpdateApplicationLook)
 	ON_MESSAGE(WM_MENU_EVENT, &CMainFrame::OnMenuEvent)
 	ON_MESSAGE(WM_TOOLBAR_EVENT, &CMainFrame::OnToolbarEvent)
+	ON_COMMAND(ID_INDICATOR_PROGRESS, &CMainFrame::OnIndicatorProgress)
 	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
@@ -508,4 +509,12 @@ void CMainFrame::GetMessageString(UINT nID, CString& rMessage) const
 	}
 
 	return CPIMDIFrameWndEx::GetMessageString(nID, rMessage);
+}
+
+void CMainFrame::OnIndicatorProgress()
+{
+	SetProgressThreadRunning(FALSE);
+
+	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
+	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
 }

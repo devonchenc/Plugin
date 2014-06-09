@@ -65,6 +65,7 @@ protected:
 	afx_msg void OnClose();
 	afx_msg LRESULT OnMenuEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnToolbarEvent(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnIndicatorProgress();
 	DECLARE_MESSAGE_MAP()
 public:
 	virtual void GetMessageString(UINT nID, CString& rMessage) const;
