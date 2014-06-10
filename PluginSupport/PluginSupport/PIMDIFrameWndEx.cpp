@@ -4,20 +4,27 @@
 #include "stdafx.h"
 #include "PIMDIFrameWndEx.h"
 #include "PluginImpl.h"
+#include "PIDockablePane.h"
 
 // CPIMDIFrameWndEx
 
 IMPLEMENT_DYNCREATE(CPIMDIFrameWndEx, CMDIFrameWndEx)
 
 CPIMDIFrameWndEx::CPIMDIFrameWndEx()
-	: m_bProgressThreadRunning(FALSE)
+	: m_nProgressType(PI_PROGRESS_DLG)
+	, m_bProgressThreadRunning(FALSE)
+//	, m_pDockablePane(NULL)
 {
 
 }
 
 CPIMDIFrameWndEx::~CPIMDIFrameWndEx()
 {
-
+	for (int i=0; i<m_PaneArray.GetCount(); i++)
+	{
+		CPIDockablePane* pDockablePane = m_PaneArray.GetAt(i);
+		delete pDockablePane;
+	}
 }
 
 BEGIN_MESSAGE_MAP(CPIMDIFrameWndEx, CMDIFrameWndEx)
@@ -30,6 +37,7 @@ BEGIN_MESSAGE_MAP(CPIMDIFrameWndEx, CMDIFrameWndEx)
 	ON_MESSAGE(WM_PROGRESS_INIT, &CPIMDIFrameWndEx::OnProgressInit)
 	ON_MESSAGE(WM_PROGRESS_PERCENT, &CPIMDIFrameWndEx::OnProgressPercent)
 	ON_MESSAGE(WM_PROGRESS_DONE, &CPIMDIFrameWndEx::OnProgressDone)
+	ON_MESSAGE(WM_CREATE_DOCKABLE_PANE, &CPIMDIFrameWndEx::OnCreateDockablePane)
 END_MESSAGE_MAP()
 
 // CPIMDIFrameWndEx 消息处理程序
@@ -135,6 +143,26 @@ LRESULT CPIMDIFrameWndEx::OnProgressPercent(WPARAM wParam, LPARAM lParam)
 LRESULT CPIMDIFrameWndEx::OnProgressDone(WPARAM wParam, LPARAM lParam)
 {
 	ProgressDone();
+
+	return 0;
+}
+
+LRESULT CPIMDIFrameWndEx::OnCreateDockablePane(WPARAM wParam, LPARAM lParam)
+{
+	CPluginWindow* pPluginWindow = (CPluginWindow*)wParam;
+	HINSTANCE hInstance = pPluginWindow->hInstance;
+	CWnd* pWnd = pPluginWindow->pWnd;
+	LPCTSTR lpszCaption = (LPCTSTR)lParam;
+
+	CPIDockablePane* pDockablePane = new CPIDockablePane(hInstance, pWnd);
+	if (!pDockablePane->Create(lpszCaption, this, CRect(0, 0, 100, 100), TRUE, 150, WS_CHILD | WS_VISIBLE | WS_CLIPSIBLINGS | WS_CLIPCHILDREN | CBRS_BOTTOM | CBRS_FLOAT_MULTI))
+	{
+		TRACE0("Failed to create dockable pane\n");
+		return FALSE;		// fail to create
+	}
+	pDockablePane->EnableDocking(CBRS_ALIGN_ANY);
+	DockPane(pDockablePane);
+	m_PaneArray.Add(pDockablePane);
 
 	return 0;
 }

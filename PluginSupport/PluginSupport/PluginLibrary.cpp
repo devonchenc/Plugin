@@ -208,3 +208,21 @@ PLUGIN_EXPORT LANGID PIGetThreadUILanguage()
 	}
 	return id;
 }
+
+PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszCaption)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
+	if (pMainWnd == NULL)
+		return;
+
+//	if (!pMainWnd->IsKindOf(RUNTIME_CLASS(CPIMDIFrameWndEx)))
+//		return;
+	
+	CPluginWindow plinginWindow;
+	plinginWindow.hInstance = hInstance;
+	plinginWindow.pWnd = pWnd;
+	pMainWnd->SendMessage(WM_CREATE_DOCKABLE_PANE, (WPARAM)&plinginWindow, (LPARAM)lpszCaption);
+}

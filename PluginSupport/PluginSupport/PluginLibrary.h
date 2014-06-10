@@ -37,7 +37,7 @@ PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 
 PLUGIN_EXPORT CView* PIGetActiveView();
 
-// Progress Dialog
+// Progress Dialog&StatusBar
 #define PI_PROGRESS_DLG		0
 #define PI_PROGRESS_BAR		1
 PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar = PI_PROGRESS_DLG, LPCTSTR lpszText = NULL);
@@ -48,6 +48,8 @@ PLUGIN_EXPORT void PIProgressDone();
 
 PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
 
+PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszCaption);
+
 #ifndef PLUGIN_EXT_CLASS
 	#ifdef _AFXDLL
 		#define PLUGIN_EXT_CLASS	AFX_CLASS_EXPORT
@@ -57,6 +59,5 @@ PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
 #endif
 
 #include "PluginClass.h"
-//#include "PIMultiDocTemplate.h"
 #include <atlimage.h>
 #include "PIDocument.h"

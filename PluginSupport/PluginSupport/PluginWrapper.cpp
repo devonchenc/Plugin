@@ -6,13 +6,12 @@
 UINT CPluginWrapper::m_nCommandIDIndex = PLUGIN_COMMAND_BEGIN;
 
 CPluginWrapper::CPluginWrapper()
+	: m_strFileName(_T(""))
+	, m_hInstance(NULL)
+	, m_pfnGetInstance(NULL)
+	, m_pPlugin(NULL)
 {
-	m_hInstance = NULL;				// no DLL loaded
-	m_strFileName = _T("");			// no filename
 
-	// initialize function pointers
-	m_pfnGetInstance = NULL;
-	m_pPlugin = NULL;
 }
 
 CPluginWrapper::~CPluginWrapper()

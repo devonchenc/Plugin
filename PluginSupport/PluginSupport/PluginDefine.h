@@ -20,6 +20,7 @@
 #define WM_PROGRESS_INIT			WM_USER + 108
 #define WM_PROGRESS_PERCENT			WM_USER + 109
 #define WM_PROGRESS_DONE			WM_USER + 110
+#define WM_CREATE_DOCKABLE_PANE		WM_USER + 111
 
 #ifndef PLUGIN_COMMAND
 	#define PLUGIN_COMMAND
@@ -31,6 +32,16 @@
 		int nPluginIndex;
 		UINT nActualID;
 		UINT nVirtualID;
+	};
+#endif
+
+#ifndef PLUGIN_WINDOW
+	#define PLUGIN_WINDOW
+	#define PLUGIN_WINDOW_ID_BEGIN	100
+	struct CPluginWindow
+	{
+		HINSTANCE hInstance;
+		CWnd* pWnd;
 	};
 #endif
 
@@ -59,3 +70,6 @@ public:
 	CString m_strDate;
 	CString m_strMenuLabel;
 };
+
+#define PI_PROGRESS_DLG		0
+#define PI_PROGRESS_BAR		1

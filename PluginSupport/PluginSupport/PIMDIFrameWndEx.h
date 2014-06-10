@@ -2,6 +2,9 @@
 
 #include "PluginDefine.h"
 
+class CPIDockablePane;
+typedef CArray<CPIDockablePane*, CPIDockablePane*> DockablePaneArray;
+
 // CPIMDIFrameWndEx ¿ò¼Ü
 
 class PLUGIN_EXT_CLASS CPIMDIFrameWndEx : public CMDIFrameWndEx
@@ -28,6 +31,9 @@ private:
 	// Progress thread running flag
 	BOOL m_bProgressThreadRunning;
 
+//	CPIDockablePane* m_pDockablePane;
+	DockablePaneArray m_PaneArray;
+
 protected:
 	afx_msg LRESULT OnUIEnableEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnUICheckEvent(WPARAM wParam, LPARAM lParam);
@@ -38,6 +44,7 @@ protected:
 	afx_msg LRESULT OnProgressInit(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnProgressPercent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnProgressDone(WPARAM wParam, LPARAM lParam);
+	afx_msg LRESULT OnCreateDockablePane(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
 
