@@ -21,3 +21,6 @@ inverse image using multi-threading
 
 CurvePlugin:
 adjust image with curves
+
+LevelPlugin:
+adjust image with levels

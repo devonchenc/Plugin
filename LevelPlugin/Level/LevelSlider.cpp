@@ -14,7 +14,6 @@ CLevelSlider::CLevelSlider()
 {
 	CPoint ptVertex[7]={CPoint(6,0), CPoint(12,6), CPoint(12,9), CPoint(11,10), CPoint(1,10), CPoint(0,9), CPoint(0,6)};//Wnd区域
 	CPoint ptInnerVertex[5]={CPoint(6,1), CPoint(11,6), CPoint(11,9), CPoint(1,9), CPoint(1,6)};//内部区域
-	//memmove(m_ptVertex, ptInnerVertex, sizeof(ptInnerVertex));
 	m_rgn.CreatePolygonRgn(ptVertex,7,ALTERNATE);
 	m_rgnInner.CreatePolygonRgn(ptInnerVertex,5,ALTERNATE);
 }
@@ -94,7 +93,7 @@ void CLevelSlider::OnLButtonUp(UINT nFlags, CPoint point)
 {
 	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	ReleaseCapture();
-	CLevelWnd* pLevelWnd = (CLevelWnd*)this->GetParent(); 
+	CLevelWnd* pLevelWnd = (CLevelWnd*)GetParent(); 
 	pLevelWnd->GrayMapping();
 	pLevelWnd->UpdateImage();
 	CWnd::OnLButtonUp(nFlags, point);
@@ -133,7 +132,7 @@ void CLevelSlider::OnMouseMove(UINT nFlags, CPoint point)
 			lCenterPosition+=nMoveDistance;
 		}
 		MoveWindow(m_pPosition);
-		CLevelWnd* pLevelWnd = (CLevelWnd*)this->GetParent(); 
+		CLevelWnd* pLevelWnd = (CLevelWnd*)GetParent(); 
 		pLevelWnd->CoordinateToGray(m_nID, lCenterPosition);
 	}
 	Invalidate();

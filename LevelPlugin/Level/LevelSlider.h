@@ -17,9 +17,11 @@ protected:
 public:
 	void NewLevelSlider(CRect& rect, const UINT& nID, const ItemExStyle& eExStyle, CWnd* pParent,
 		CLevelSlider* pItem, const CRect* pMin, const BOOL& bMinFlag, const int& nMinDis, const CRect* pMax, const BOOL& bMaxFlag, const int& nMaxDis);
-
-	
 	COLORREF SetLevelSliderColor();
+	afx_msg void OnPaint();
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 	UINT m_nID;
 	CRgn m_rgn;
 	CRgn m_rgnInner;
@@ -31,11 +33,6 @@ public:
 	const CRect* m_pMax;
 	BOOL m_bMaxFlag;
 	int m_nMaxDis;
-
-	afx_msg void OnPaint();
-	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
 };
 
 

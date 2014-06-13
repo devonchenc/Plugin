@@ -18,19 +18,27 @@ public:
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
+
 	/************************************************************************/
 	/* 消息响应型函数                                                                                 */
 	/************************************************************************/
+
 	//通道选择Combobox
 	afx_msg void OnSelchangeComboChannel();
 	//重置Button
 	afx_msg void OnButtonReset();
 	//XLeft文本编辑
 	afx_msg void OnEditXLeft();
+	//Proportion回车响应
+	void EditXLeft();
 	//XRight文本编辑
 	afx_msg void OnEditXRight();
+	//Proportion回车响应
+	void EditXRight();
 	//Proportion文本编辑
 	afx_msg void OnEditProportion();
+	//Proportion回车响应
+	void EditProportion();
 	//YTop文本编辑
 	afx_msg void OnEditYTop();
 	//YBottom文本编辑
@@ -45,11 +53,35 @@ public:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	//响应Dlg的WM_SIZE
 	void ReSize(const UINT& nType, const CRect& Rect);
-	//截断回车消息
+	//消息预处理
 	virtual BOOL PreTranslateMessage(MSG* pMsg);
+	//响应父窗口WM_SIZE
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	//响应鼠标左键消息
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	//响应鼠标中键消息
+	afx_msg void OnMButtonDown(UINT nFlags, CPoint point);
+	//响应鼠标右键消息
+	afx_msg void OnRButtonDown(UINT nFlags, CPoint point);
+	//鼠标按键内部实现
+	void MouseDown(CPoint point);
+	//响应鼠标滚轮消息
+	afx_msg BOOL OnMouseWheel(UINT nFlags, short zDelta, CPoint pt);
+	//鼠标滚轮XLeft响应
+	void WheelXLeft(UINT nFlags, float zDelta);
+	//鼠标滚轮XRight响应
+	void WheelXRight(UINT nFlags, float zDelta);
+	//鼠标滚轮Proportion响应
+	void WheelProportion(UINT nFlags, float zDelta);
+	//	鼠标滚轮YTop响应
+	void WheelYTop(UINT nFlags, float zDelta);
+	//鼠标滚轮YBottom响应
+	void WheelYBottom(UINT nFlags, float zDelta);
+
 	/************************************************************************/
 	/*数据传递型函数                                                                                  */
 	/************************************************************************/
+
 	//获取图片
 	CImage* GetImage();
 	//初始化灰度直方图
@@ -78,6 +110,7 @@ public:
 	BOOL CheckNum(CString );
 
 	//坐标转灰度
+
 	//Wnd调用坐标转灰度
 	void CoordinateToGray(UINT nID, LONG center);
 	//xLeft坐标转xLeft灰度值
@@ -92,6 +125,7 @@ public:
 	void YBottomCoordinateToGray();
 
 	//灰度转坐标
+
 	//xLeft灰度值转xLeft坐标
 	void XLeftGrayToCoordinate();
 	//xRight灰度值转xRight坐标
@@ -104,6 +138,7 @@ public:
 	void YBottomGrayToCoordinate();
 
 	//更新坐标
+
 	//更新xLeft坐标
 	void XLeftChangeCoordinate();
 	//更新xRight坐标
@@ -115,16 +150,18 @@ public:
 	//更新yBottom坐标
 	void YBottomChangeCoordinate();
 	
-	public:
+	private:
+
 		/************************************************************************/
 		/* 存储型数据                                                                                        */
 		/************************************************************************/
+
 	//矩阵最大值
-	float m_ftMaxMatrix[4];
+	float m_fMaxMatrix[4];
 	//矩阵最小值
-	float m_ftMinMatrix[4];
+	float m_fMinMatrix[4];
 	//转换比例(ft)
-	float m_ftTranslateProportion[4];
+	float m_fTranslateProportion[4];
 	//Wnd坐标
 	CRect m_rect;
 	//直方图坐标
@@ -145,15 +182,25 @@ public:
 	CRect m_arrCoordinateRact[4];
 	//色阶映射区间
 	CRect m_arrLevelMapRect[4];
+	//色阶映射XLeft(str)
+	CString m_strLevelMapLeft[4];
+	//色阶映射YRight(str)
+	CString m_strLevelMapRight[4];
+	//色阶映射YTop(str)
+	CString m_strLevelMapTop[4];
+	//色阶映射YBottom(str)
+	CString m_strLevelMapBottom[4];
 	//几何X拐点坐标
 	int m_arrXInflection[4];
 	//色阶映射比例
-	float m_ftArrProportion[4];
+	float m_fArrProportion[4];
 	//转换比例(str)
 	CString m_strArrProportion[4];
+
 	/************************************************************************/
 	/* 索引型数据                                                                                        */
 	/************************************************************************/
+
 	//通道选择标志
 	int m_nChannelIndex;
 	//直方图索引地址
@@ -170,7 +217,8 @@ public:
 	int m_nSliderYTopIndex;
 	//SliderYBottom索引地址
 	int m_nSliderYBottomIndex;
-
+	//取得焦点的控件ID
+	int m_nFocusID;
 };
 
 

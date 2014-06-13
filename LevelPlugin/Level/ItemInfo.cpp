@@ -22,7 +22,6 @@ CItemInfo::CItemInfo(const ItemType& eType, const ItemPosition& ePosition, const
 	m_pItem = pItem;
 }
 
-
 CItemInfo::~CItemInfo(void)
 {
 }

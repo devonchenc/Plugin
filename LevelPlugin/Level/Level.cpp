@@ -73,16 +73,11 @@ void CLevelApp::OnImageLevel()
 	if (!pDoc->IsKindOf(RUNTIME_CLASS(CPIDocument)))
 		return;
 
-	CImage* pImage = ((CPIDocument*)pDoc)->GetImage();
-	if (pImage == NULL)
-		return;
-
-	CString str;
-	str.LoadString(ID_IMAGE_LEVEL);
-	PIDockablePane(m_hInstance, &m_LevelDlg, str);
+	CLevelDlg dlg;
+	dlg.DoModal();
 }
 
-void CLevelApp::OnUpdateImageLevel(CCmdUI* pCmdUI)
+void CLevelApp::OnUpdateImageLevel(CCmdUI *pCmdUI)
 {
 	CDocument* pDoc = PIGetActiveDocument();
 	PIEnableUI(pCmdUI, pDoc != NULL);

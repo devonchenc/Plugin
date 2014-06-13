@@ -64,9 +64,7 @@ void CLevelDlg::OnSize(UINT nType, int cx, int cy)
 	CDialogEx::OnSize(nType, cx, cy);
 
 	// TODO: 在此处添加消息处理程序代码
-	CRect Rect;
-	GetClientRect(&Rect);
-	m_wndLevel.ReSize(nType, Rect);
+	m_wndLevel.MoveWindow(CRect(0, 0, cx, cy));
 }
 
 BOOL CLevelDlg::OnEraseBkgnd(CDC* pDC)

@@ -31,10 +31,10 @@ void CLevelPlugin::Query(CPluginInfo& plugininfo)
 	plugininfo.m_strHelp = _T("For Image Processing");
 	plugininfo.m_strAuthor = _T("Wangqian");
 	plugininfo.m_strCopyRight = _T("Copyright Wangqian");
-	plugininfo.m_strDate = _T("2014.6.10");
-	//	CString str;
-	//	str.LoadString(IDS_STRING_MENU_LABEL);
-	//	plugininfo.m_strMenuLabel = str;
+	plugininfo.m_strDate = _T("2014.6.15");
+//	CString str;
+//	str.LoadString(IDS_STRING_MENU_LABEL);
+//	plugininfo.m_strMenuLabel = str;
 }
 
 void CLevelPlugin::Draw(CDC* pDC)

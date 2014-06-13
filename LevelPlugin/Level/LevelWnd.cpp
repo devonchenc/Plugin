@@ -38,16 +38,16 @@ IMPLEMENT_DYNAMIC(CLevelWnd, CWnd)
 	m_Items.push_back(CItemInfo(LEVEL_SLDWND, BOTTOM_STATIC, CRect(174, 240, 188, 250), IDC_SLDTRN_XINFLECTION,0,0,COL_GRAY, m_nSliderXLeftIndex, TRUE, 3, m_nSliderXRightIndex, TRUE, 2));//x中三角9
 	m_Items.push_back(CItemInfo(LEVEL_SLDWND, BOTTOM_STATIC, CRect(34, 310, 48, 320), IDC_SLDTRN_YTOP,0,0,COL_BLACK, m_nBarIndex, FALSE, 0, m_nBarIndex, FALSE, 0));//y左三角10
 	m_Items.push_back(CItemInfo(LEVEL_SLDWND, BOTTOM_STATIC, CRect(314, 310, 328, 320), IDC_SLDTRN_YBOTTOM,0,0,COL_WHITE, m_nBarIndex, FALSE, 0, m_nBarIndex, FALSE, 0));//y右三角11
-	m_Items.push_back(CItemInfo(LEVEL_EDIT_NUM, BOTTOM_STATIC, CRect(35, 255, 60, 270), IDC_EDT_XLEFT));//x左输入12
-	m_Items.push_back(CItemInfo(LEVEL_EDIT_NUM, BOTTOM_RIGHT, CRect(300, 255, 325, 270), IDC_EDT_XRIGHT));//x右输入13
-	m_Items.push_back(CItemInfo(LEVEL_EDIT_CTRL, BOTTOM_MEDIAN, CRect(168, 255, 193, 270), IDC_EDT_PROPORTION));//x中输入14
-	m_Items.push_back(CItemInfo(LEVEL_EDIT_NUM, BOTTOM_STATIC, CRect(35, 325, 60, 340), IDC_EDT_YTOP));//y左输入15
-	m_Items.push_back(CItemInfo(LEVEL_EDIT_NUM, BOTTOM_RIGHT, CRect(300, 325, 325, 340), IDC_EDT_YBOTTOM));//y右输入16
+	m_Items.push_back(CItemInfo(LEVEL_EDIT, BOTTOM_STATIC, CRect(35, 255, 60, 270), IDC_EDT_XLEFT));//x左输入12
+	m_Items.push_back(CItemInfo(LEVEL_EDIT, BOTTOM_RIGHT, CRect(300, 255, 325, 270), IDC_EDT_XRIGHT));//x右输入13
+	m_Items.push_back(CItemInfo(LEVEL_EDIT, BOTTOM_MEDIAN, CRect(168, 255, 193, 270), IDC_EDT_PROPORTION));//x中输入14
+	m_Items.push_back(CItemInfo(LEVEL_EDIT, BOTTOM_STATIC, CRect(35, 325, 60, 340), IDC_EDT_YTOP));//y左输入15
+	m_Items.push_back(CItemInfo(LEVEL_EDIT, BOTTOM_RIGHT, CRect(300, 325, 325, 340), IDC_EDT_YBOTTOM));//y右输入16
 }
 
 CLevelWnd::~CLevelWnd()
 {
-	for(UINT nIndex=0; nIndex<m_Items.size();nIndex++)
+	for (UINT nIndex=0; nIndex<m_Items.size(); nIndex++)
 	{
 		if (m_Items.at(nIndex).m_pItem)
 		{
@@ -67,6 +67,11 @@ BEGIN_MESSAGE_MAP(CLevelWnd, CWnd)
 	ON_EN_CHANGE(IDC_EDT_YTOP, &CLevelWnd::OnEditYTop)
 	ON_EN_CHANGE(IDC_EDT_YBOTTOM, &CLevelWnd::OnEditYBottom)
 	ON_WM_ERASEBKGND()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_MBUTTONDOWN()
+	ON_WM_RBUTTONDOWN()
+	ON_WM_MOUSEWHEEL()
+	ON_WM_SIZE()
 END_MESSAGE_MAP()
 
 // CLevelWnd 消息处理程序
@@ -74,13 +79,14 @@ END_MESSAGE_MAP()
 /************************************************************************/
 /* 消息响应型函数                                                                                 */
 /************************************************************************/
+
 //通道选择Combobox
 void CLevelWnd::OnSelchangeComboChannel()
 {
 	switch(((CComboBox*)GetDlgItem(IDC_CMB_CHANNEL))->GetCurSel())
 	{
 	case 0://RGB
-		if (m_nChannelIndex!=3)
+		if (m_nChannelIndex != 3)
 		{
 			OnButtonReset();
 		}
@@ -89,10 +95,10 @@ void CLevelWnd::OnSelchangeComboChannel()
 	case 1://R
 		if (m_nChannelIndex == 3)
 		{
-			m_ftArrProportion[0] = m_ftArrProportion[1] = m_ftArrProportion[2] = m_ftArrProportion[3];
+			m_fArrProportion[0] = m_fArrProportion[1] = m_fArrProportion[2] = m_fArrProportion[3];
 			m_strArrProportion[0] = m_strArrProportion[1] = m_strArrProportion[2] = m_strArrProportion[3];
 			m_arrLevelMapRect[0] = m_arrLevelMapRect[1] = m_arrLevelMapRect[2] = m_arrLevelMapRect[3];
-			for (int nIndex = 0; nIndex<3; ++nIndex)
+			for (int nIndex=0; nIndex<3; nIndex++)
 			{
 				m_nChannelIndex = nIndex;
 				XLeftGrayToCoordinate();
@@ -112,10 +118,10 @@ void CLevelWnd::OnSelchangeComboChannel()
 	case 2://G
 		if (m_nChannelIndex == 3)
 		{
-			m_ftArrProportion[0] = m_ftArrProportion[1] = m_ftArrProportion[2] = m_ftArrProportion[3];
+			m_fArrProportion[0] = m_fArrProportion[1] = m_fArrProportion[2] = m_fArrProportion[3];
 			m_strArrProportion[0] = m_strArrProportion[1] = m_strArrProportion[2] = m_strArrProportion[3];
 			m_arrLevelMapRect[0] = m_arrLevelMapRect[1] = m_arrLevelMapRect[2] = m_arrLevelMapRect[3];
-			for (int nIndex = 0; nIndex<3; ++nIndex)
+			for (int nIndex=0; nIndex<3; nIndex++)
 			{
 				m_nChannelIndex = nIndex;
 				XLeftGrayToCoordinate();
@@ -135,10 +141,10 @@ void CLevelWnd::OnSelchangeComboChannel()
 	case 3://B
 		if (m_nChannelIndex == 3)
 		{
-			m_ftArrProportion[0] = m_ftArrProportion[1] = m_ftArrProportion[2] = m_ftArrProportion[3];
+			m_fArrProportion[0] = m_fArrProportion[1] = m_fArrProportion[2] = m_fArrProportion[3];
 			m_strArrProportion[0] = m_strArrProportion[1] = m_strArrProportion[2] = m_strArrProportion[3];
 			m_arrLevelMapRect[0] = m_arrLevelMapRect[1] = m_arrLevelMapRect[2] = m_arrLevelMapRect[3];
-			for (int nIndex = 0; nIndex<3; ++nIndex)
+			for (int nIndex=0; nIndex<3; nIndex++)
 			{
 				m_nChannelIndex = nIndex;
 				XLeftGrayToCoordinate();
@@ -159,9 +165,6 @@ void CLevelWnd::OnSelchangeComboChannel()
 		break;
 	}
 	UpdateData(FALSE);
-// 	CString str;
-// 	str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 	SetDlgItemText(IDC_EDT_PROPORTION,str);
 	XLeftChangeCoordinate();
 	XRightChangeCoordinate();
 	XInflectionChangeCoordinate();
@@ -169,6 +172,7 @@ void CLevelWnd::OnSelchangeComboChannel()
 	YBottomChangeCoordinate();
 	Invalidate();
 }
+
 //重置Button
 void CLevelWnd::OnButtonReset()
 {
@@ -178,9 +182,6 @@ void CLevelWnd::OnButtonReset()
 		InitGrayMap();
 		InitMapRect(m_Items.at(m_nHistogramIndex).m_Rect);
 		UpdateData(FALSE);
-// 		CString str;
-// 		str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 		SetDlgItemText(IDC_EDT_PROPORTION,str);
 		XLeftChangeCoordinate();
 		XRightChangeCoordinate();
 		XInflectionChangeCoordinate();
@@ -188,165 +189,370 @@ void CLevelWnd::OnButtonReset()
 		YBottomChangeCoordinate();
 	}
 }
-//XLeft文本编辑
+
+//XLeft文本编辑消息响应
 void CLevelWnd::OnEditXLeft()
 {
+	bool bUpData = true;
 	UpdateData(TRUE);
-	if (m_arrLevelMapRect[m_nChannelIndex].left<m_ftMinMatrix[m_nChannelIndex])
+	if (!m_strLevelMapLeft[m_nChannelIndex].IsEmpty())
 	{
-		m_arrLevelMapRect[m_nChannelIndex].left = LONG(m_ftMinMatrix[m_nChannelIndex]);
-		UpdateData(FALSE);
+		if (CheckNum(m_strLevelMapLeft[m_nChannelIndex]))
+		{
+			int nStr = int(_ttoi(m_strLevelMapLeft[m_nChannelIndex]));
+			if (nStr < int(m_fMinMatrix[m_nChannelIndex]))
+			{
+				m_arrLevelMapRect[m_nChannelIndex].left = LONG(m_fMinMatrix[m_nChannelIndex]);
+				m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+				UpdateData(FALSE);
+			}
+			else if (nStr>m_arrLevelMapRect[m_nChannelIndex].right-2)
+			{
+				bUpData = false;
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].left = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+			UpdateData(FALSE);
+		}
+		XLeftGrayToCoordinate();
+		XLeftChangeCoordinate();
+		ProportionToXInflection();
+		XInflectionChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
 	}
-	else if (m_arrLevelMapRect[m_nChannelIndex].left>m_arrLevelMapRect[m_nChannelIndex].right-2)
-	{
-		m_arrLevelMapRect[m_nChannelIndex].left = m_arrLevelMapRect[m_nChannelIndex].right-2;
-		UpdateData(FALSE);
-	}
-	XLeftGrayToCoordinate();
-	XLeftChangeCoordinate();
-	ProportionToXInflection();
-	XInflectionChangeCoordinate();
-	GrayMapping();
-	UpdateImage();
-	Invalidate();
 }
-//XRight文本编辑
+
+//XLeft文本编辑回车响应
+void CLevelWnd::EditXLeft()
+{
+	bool bUpData = true;
+	UpdateData(TRUE);
+	if (!m_strLevelMapLeft[m_nChannelIndex].IsEmpty())
+	{
+		if (CheckNum(m_strLevelMapLeft[m_nChannelIndex]))
+		{
+			int nStr = int(_ttoi(m_strLevelMapLeft[m_nChannelIndex]));
+			if (nStr < int(m_fMinMatrix[m_nChannelIndex]))
+			{
+				m_arrLevelMapRect[m_nChannelIndex].left = LONG(m_fMinMatrix[m_nChannelIndex]);
+				m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+				UpdateData(FALSE);
+			}
+			else if (nStr > m_arrLevelMapRect[m_nChannelIndex].right-2)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].left = m_arrLevelMapRect[m_nChannelIndex].right-2;
+				m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+				UpdateData(FALSE);
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].left = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+			UpdateData(FALSE);
+		}
+		XLeftGrayToCoordinate();
+		XLeftChangeCoordinate();
+		ProportionToXInflection();
+		XInflectionChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
+	}
+}
+
+//XRight文本编辑消息响应
 void CLevelWnd::OnEditXRight()
 {
+	bool bUpData = true;
 	UpdateData(TRUE);
-	if (m_arrLevelMapRect[m_nChannelIndex].right>m_ftMaxMatrix[m_nChannelIndex])
+	if (!m_strLevelMapRight[m_nChannelIndex].IsEmpty())
 	{
-		m_arrLevelMapRect[m_nChannelIndex].right = LONG(m_ftMaxMatrix[m_nChannelIndex]);
-		UpdateData(FALSE);
+		if (CheckNum(m_strLevelMapRight[m_nChannelIndex]))
+		{
+			int nStr = int(_ttoi(m_strLevelMapRight[m_nChannelIndex]));
+			if (nStr > int(m_fMaxMatrix[m_nChannelIndex]))
+			{
+				m_arrLevelMapRect[m_nChannelIndex].right = LONG(m_fMaxMatrix[m_nChannelIndex]);
+				m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+				UpdateData(FALSE);
+			}
+			else if (nStr < m_arrLevelMapRect[m_nChannelIndex].left+2)
+			{
+				bUpData = false;
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].right = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+			UpdateData(FALSE);
+		}
+		XRightGrayToCoordinate();
+		XRightChangeCoordinate();
+		ProportionToXInflection();
+		XInflectionChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
 	}
-	else if (m_arrLevelMapRect[m_nChannelIndex].right<m_arrLevelMapRect[m_nChannelIndex].left+2)
-	{
-		m_arrLevelMapRect[m_nChannelIndex].right = m_arrLevelMapRect[m_nChannelIndex].left+2;
-		UpdateData(FALSE);
-	}
-	XRightGrayToCoordinate();
-	XRightChangeCoordinate();
-	ProportionToXInflection();
-	XInflectionChangeCoordinate();
-	GrayMapping();
-	UpdateImage();
-	Invalidate();
 }
+
+//XRight文本编辑回车响应
+void CLevelWnd::EditXRight()
+{
+	bool bUpData = true;
+	UpdateData(TRUE);
+	if (!m_strLevelMapRight[m_nChannelIndex].IsEmpty())
+	{
+		if (CheckNum(m_strLevelMapRight[m_nChannelIndex]))
+		{
+			int nStr = int(_ttoi(m_strLevelMapRight[m_nChannelIndex]));
+			if (nStr > int(m_fMaxMatrix[m_nChannelIndex]))
+			{
+				m_arrLevelMapRect[m_nChannelIndex].right = LONG(m_fMaxMatrix[m_nChannelIndex]);
+				m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+				UpdateData(FALSE);
+			}
+			else if (nStr < m_arrLevelMapRect[m_nChannelIndex].left+2)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].right = m_arrLevelMapRect[m_nChannelIndex].left+2;
+				m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+				UpdateData(FALSE);
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].right = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+			UpdateData(FALSE);
+		}
+		XRightGrayToCoordinate();
+		XRightChangeCoordinate();
+		ProportionToXInflection();
+		XInflectionChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
+	}
+}
+
 //Proportion文本编辑
 void CLevelWnd::OnEditProportion()
+{
+	bool bUpData = true;
+	UpdateData(TRUE);
+	if (!m_strArrProportion[m_nChannelIndex].IsEmpty())
+	{
+		if (CheckNum(m_strArrProportion[m_nChannelIndex]))
+		{
+			float fStr = (float)_tstof(m_strArrProportion[m_nChannelIndex]);
+			if (fStr == 0)
+			{
+				bUpData = false;
+			}
+			else if (fStr < 0.01f)
+			{
+				AfxMessageBox(_T("请输入0.01至99.99之间的数"));
+				m_fArrProportion[m_nChannelIndex] = 0.01f;
+				m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+				UpdateData(FALSE);
+			}
+			else if (fStr > 99.99f)
+			{
+				AfxMessageBox(_T("请输入0.01至99.99之间的数"));
+				m_fArrProportion[m_nChannelIndex] = 99.99f;
+				m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+				UpdateData(FALSE);
+			}
+			else
+			{
+				m_fArrProportion[m_nChannelIndex] = fStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+			UpdateData(FALSE);
+		}
+		ProportionToXInflection();
+		XInflectionChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
+	}
+}
+
+//Proportion回车响应
+void CLevelWnd::EditProportion()
 {
 	UpdateData(TRUE);
 	if (CheckNum(m_strArrProportion[m_nChannelIndex]))
 	{
-		m_ftArrProportion[m_nChannelIndex] = (float)_tstof(m_strArrProportion[m_nChannelIndex]);
-		if (m_ftArrProportion[m_nChannelIndex]<0.01f)
+		float fStr =  (float)_tstof(m_strArrProportion[m_nChannelIndex]);
+		if (fStr < 0.01f)
 		{
 			AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-			m_ftArrProportion[m_nChannelIndex] = 0.01f;
-			m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-			UpdateData(FALSE);
+			m_fArrProportion[m_nChannelIndex] = 0.01f;
 		}
-		else if (m_ftArrProportion[m_nChannelIndex]>99.99f)
+		else if (fStr > 99.99f)
 		{
 			AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-			m_ftArrProportion[m_nChannelIndex] = 99.99f;
-			m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-			UpdateData(FALSE);
+			m_fArrProportion[m_nChannelIndex] = 99.99f;
+		}
+		else
+		{
+			m_fArrProportion[m_nChannelIndex] = fStr;
 		}
 	}
-	else
-	{
-		AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-		m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-		UpdateData(FALSE);
-	}
-// 	CString str;
-// 	GetDlgItem(IDC_EDT_PROPORTION)->GetWindowText(str);
-// 	if (CheckNum(str))
-// 	{
-// 		m_ftArrProportion[m_nChannelIndex] = (float)_tstof(str);
-// 		if (m_ftArrProportion[m_nChannelIndex]<0.01f)
-// 		{
-// 			AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-// 			m_ftArrProportion[m_nChannelIndex] = 0.01f;
-// 			str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 			SetDlgItemText(IDC_EDT_PROPORTION,str);
-// 			//UpdateData(FALSE);
-// 		}
-// 		else if (m_ftArrProportion[m_nChannelIndex]>99.99f)
-// 		{
-// 			AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-// 			m_ftArrProportion[m_nChannelIndex] = 99.99f;
-// 			str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 			SetDlgItemText(IDC_EDT_PROPORTION,str);
-// 		}
-// 	}
-// 	else
-// 	{
-// 		AfxMessageBox(_T("请输入0.01至99.99之间的数"));
-// 		str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 		SetDlgItemText(IDC_EDT_PROPORTION,str);
-// 	}
+	m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+	UpdateData(FALSE);
 	ProportionToXInflection();
 	XInflectionChangeCoordinate();
 	GrayMapping();
 	UpdateImage();
 	Invalidate();
 }
+
 //YTop文本编辑
 void CLevelWnd::OnEditYTop()
 {
+	bool bUpData = true;
 	UpdateData(TRUE);
-	if (m_arrLevelMapRect[m_nChannelIndex].top<0)
+	if (!m_strLevelMapTop[m_nChannelIndex].IsEmpty())
 	{
-		m_arrLevelMapRect[m_nChannelIndex].top = 0;
-		UpdateData(FALSE);
+		if (CheckNum(m_strLevelMapTop[m_nChannelIndex]))
+		{
+			int nStr = (int)_ttoi(m_strLevelMapTop[m_nChannelIndex]);
+			if (nStr < 0)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].top = 0;
+				m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
+				UpdateData(FALSE);
+			}
+			else if (nStr > 255)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].top = 255;
+				m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
+				UpdateData(FALSE);
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].top = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
+			UpdateData(FALSE);
+		}
+		YTopGrayToCoordinate();
+		YTopChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
 	}
-	else if (m_arrLevelMapRect[m_nChannelIndex].top>(m_arrLevelMapRect[m_nChannelIndex].bottom-2))
-	{
-		m_arrLevelMapRect[m_nChannelIndex].top = m_arrLevelMapRect[m_nChannelIndex].bottom-2;
-		UpdateData(FALSE);
-	}
-	YTopGrayToCoordinate();
-	YTopChangeCoordinate();
-	GrayMapping();
-	UpdateImage();
-	Invalidate();
 }
+
 //YBottom文本编辑
 void CLevelWnd::OnEditYBottom()
 {
+	bool bUpData = true;
 	UpdateData(TRUE);
-	if (m_arrLevelMapRect[m_nChannelIndex].bottom>255)
+	if (!m_strLevelMapBottom[m_nChannelIndex].IsEmpty())
 	{
-		m_arrLevelMapRect[m_nChannelIndex].bottom = 255;
-		UpdateData(FALSE);
+		if (CheckNum(m_strLevelMapBottom[m_nChannelIndex]))
+		{
+			int nStr = (int)_ttoi(m_strLevelMapBottom[m_nChannelIndex]);
+			if (nStr < 0)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].bottom = 0;
+				m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
+				UpdateData(FALSE);
+			}
+			else if (nStr > 255)
+			{
+				m_arrLevelMapRect[m_nChannelIndex].bottom = 255;
+				m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
+				UpdateData(FALSE);
+			}
+			else
+			{
+				m_arrLevelMapRect[m_nChannelIndex].bottom = nStr;
+			}
+		}
+		else
+		{
+			bUpData = false;
+			m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
+			UpdateData(FALSE);
+		}
+		YBottomGrayToCoordinate();
+		YBottomChangeCoordinate();
+		GrayMapping();
+		if (bUpData)
+		{
+			UpdateImage();
+		}
+		Invalidate();
 	}
-	else if (m_arrLevelMapRect[m_nChannelIndex].bottom<(m_arrLevelMapRect[m_nChannelIndex].top+2))
-	{
-		m_arrLevelMapRect[m_nChannelIndex].bottom = m_arrLevelMapRect[m_nChannelIndex].top+2;
-		UpdateData(FALSE);
-	}
-	YBottomGrayToCoordinate();
-	YBottomChangeCoordinate();
-	GrayMapping();
-	UpdateImage();
-	Invalidate();
 }
+
 //初始化
 int CLevelWnd::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
+
 	GetClientRect(&m_rect);
 	NewItems();
+	ReSize(0,m_rect);
 	InitGrayValues();
 	UpdateData(FALSE);
-// 	CString str;
-// 	str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 	SetDlgItemText(IDC_EDT_PROPORTION,str);
 	return 0;
 }
+
 //窗口重绘
 void CLevelWnd::OnPaint()
 {
@@ -368,6 +574,7 @@ void CLevelWnd::OnPaint()
 	bitmap.DeleteObject();
 	memDC.DeleteDC();
 }
+
 //背景擦除
 BOOL CLevelWnd::OnEraseBkgnd(CDC* pDC)
 {
@@ -376,33 +583,26 @@ BOOL CLevelWnd::OnEraseBkgnd(CDC* pDC)
 	//	return CWnd::OnEraseBkgnd(pDC);
 	return FALSE;
 }
+
 //数据交换
 void CLevelWnd::DoDataExchange(CDataExchange* pDX)
 {
 	// TODO: 在此添加专用代码和/或调用基类
 	CWnd::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDT_XLEFT, m_arrLevelMapRect[m_nChannelIndex].left);
-	//DDV_MinMaxUInt(pDX, m_arrLevelMapRect[m_nChannelIndex].left, UINT(m_ftMinMatrix[m_nChannelIndex]), m_arrLevelMapRect[m_nChannelIndex].right-1);
-	DDX_Text(pDX, IDC_EDT_XRIGHT, m_arrLevelMapRect[m_nChannelIndex].right);
-	//DDV_MinMaxUInt(pDX, m_arrLevelMapRect[m_nChannelIndex].right, m_arrLevelMapRect[m_nChannelIndex].left+1, UINT(m_ftMaxMatrix[m_nChannelIndex]));
-	//DDX_Text(pDX, IDC_EDT_PROPORTION, m_arrProportion[m_nChannelIndex]);
-	//DDX_Text(pDX, IDC_EDT_PROPORTION, m_strArrProportion[m_nChannelIndex]);
-	//DDX_CBString(pDX, IDC_EDT_PROPORTION, m_strArrProportion[m_nChannelIndex]);
-	//DDX_Control(pDX, IDC_EDT_PROPORTION, m_arrProportion);
-	//DDV_MinMaxFloat(pDX, m_arrProportion[m_nChannelIndex] , 0.01f, 9.99f);
+	DDX_Text(pDX, IDC_EDT_XLEFT, m_strLevelMapLeft[m_nChannelIndex]);
+	DDX_Text(pDX, IDC_EDT_XRIGHT, m_strLevelMapRight[m_nChannelIndex]);
 	DDX_Text(pDX, IDC_EDT_PROPORTION, m_strArrProportion[m_nChannelIndex]);
-	DDX_Text(pDX, IDC_EDT_YTOP, m_arrLevelMapRect[m_nChannelIndex].top);
-	DDV_MinMaxUInt(pDX, m_arrLevelMapRect[m_nChannelIndex].top, 0, 255);
-	DDX_Text(pDX, IDC_EDT_YBOTTOM, m_arrLevelMapRect[m_nChannelIndex].bottom);
-	DDV_MinMaxUInt(pDX, m_arrLevelMapRect[m_nChannelIndex].bottom , 0, 255);
+	DDX_Text(pDX, IDC_EDT_YTOP, m_strLevelMapTop[m_nChannelIndex]);
+	DDX_Text(pDX, IDC_EDT_YBOTTOM, m_strLevelMapBottom[m_nChannelIndex]);
 }
+
 //响应Dlg的WM_SIZE
 void CLevelWnd::ReSize(const UINT& nType, const CRect& newRect)
 {
-	if(nType != SIZE_MINIMIZED)
+	if (nType != SIZE_MINIMIZED)
 	{
 		MoveWindow(newRect);
-		for(UINT nIndex=0;nIndex<m_Items.size(); ++nIndex)
+		for (UINT nIndex=0; nIndex<m_Items.size(); nIndex++)
 		{
 			if (SetItemPosition(newRect, nIndex))
 			{
@@ -411,26 +611,34 @@ void CLevelWnd::ReSize(const UINT& nType, const CRect& newRect)
 				case 0:
 					XLeftGrayToCoordinate();
 					XLeftChangeCoordinate();
+					break;
 				case 1:
 					XRightGrayToCoordinate();
 					XRightChangeCoordinate();
+					break;
 				case 2:
 					ProportionToXInflection();
 					XInflectionChangeCoordinate();
+					break;
 				case 3:
 					YTopGrayToCoordinate();
 					YTopChangeCoordinate();
+					break;
 				case 4:
 					YBottomGrayToCoordinate();
 					YBottomChangeCoordinate();
+					break;
 				default:
-					m_Items.at(nIndex).m_pItem->MoveWindow(m_Items.at(nIndex).m_Rect);
+					if (m_Items.at(nIndex).m_pItem != NULL)
+					{
+						m_Items.at(nIndex).m_pItem->MoveWindow(m_Items.at(nIndex).m_Rect);
+					}
 					break;
 				}
 			}
 		}
-		int nChannelIndex =m_nChannelIndex;
-		for (m_nChannelIndex=0;m_nChannelIndex<4;++m_nChannelIndex)
+		int nChannelIndex = m_nChannelIndex;
+		for (m_nChannelIndex=0; m_nChannelIndex<4; m_nChannelIndex++)
 		{
 			XLeftGrayToCoordinate();
 			XLeftChangeCoordinate();
@@ -448,29 +656,358 @@ void CLevelWnd::ReSize(const UINT& nType, const CRect& newRect)
 		m_HistogramRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	}
 }
-//截断回车消息
+
+//消息预处理
 BOOL CLevelWnd::PreTranslateMessage(MSG* pMsg)
 {
 	// TODO: 在此添加专用代码和/或调用基类
-	// 	if(pMsg-> message==WM_KEYDOWN && pMsg-> wParam==VK_ESCAPE) 
+	// 	if (pMsg-> message==WM_KEYDOWN && pMsg-> wParam==VK_ESCAPE) 
 	// 	{ 
 	// 		return TRUE; 
 	// 	} 
-
-	if(pMsg-> message==WM_KEYDOWN && pMsg-> wParam==VK_RETURN) 
+	if (pMsg->message == WM_KEYDOWN && pMsg->wParam == VK_RETURN) 
 	{ 
+		if (GetFocus()->GetDlgCtrlID() == IDC_EDT_PROPORTION)
+		{
+			EditProportion();
+		}
+		if (GetFocus()->GetDlgCtrlID() == IDC_EDT_XLEFT)
+		{
+			EditXLeft();
+		}
+		if (GetFocus()->GetDlgCtrlID() == IDC_EDT_XRIGHT)
+		{
+			EditXRight();
+		}
 		return TRUE; 
 	} 
+	else if (pMsg->message == WM_LBUTTONDOWN || pMsg->message == WM_RBUTTONDOWN || pMsg->message == WM_MBUTTONDOWN)
+	{
+		CPoint point;
+		GetCursorPos(&point);
+		CRect rect1;
+		CRect rect2;
+		GetDlgItem( IDC_EDT_XLEFT)->GetWindowRect(&rect1);
+		GetDlgItem(IDC_SLDTRN_XLEFT)->GetWindowRect(&rect2);
+		if (rect1.PtInRect(point) || rect2.PtInRect(point))
+		{
+			GetDlgItem( IDC_EDT_XLEFT)->SetFocus();
+			m_nFocusID = IDC_EDT_XLEFT;
+		}
+		GetDlgItem( IDC_EDT_XRIGHT)->GetWindowRect(&rect1);
+		GetDlgItem(IDC_SLDTRN_XRIGHT)->GetWindowRect(&rect2);
+		if (rect1.PtInRect(point) || rect2.PtInRect(point))
+		{
+			GetDlgItem(IDC_EDT_XRIGHT)->SetFocus();
+			m_nFocusID = IDC_EDT_XRIGHT;
+		}
+		GetDlgItem( IDC_EDT_YTOP)->GetWindowRect(&rect1);
+		GetDlgItem(IDC_SLDTRN_YTOP)->GetWindowRect(&rect2);
+		if (rect1.PtInRect(point) || rect2.PtInRect(point))
+		{
+			GetDlgItem(IDC_EDT_YTOP)->SetFocus();
+			m_nFocusID = IDC_EDT_YTOP;
+		}
+		GetDlgItem( IDC_EDT_YBOTTOM)->GetWindowRect(&rect1);
+		GetDlgItem(IDC_SLDTRN_YBOTTOM)->GetWindowRect(&rect2);
+		if (rect1.PtInRect(point) || rect2.PtInRect(point))
+		{
+			GetDlgItem( IDC_EDT_YBOTTOM)->SetFocus();
+			m_nFocusID = IDC_EDT_YBOTTOM;
+		}
+		GetDlgItem( IDC_EDT_PROPORTION)->GetWindowRect(&rect1);
+		GetDlgItem(IDC_SLDTRN_XINFLECTION)->GetWindowRect(&rect2);
+		if (rect1.PtInRect(point) || rect2.PtInRect(point))
+		{
+			GetDlgItem( IDC_EDT_PROPORTION)->SetFocus();
+			m_nFocusID = IDC_EDT_PROPORTION;
+		}
+		else
+		{
+			SetFocus();
+		}
+		return CWnd::PreTranslateMessage(pMsg); 
+	}
+	else if (pMsg->message == WM_MOUSEWHEEL)
+	{
+		SetFocus();
+		return CWnd::PreTranslateMessage(pMsg); 
+	}
 	else 
-	{ 
+	{ 			
 		return CWnd::PreTranslateMessage(pMsg); 
 	} 
-	//return CWnd::PreTranslateMessage(pMsg);
+}
+
+//响应父窗口WM_SIZE
+void CLevelWnd::OnSize(UINT nType, int cx, int cy)
+{
+	CWnd::OnSize(nType, cx, cy);
+	// TODO: 在此处添加消息处理程序代码
+	if (GetSafeHwnd() != NULL)
+	{
+		ReSize(nType, CRect(0,0,cx,cy));
+ 	}
+}
+
+//响应鼠标左键消息
+void CLevelWnd::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	m_nFocusID = GetFocus()->GetDlgCtrlID();
+	SetFocus();
+	MouseDown(point);
+	CWnd::OnLButtonDown(nFlags, point);
+}
+
+//响应鼠标中键消息
+void CLevelWnd::OnMButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	m_nFocusID = GetFocus()->GetDlgCtrlID();
+	SetFocus();
+	MouseDown(point);
+	CWnd::OnMButtonDown(nFlags, point);
+}
+
+//响应鼠标右键消息
+void CLevelWnd::OnRButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	m_nFocusID = GetFocus()->GetDlgCtrlID();
+	SetFocus();
+	MouseDown(point);
+	CWnd::OnRButtonDown(nFlags, point);
+}
+
+//鼠标按键内部实现
+void CLevelWnd::MouseDown(CPoint point)
+{
+	CRect rect;
+	GetDlgItem( IDC_EDT_XLEFT)->GetWindowRect(&rect);
+	if (!rect.PtInRect(point))
+	{
+		CString str;
+		GetDlgItem(IDC_EDT_XLEFT)->GetWindowText(str);
+		if (str.IsEmpty())
+		{
+			m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+			SetDlgItemText(IDC_EDT_XLEFT, m_strLevelMapLeft[m_nChannelIndex]);
+		}
+		else
+		{
+			EditXLeft();
+		}
+	}
+	GetDlgItem( IDC_EDT_XRIGHT)->GetWindowRect(&rect);
+	if (!rect.PtInRect(point))
+	{
+		CString str;
+		GetDlgItem(IDC_EDT_XRIGHT)->GetWindowText(str);
+		if (str.IsEmpty())
+		{
+			m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+			SetDlgItemText(IDC_EDT_XRIGHT, m_strLevelMapRight[m_nChannelIndex]);
+		}
+		else
+		{
+			EditXRight();
+		}
+	}
+	GetDlgItem( IDC_EDT_YTOP)->GetWindowRect(&rect);
+	if (!rect.PtInRect(point))
+	{
+		CString str;
+		GetDlgItem(IDC_EDT_YTOP)->GetWindowText(str);
+		if (str.IsEmpty())
+		{
+			m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
+			SetDlgItemText(IDC_EDT_YTOP, m_strLevelMapTop[m_nChannelIndex]);
+		}
+	}
+	GetDlgItem( IDC_EDT_YBOTTOM)->GetWindowRect(&rect);
+	if (!rect.PtInRect(point))
+	{
+		CString str;
+		GetDlgItem(IDC_EDT_YBOTTOM)->GetWindowText(str);
+		if (str.IsEmpty())
+		{
+			m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
+			SetDlgItemText(IDC_EDT_YBOTTOM, m_strLevelMapBottom[m_nChannelIndex]);
+		}
+	}
+	GetDlgItem( IDC_EDT_PROPORTION)->GetWindowRect(&rect);
+	if (!rect.PtInRect(point))
+	{
+		CString str;
+		GetDlgItem(IDC_EDT_PROPORTION)->GetWindowText(str);
+		if (str.IsEmpty())
+		{
+			m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+			SetDlgItemText(IDC_EDT_PROPORTION, m_strArrProportion[m_nChannelIndex]);
+		}
+		else
+		{
+			EditProportion();
+		}
+	}
+}
+
+//响应鼠标滚轮消息
+BOOL CLevelWnd::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: 在此添加消息处理程序代码和/或调用默认值
+	if (m_nFocusID == IDC_EDT_PROPORTION)
+	{
+		WheelProportion(nFlags, 0.0005f*zDelta);
+	}
+	else if (m_nFocusID == IDC_EDT_XLEFT)
+	{
+		WheelXLeft(nFlags, 0.01f*zDelta);
+	}
+	else if (m_nFocusID == IDC_EDT_XRIGHT)
+	{
+		WheelXRight(nFlags, 0.01f*zDelta);
+	}
+	else if (m_nFocusID == IDC_EDT_YTOP)
+	{
+		WheelYTop(nFlags, 0.01f*zDelta);
+	}
+	else if (m_nFocusID == IDC_EDT_YBOTTOM)
+	{
+		WheelYBottom(nFlags, 0.01f*zDelta);
+	}
+	return CWnd::OnMouseWheel(nFlags, zDelta, pt);
+}
+
+//鼠标滚轮XLeft响应
+void CLevelWnd::WheelXLeft(UINT nFlags, float zDelta)
+{
+	int nStr = m_arrLevelMapRect[m_nChannelIndex].left;
+	if (nFlags)
+	{
+		nStr -= int(zDelta);
+	}
+	else
+	{
+		nStr += int(zDelta);
+	}
+	nStr = nStr>m_fMinMatrix[m_nChannelIndex]?nStr:LONG(m_fMinMatrix[m_nChannelIndex]);
+	nStr = nStr<m_arrLevelMapRect[m_nChannelIndex].right-2?nStr:m_arrLevelMapRect[m_nChannelIndex].right-2;
+	m_arrLevelMapRect[m_nChannelIndex].left = nStr;
+	m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
+	UpdateData(FALSE);
+	XLeftGrayToCoordinate();
+	XLeftChangeCoordinate();
+	ProportionToXInflection();
+	XInflectionChangeCoordinate();
+	GrayMapping();
+	UpdateImage();
+	Invalidate();
+}
+
+//鼠标滚轮XRight响应
+void CLevelWnd::WheelXRight(UINT nFlags, float zDelta)
+{
+	int nStr = m_arrLevelMapRect[m_nChannelIndex].right;
+	if (nFlags)
+	{
+		nStr -= int(zDelta);
+	}
+	else
+	{
+		nStr += int(zDelta);
+	}
+	nStr = nStr<m_fMaxMatrix[m_nChannelIndex]?nStr:LONG(m_fMaxMatrix[m_nChannelIndex]);
+	nStr = nStr>m_arrLevelMapRect[m_nChannelIndex].left+2?nStr:m_arrLevelMapRect[m_nChannelIndex].left+2;
+	m_arrLevelMapRect[m_nChannelIndex].right = nStr;
+	m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
+	UpdateData(FALSE);
+	XRightGrayToCoordinate();
+	XRightChangeCoordinate();
+	ProportionToXInflection();
+	XInflectionChangeCoordinate();
+	GrayMapping();
+	UpdateImage();
+	Invalidate();
+}
+
+//鼠标滚轮XProportion响应
+void CLevelWnd::WheelProportion(UINT nFlags, float zDelta)
+{
+	float fStr = m_fArrProportion[m_nChannelIndex];
+	if (nFlags)
+	{
+		fStr -= zDelta;
+	}
+	else
+	{
+		fStr += zDelta;
+	}
+	fStr = fStr>0.01f?fStr:0.01f;
+	fStr = fStr<99.99f?fStr:99.99f;
+	m_fArrProportion[m_nChannelIndex] = fStr;
+	m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
+	UpdateData(FALSE);
+	ProportionToXInflection();
+	XInflectionChangeCoordinate();
+	GrayMapping();
+	UpdateImage();
+	Invalidate();
+}
+
+//鼠标滚轮YTop响应
+void CLevelWnd::WheelYTop(UINT nFlags, float zDelta)
+{
+	int nStr = m_arrLevelMapRect[m_nChannelIndex].top;
+	if (nFlags)
+	{
+		nStr -= int(zDelta);
+	}
+	else
+	{
+		nStr += int(zDelta);
+	}
+	nStr = nStr>0?nStr:0;
+	nStr = nStr<255?nStr:255;
+	m_arrLevelMapRect[m_nChannelIndex].top = nStr;
+	m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
+	UpdateData(FALSE);
+	YTopGrayToCoordinate();
+	YTopChangeCoordinate();
+	GrayMapping();
+	UpdateImage();
+	Invalidate();
+}
+
+//鼠标滚轮YBottom响应
+void CLevelWnd::WheelYBottom(UINT nFlags, float zDelta)
+{
+	int nStr = m_arrLevelMapRect[m_nChannelIndex].bottom;
+	if (nFlags)
+	{
+		nStr -= int(zDelta);
+	}
+	else
+	{
+		nStr += int(zDelta);
+	}
+	nStr = nStr>0?nStr:0;
+	nStr = nStr<255?nStr:255;
+	m_arrLevelMapRect[m_nChannelIndex].bottom = nStr;
+	m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
+	UpdateData(FALSE);
+	YBottomGrayToCoordinate();
+	YBottomChangeCoordinate();
+	GrayMapping();
+	UpdateImage();
+	Invalidate();
 }
 
 /************************************************************************/
 /*数据传递型函数                                                                                  */
 /************************************************************************/
+
 //获取图片
 CImage* CLevelWnd::GetImage()
 {
@@ -482,6 +1019,7 @@ CImage* CLevelWnd::GetImage()
 
 	return((CPIDocument*)pDoc)->GetImage();
 }
+
 //初始化灰度直方图
 void CLevelWnd::InitGrayValues()
 {
@@ -491,81 +1029,48 @@ void CLevelWnd::InitGrayValues()
 	int nHeight = m_pImage->GetHeight();
 	BYTE* pImageData = (BYTE*)m_pImage->GetBits();
 	int nPitch = m_pImage->GetPitch();
-	int nBitCount = m_pImage->GetBPP();
-	nBitCount = nBitCount/8;
-	// 	m_ftMinMatrix[0]=m_ftMaxMatrix[0]=*(pImageData);
-	// 	m_ftMinMatrix[1]=m_ftMaxMatrix[1]=*(pImageData+1);
-	// 	m_ftMinMatrix[2]=m_ftMaxMatrix[2]=*(pImageData+2);
-	// 	m_ftMinMatrix[3]=m_ftMaxMatrix[3]=(*(pImageData))*0.3f+(*(pImageData+1))*0.59f+(*(pImageData+2))*0.11f;
-	// 	for (int j=0; j<nHeight; ++j)
-	// 	{
-	// 		for (int i=0; i<nWidth; ++i)
-	// 		{
-	// 			int nPixelIndex = j * nPitch + i * nBitCount;
-	// 			BYTE* pPixel = pImageData +nPixelIndex;
-	// 			for (int k=0; k<3; ++k)
-	// 			{
-	// 				if (*(pPixel+k)>m_ftMaxMatrix[k])
-	// 				{
-	// 					m_ftMaxMatrix[k] = *(pPixel+k);
-	// 				}
-	// 				if (*(pPixel+k)<m_ftMinMatrix[k])
-	// 				{
-	// 					m_ftMinMatrix[k] = *(pPixel+k);
-	// 				}
-	// 			}
-	// 			if ((*(pPixel))*0.3+(*(pPixel+1))*0.59+(*(pPixel+2))*0.11>m_ftMaxMatrix[3])
-	// 			{
-	// 				m_ftMaxMatrix[3] = (*(pPixel))*0.3f+(*(pPixel+1))*0.59f+(*(pPixel+2))*0.11f;
-	// 			}
-	// 			if ((*(pPixel))*0.3+(*(pPixel+1))*0.59+(*(pPixel+2))*0.11<m_ftMinMatrix[3])
-	// 			{
-	// 				m_ftMinMatrix[3] = (*(pPixel))*0.3f+(*(pPixel+1))*0.59f+(*(pPixel+2))*0.11f;
-	// 			}
-	// 		}
-	// 	}
-	for (int t=0;t<4;++t)
+	int nBitCount = m_pImage->GetBPP() / 8;
+	for (int t=0; t<4; t++)
 	{
-		m_arrLevelMapRect[t].left = LONG(m_ftMinMatrix[t]);
-		m_arrLevelMapRect[t].right = LONG(m_ftMaxMatrix[t]);
-		if (m_ftMaxMatrix[t]!=m_ftMinMatrix[t])
+		m_arrLevelMapRect[t].left = LONG(m_fMinMatrix[t]);
+		m_arrLevelMapRect[t].right = LONG(m_fMaxMatrix[t]);
+		if (m_fMaxMatrix[t]!=m_fMinMatrix[t])
 		{
-			m_ftTranslateProportion[t] = 256.0f/(m_ftMaxMatrix[t]-m_ftMinMatrix[t]+1);
+			m_fTranslateProportion[t] = 256.0f/(m_fMaxMatrix[t]-m_fMinMatrix[t]+1);
 		}
 		else
 		{
-			m_ftTranslateProportion[t] = NULL;
+			m_fTranslateProportion[t] = NULL;
 		}
 	}
-
-	for (int j=0; j<nHeight; ++j)
+	for (int j=0; j<nHeight; j++)
 	{
-		for (int i=0; i<nWidth; ++i)
+		for (int i=0; i<nWidth; i++)
 		{
 			int nPixelIndex = j * nPitch + i * nBitCount;
 			BYTE* pPixel = pImageData +nPixelIndex;
-			for (int nIndex = 0; nIndex<4; ++nIndex)
+			for (int nIndex=0; nIndex<4; nIndex++)
 			{
-				if (nIndex!=3)
+				if (nIndex != 3)
 				{
-					if (m_ftTranslateProportion[nIndex]!=NULL)
+					if (m_fTranslateProportion[nIndex] != NULL)
 					{
-						++m_arrGrayValues[nIndex][int(((*(pPixel+nIndex))-m_ftMinMatrix[nIndex])*m_ftTranslateProportion[nIndex])];
+						++m_arrGrayValues[nIndex][int(((*(pPixel+nIndex))-m_fMinMatrix[nIndex])*m_fTranslateProportion[nIndex])];
 					}
 					else
 					{
-						++m_arrGrayValues[nIndex][int(m_ftMinMatrix[nIndex])];
+						++m_arrGrayValues[nIndex][int(m_fMinMatrix[nIndex])];
 					}
 				}
 				else
 				{
-					if (m_ftTranslateProportion[nIndex]!=NULL)
+					if (m_fTranslateProportion[nIndex]!=NULL)
 					{
-						++m_arrGrayValues[nIndex][int((((*(pPixel)+0.5)*0.3+(*(pPixel+1)+0.5)*0.59+(*(pPixel+2)+0.5)*0.11)-m_ftMinMatrix[nIndex])*m_ftTranslateProportion[nIndex])];
+						++m_arrGrayValues[nIndex][int((((*(pPixel)+0.5)*0.3+(*(pPixel+1)+0.5)*0.59+(*(pPixel+2)+0.5)*0.11)-m_fMinMatrix[nIndex])*m_fTranslateProportion[nIndex])];
 					}
 					else
 					{
-						++m_arrGrayValues[nIndex][int(m_ftMinMatrix[nIndex])];
+						++m_arrGrayValues[nIndex][int(m_fMinMatrix[nIndex])];
 					}
 				}
 			}
@@ -573,18 +1078,19 @@ void CLevelWnd::InitGrayValues()
 	}
 	float ftScale = 1.0f/(nWidth*nHeight);
 	float ftLog = 1/log(1.03f);
-	for (int k=0; k<256; ++k)
+	for (int k=0; k<256; k++)
 	{
-		m_arrGrayValues[0][k] =log(1+m_arrGrayValues[0][k]*ftScale)*ftLog;
+		m_arrGrayValues[0][k] = log(1+m_arrGrayValues[0][k]*ftScale)*ftLog;
 		m_arrGrayValues[1][k] = log(1+m_arrGrayValues[1][k]*ftScale)*ftLog;
 		m_arrGrayValues[2][k] = log(1+m_arrGrayValues[2][k]*ftScale)*ftLog;
 		m_arrGrayValues[3][k] = log(1+m_arrGrayValues[3][k]*ftScale)*ftLog;
 	}
 }
+
 //初始化灰度映射表
 void CLevelWnd::InitGrayMap()
 {
-	for (int nIndex = 0; nIndex < 256; ++nIndex)
+	for (int nIndex=0; nIndex<256; nIndex++)
 	{
 		m_arrLevelMap[0][nIndex] = nIndex;
 		m_arrLevelMap[1][nIndex] = nIndex;
@@ -592,73 +1098,65 @@ void CLevelWnd::InitGrayMap()
 		m_arrLevelMap[3][nIndex] = nIndex;
 	}
 }
+
 //初始化几何&灰度映射范围
 void CLevelWnd::InitMapRect(const CRect& rect)
 {
-	for(int nIndex = 0; nIndex<4; ++nIndex)
+	for (int nIndex=0; nIndex<4; nIndex++)
 	{
-		m_arrCoordinateRact[nIndex] =CRect(rect.left, rect.left, rect.right, rect.right) ;
-		m_arrXInflection[nIndex] =int(m_arrCoordinateRact[nIndex].left+0.5*m_arrCoordinateRact[nIndex].Width());
-		m_ftArrProportion[nIndex] = 1.00f;
-		m_strArrProportion[nIndex].Format(_T("%.2f"), m_ftArrProportion[nIndex]);
-		m_ftMinMatrix[nIndex] = 0;
-		m_ftMaxMatrix[nIndex]  = 255;
+		m_arrCoordinateRact[nIndex] = CRect(rect.left, rect.left, rect.right, rect.right) ;
+		m_arrXInflection[nIndex] = int(m_arrCoordinateRact[nIndex].left+0.5*m_arrCoordinateRact[nIndex].Width());
+		m_fArrProportion[nIndex] = 1.00f;
+		m_strArrProportion[nIndex].Format(_T("%.2f"), m_fArrProportion[nIndex]);
+		m_fMinMatrix[nIndex] = 0;
+		m_fMaxMatrix[nIndex]  = 255;
 		m_arrLevelMapRect[nIndex] = CRect(0,0,255,255);
-		m_ftTranslateProportion[nIndex]  = 1;
+		m_strLevelMapLeft[nIndex].Format(_T("%d"), m_arrLevelMapRect[nIndex].left);
+		m_strLevelMapRight[nIndex].Format(_T("%d"), m_arrLevelMapRect[nIndex].right);
+		m_strLevelMapTop[nIndex].Format(_T("%d"), m_arrLevelMapRect[nIndex].top);
+		m_strLevelMapBottom[nIndex].Format(_T("%d"), m_arrLevelMapRect[nIndex].bottom);
+		m_fTranslateProportion[nIndex]  = 1;
 	}
 }
+
 //绘制直方图
 void CLevelWnd::DrawHistogram(CDC& memDC)
 {
 	CRect drawRect = &m_Items.at(m_nHistogramIndex).m_Rect;
 	CPen pen(PS_SOLID, 1, RGB(200, 200, 200));
-	CBrush Brush(GetSysColor(COLOR_3DFACE));
+	CBrush brush(GetSysColor(COLOR_3DFACE));
 	memDC.SelectObject(pen);
-	memDC.SelectObject(Brush);
+	memDC.SelectObject(brush);
 	memDC.Rectangle(drawRect);
-	float ftStepLength = drawRect.Width()/256.0f;
-	float ftLeft = 1.0f*drawRect.left;
+	float fStepLength = drawRect.Width()/256.0f;
+	float fLeft = 1.0f*drawRect.left;
 	int nTop = int(drawRect.bottom - m_arrGrayValues[m_nChannelIndex][0]*drawRect.Height());
 	nTop = nTop > drawRect.top ? nTop : drawRect.top;
-	memDC.FillSolidRect(CRect(int(ftLeft), nTop, int(ftLeft+ftStepLength), drawRect.bottom), DrawColor());
-	for (int i = 1; i < 255; ++i, ftLeft+=ftStepLength)
+	memDC.FillSolidRect(CRect(int(fLeft), nTop, int(fLeft+fStepLength), drawRect.bottom), DrawColor());
+	for (int i=1; i<255; i++, fLeft += fStepLength)
 	{
-// 		if (m_arrGrayValues[m_nChannelIndex][i]==0&&m_arrGrayValues[m_nChannelIndex][i-1]!=0&&m_arrGrayValues[m_nChannelIndex][i+1]!=0)
-// 		{
-// 			float iGrayValue = m_arrGrayValues[m_nChannelIndex][i-1]+m_arrGrayValues[m_nChannelIndex][i+1];
-// 			m_arrGrayValues[m_nChannelIndex][i-1]=0.3f*iGrayValue;
-// 			nTop = int(drawRect.bottom - m_arrGrayValues[m_nChannelIndex][i-1]*drawRect.Height());
-// 			nTop = nTop > drawRect.top ? nTop : drawRect.top;
-// 			memDC.FillSolidRect(CRect(int(ftLeft-ftStepLength), drawRect.top, int(ftLeft), drawRect.bottom), GetSysColor(COLOR_3DFACE));
-// 			memDC.FillSolidRect(CRect(int(ftLeft-ftStepLength), int(nTop), int(ftLeft), drawRect.bottom), DrawColor());
-// 			m_arrGrayValues[m_nChannelIndex][i]=0.4f*iGrayValue;
-// 			nTop = int(drawRect.bottom - m_arrGrayValues[m_nChannelIndex][i]*drawRect.Height());
-// 			nTop = nTop > drawRect.top ? nTop : drawRect.top;
-// 			memDC.FillSolidRect(CRect(int(ftLeft), int(nTop), int(ftLeft+ftStepLength), drawRect.bottom), DrawColor());
-// 			m_arrGrayValues[m_nChannelIndex][i+1]=0.3f*iGrayValue;
-// 			++i;
-// 			ftLeft+=ftStepLength;
-// 		}
 		nTop = int(drawRect.bottom - m_arrGrayValues[m_nChannelIndex][i]*drawRect.Height()+0.5);
 		nTop = nTop > drawRect.top ? nTop : drawRect.top;
-		memDC.FillSolidRect(CRect(int(ftLeft), int(nTop), int(ftLeft+ftStepLength), drawRect.bottom), DrawColor());
+		memDC.FillSolidRect(CRect(int(fLeft), int(nTop), int(fLeft+fStepLength), drawRect.bottom), DrawColor());
 	}
 	nTop = int(drawRect.bottom - m_arrGrayValues[m_nChannelIndex][255]*drawRect.Height()+0.5);
 	nTop = nTop > drawRect.top ? nTop : drawRect.top;
-	memDC.FillSolidRect(CRect(int(ftLeft), nTop, int(ftLeft+ftStepLength), drawRect.bottom), DrawColor());
+	memDC.FillSolidRect(CRect(int(fLeft), nTop, int(fLeft+fStepLength), drawRect.bottom), DrawColor());
 }
+
 //绘制灰度条
 void CLevelWnd::DrawBar(CDC& MemDC)
 {
 	CRect barRect = m_Items.at(m_nBarIndex).m_Rect;
-	float stepLength =barRect.Width()/256.0f;
+	float fStepLength =barRect.Width()/256.0f;
 	float left = 1.0f*barRect.left;
-	for (int color = 0; color<256;color++,left+=stepLength)
+	for (int color=0; color<256; color++, left+=fStepLength)
 	{
-		CBrush Brush(RGB(color, color, color));
-		MemDC.FillRect(CRect(int(left), barRect.top, int(left+stepLength), barRect.bottom), &Brush);
+		CBrush brush(RGB(color, color, color));
+		MemDC.FillRect(CRect(int(left), barRect.top, int(left+fStepLength), barRect.bottom), &brush);
 	}
 }
+
 //设定直方图颜色
 COLORREF CLevelWnd::DrawColor()
 {
@@ -676,13 +1174,14 @@ COLORREF CLevelWnd::DrawColor()
 		return RGB(255, 255, 255);
 	}
 }
+
 //创建控件
 void CLevelWnd::NewItems()
 {
 	CRect rect;
 	GetClientRect(&rect);
 	CString str;
-	for(UINT nIndex = 0; nIndex < m_Items.size(); ++nIndex)
+	for (UINT nIndex=0; nIndex<m_Items.size(); nIndex++)
 	{
 		const ItemType& eType = m_Items.at(nIndex).m_eType;
 		const ItemPosition& ePosition = m_Items.at(nIndex).m_ePosition;
@@ -703,7 +1202,7 @@ void CLevelWnd::NewItems()
 		case LEVEL_COMBOBOX:
 			pItem = new CComboBox();
 			((CComboBox*)pItem)->Create(WS_CHILD | WS_VISIBLE | CBS_DROPDOWNLIST, itemRect, this, nID);
-			for (int nCount = 0;nCount<nSourveNum; ++nCount)
+			for (int nCount=0; nCount<nSourveNum; nCount++)
 			{
 				str.LoadString((nSourceID+nCount));
 				((CComboBox*)pItem)->InsertString(nCount, str);  
@@ -721,12 +1220,7 @@ void CLevelWnd::NewItems()
 			break;
 		case LEVEL_BAR:
 			break;
-		case LEVEL_EDIT_NUM:
-			pItem = new CEdit();
-			((CEdit*)pItem)->Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_TABSTOP|ES_LEFT|ES_AUTOHSCROLL |ES_NUMBER, itemRect, this, nID);
-			pItem->SetFont(&m_CtrlFont);
-			break;
-		case LEVEL_EDIT_CTRL:
+		case LEVEL_EDIT:
 			pItem = new CEdit();
 			((CEdit*)pItem)->Create(ES_MULTILINE | WS_CHILD | WS_VISIBLE | WS_TABSTOP|ES_AUTOHSCROLL |ES_LEFT, itemRect, this, nID);
 			pItem->SetFont(&m_CtrlFont);
@@ -750,42 +1244,40 @@ void CLevelWnd::NewItems()
 			break;
 		}
 	}
-	// 	CString str2;
-	// 	str2.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-	// 	SetDlgItemText(IDC_EDT_PROPORTION,str2);
 	UpdateData(FALSE);
 }
+
 //灰度映射
 void CLevelWnd::GrayMapping()
 {
 	const CRect& mappingSpace = m_arrLevelMapRect[m_nChannelIndex];
-	const float& ftProportion = m_ftArrProportion[m_nChannelIndex];
+	const float& fProportion = m_fArrProportion[m_nChannelIndex];
 	int nInflectionGrayY = int(mappingSpace.top+0.5*mappingSpace.Height());
-	int nInflectionGrayX ; int nLeftGrayX; int nRightGrayX;
-	if (m_ftTranslateProportion[m_nChannelIndex]!=NULL)
+	int nInflectionGrayX, nLeftGrayX, nRightGrayX;
+	if (m_fTranslateProportion[m_nChannelIndex]!=NULL)
 	{
-		nInflectionGrayX = int((mappingSpace.Width()*ftProportion/(1.0f+ftProportion)+mappingSpace.left-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex]);
-		nLeftGrayX = int((mappingSpace.left-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex]);
-		nRightGrayX = int((mappingSpace.right-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex]);
+		nInflectionGrayX = int((mappingSpace.Width()*fProportion/(1.0f+fProportion)+mappingSpace.left-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex]);
+		nLeftGrayX = int((mappingSpace.left-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex]);
+		nRightGrayX = int((mappingSpace.right-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex]);
 	}
 	else
 	{
-		if (m_ftMinMatrix[m_nChannelIndex] < 0)
+		if (m_fMinMatrix[m_nChannelIndex] < 0)
 		{
 			nInflectionGrayX = nLeftGrayX = nRightGrayX = 0;
 		}
-		else if (m_ftMinMatrix[m_nChannelIndex] > 255)
+		else if (m_fMinMatrix[m_nChannelIndex] > 255)
 		{
 			nInflectionGrayX = nLeftGrayX = nRightGrayX = 255;
 		}
 		else
 		{
-			nInflectionGrayX = nLeftGrayX = nRightGrayX = int(m_ftMinMatrix[m_nChannelIndex]);
+			nInflectionGrayX = nLeftGrayX = nRightGrayX = int(m_fMinMatrix[m_nChannelIndex]);
 		}
 	}
-	float ftStepLengthLeft = 0.5f*mappingSpace.Height()/(nInflectionGrayX-nLeftGrayX);
-	float ftStepLengthRight = 0.5f*mappingSpace.Height()/(nRightGrayX-nInflectionGrayX);
-	for (int nCount = 0; nCount <256; ++nCount)
+	float fStepLengthLeft = 0.5f*mappingSpace.Height()/(nInflectionGrayX-nLeftGrayX);
+	float fStepLengthRight = 0.5f*mappingSpace.Height()/(nRightGrayX-nInflectionGrayX);
+	for (int nCount=0; nCount<256; nCount++)
 	{
 		if (nCount < nLeftGrayX)
 		{
@@ -793,11 +1285,11 @@ void CLevelWnd::GrayMapping()
 		}
 		else if (nCount >= nLeftGrayX && nCount < nInflectionGrayX)
 		{
-			m_arrLevelMap[m_nChannelIndex][nCount] = int(mappingSpace.top+(nCount-nLeftGrayX)*ftStepLengthLeft);
+			m_arrLevelMap[m_nChannelIndex][nCount] = int(mappingSpace.top+(nCount-nLeftGrayX)*fStepLengthLeft);
 		}
 		else if (nCount >= nInflectionGrayX && nCount < nRightGrayX)
 		{
-			m_arrLevelMap[m_nChannelIndex][nCount] = int(nInflectionGrayY+(nCount-nInflectionGrayX)*ftStepLengthRight);
+			m_arrLevelMap[m_nChannelIndex][nCount] = int(nInflectionGrayY+(nCount-nInflectionGrayX)*fStepLengthRight);
 		}
 		else
 		{
@@ -805,12 +1297,13 @@ void CLevelWnd::GrayMapping()
 		}
 	}
 }
+
 //设置控件位置
 BOOL CLevelWnd::SetItemPosition(const CRect& newRect, const UINT& nIndex)
 {
 	const ItemPosition& ePosition = m_Items.at(nIndex).m_ePosition;
 	CRect& itemRect = m_Items.at(nIndex).m_Rect;
-	switch(ePosition)
+	switch (ePosition)
 	{
 	case LEFT_STATIC:
 		return TRUE;
@@ -822,21 +1315,8 @@ BOOL CLevelWnd::SetItemPosition(const CRect& newRect, const UINT& nIndex)
 			nWidthChange = nWidthChange<=0?1:nWidthChange;
 			int nHeightChange = newRect.Height()-itemRect.top-nBottomMargin;
 			nHeightChange = nHeightChange<=0?1:nHeightChange;
-			// 			itemRect.right = itemRect.Width()<=0?(itemRect.left+1):(itemRect.left+itemRect.Width());
-			// 			itemRect.bottom = itemRect.Height()<=0?(itemRect.top+1):(itemRect.top+itemRect.Height());
-			// 			itemRect.right = itemRect.left+nWidthChange;
-			// 			itemRect.bottom = itemRect.top+nHeightChange;
-// 			int nJudgement = nWidthChange*itemRect.Height()/itemRect.Width();
-// 			if (nJudgement<=nHeightChange)
-// 			{
- 				itemRect.right = LONG(nWidthChange)+itemRect.left;
-// 				itemRect.bottom = LONG(nJudgement)+itemRect.top;
-// 			}
-// 			else
-// 			{
- // 				itemRect.right = LONG(nHeightChange*itemRect.Width()/itemRect.Height())+itemRect.left;
-				itemRect.bottom = LONG(nHeightChange)+itemRect.top;
-// 			}
+			itemRect.right = LONG(nWidthChange)+itemRect.left;
+			itemRect.bottom = LONG(nHeightChange)+itemRect.top;
 			return FALSE;
 		}
 	case RIGHT_STATIC:
@@ -886,6 +1366,7 @@ BOOL CLevelWnd::SetItemPosition(const CRect& newRect, const UINT& nIndex)
 		return FALSE;
 	}
 }
+
 //更新图片
 BOOL CLevelWnd::UpdateImage()
 {
@@ -899,33 +1380,33 @@ BOOL CLevelWnd::UpdateImage()
 	BYTE* pCopyImageData = (BYTE*)m_CopyImage.GetBits();
 	int nPitch = m_pImage->GetPitch();
 	int nBitCount = m_pImage->GetBPP() / 8;
-
-	for (int j=0; j<nHeight; ++j)
+	for (int j=0; j<nHeight; j++)
 	{
-		for (int i=0; i<nWidth; ++i)
+		for (int i=0; i<nWidth; i++)
 		{
 			int nPixelIndex = j * nPitch + i * nBitCount;
 			BYTE* pPixel = pImageData +nPixelIndex;
 			BYTE* pCopyPixel = pCopyImageData +nPixelIndex;
 			if (m_nChannelIndex == 3)
 			{
-				*(pPixel) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel))-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex])];
-				*(pPixel+1) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+1))-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex])];
-				*(pPixel+2) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+2))-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex])];			
+				*(pPixel) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel))-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex])];
+				*(pPixel+1) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+1))-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex])];
+				*(pPixel+2) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+2))-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex])];			
 			}
 			else
 			{
-				*(pPixel+m_nChannelIndex) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+m_nChannelIndex))-m_ftMinMatrix[m_nChannelIndex])*m_ftTranslateProportion[m_nChannelIndex])];
+				*(pPixel+m_nChannelIndex) = m_arrLevelMap[m_nChannelIndex][int(((*(pCopyPixel+m_nChannelIndex))-m_fMinMatrix[m_nChannelIndex])*m_fTranslateProportion[m_nChannelIndex])];
 			}
 		}
 	}
 	PIGetActiveView()->Invalidate();
 	return TRUE;
 }
+
 //拷贝图片
 BOOL CLevelWnd::ImageCopy(const CImage& m_Image, CImage& m_CopyImage)
 {
-	if(m_Image.IsNull())
+	if (m_Image.IsNull())
 		return FALSE;
 	//源图像参数
 	int nWidth = m_Image.GetWidth();
@@ -934,12 +1415,12 @@ BOOL CLevelWnd::ImageCopy(const CImage& m_Image, CImage& m_CopyImage)
 	int nPitch = m_Image.GetPitch();
 	int nBitCount = m_Image.GetBPP();
 	//销毁原有图像
-	if( !m_CopyImage.IsNull())
+	if (!m_CopyImage.IsNull())
 	{
 		m_CopyImage.Destroy();
 	}
 	//创建新图像
-	if(nBitCount == 32)   //支持alpha通道
+	if (nBitCount == 32)   //支持alpha通道
 	{
 		m_CopyImage.Create(nWidth, nHeight, nBitCount, 1);
 	}
@@ -948,37 +1429,41 @@ BOOL CLevelWnd::ImageCopy(const CImage& m_Image, CImage& m_CopyImage)
 		m_CopyImage.Create(nWidth, nHeight, nBitCount, 0);
 	}
 	//加载调色板
-	if(nBitCount<=8&&m_Image.IsIndexed())//需要调色板
+	if (nBitCount <= 8 && m_Image.IsIndexed())//需要调色板
 	{
 		RGBQUAD pal[256];
 		int nColors=m_Image.GetMaxColorTableEntries();
-		if(nColors>0)
+		if (nColors>0)
 		{     
 			m_Image.GetColorTable(0,nColors,pal);
 			m_CopyImage.SetColorTable(0,nColors,pal);//复制调色板程序
 		}   
 	} 
 	//目标图像参数
-	BYTE *pCopyImageData=(BYTE*)m_CopyImage.GetBits();
-	int nCopyPitch=m_CopyImage.GetPitch();
+	BYTE *pCopyImageData = (BYTE*)m_CopyImage.GetBits();
+	int nCopyPitch = m_CopyImage.GetPitch();
 	//复制图像数据
-	for(int i=0 ; i<nHeight;i++)
+	for (int i=0; i<nHeight; i++)
 	{
 		memcpy( pCopyImageData+i*nCopyPitch, pImageData+i*nPitch, abs(nPitch) );
 	} 
 	return TRUE;
 }
+
 //判断输入
 BOOL CLevelWnd::CheckNum(CString str)
 {
 	bool bNumFlag = true;
 	bool bFloatFlag = false;
-	for(int i=0;i<str.GetLength();i++)
+	for (int i=0; i<str.GetLength(); i++)
 	{
-		if(((int)str.GetAt(i)>=48&&(int)str.GetAt(i)<=57))continue;	
-		else if(str.GetAt(i)=='.')
+		if (int(str.GetAt(i)) >= 48 && int(str.GetAt(i)) <= 57)
 		{
-			if(bFloatFlag)
+				continue;
+		}
+		else if (str.GetAt(i) == '.')
+		{
+			if (bFloatFlag)
 			{
 				bNumFlag = false;
 				break; 
@@ -988,7 +1473,6 @@ BOOL CLevelWnd::CheckNum(CString str)
 				bFloatFlag = true;
 				continue;
 			}
-
 		}
 		else
 		{
@@ -1000,6 +1484,7 @@ BOOL CLevelWnd::CheckNum(CString str)
 }
 
 //坐标转灰度
+
 //Wnd调用坐标转灰度
 void CLevelWnd::CoordinateToGray(UINT nID, LONG center)
 {
@@ -1032,114 +1517,120 @@ void CLevelWnd::CoordinateToGray(UINT nID, LONG center)
 	default:
 		break;
 	}
-// 	CString str;
-// 	str.Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
-// 	SetDlgItemText(IDC_EDT_PROPORTION,str);
 	UpdateData(FALSE);
 }
+
 //xLeft坐标转xLeft灰度值
 void CLevelWnd::XLeftCoordinateToGray()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nXLeftCoordinate = m_arrCoordinateRact[m_nChannelIndex].left;
-	float ftScale = 255.0f/wholeRect.Width();
-	m_arrLevelMapRect[m_nChannelIndex].left = int((nXLeftCoordinate-wholeRect.left)*ftScale);
-	UpdateData(FALSE);
+	float fScale = 255.0f/wholeRect.Width();
+	m_arrLevelMapRect[m_nChannelIndex].left = int((nXLeftCoordinate-wholeRect.left)*fScale);
+	m_strLevelMapLeft[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].left);
 }
+
 //xRight坐标转xRight灰度值
 void CLevelWnd::XRightCoordinateToGray()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nXRightCoordinate = m_arrCoordinateRact[m_nChannelIndex].right;
-	float ftScale = 255.0f/wholeRect.Width();
-	m_arrLevelMapRect[m_nChannelIndex].right = int((nXRightCoordinate-wholeRect.left)*ftScale);
-	UpdateData(FALSE);
+	float fScale = 255.0f/wholeRect.Width();
+	m_arrLevelMapRect[m_nChannelIndex].right = int((nXRightCoordinate-wholeRect.left)*fScale);
+	m_strLevelMapRight[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].right);
 }
+
 //拐点x坐标转拐点比例
 void CLevelWnd::XInflectionToProportion()
 {
 	const CRect& coordinateRact = m_arrCoordinateRact[m_nChannelIndex];
 	int& nInflection_x = m_arrXInflection[m_nChannelIndex];
-	//nInflection_x = nInflection_x<=coordinateRact.left?(coordinateRact.left+2):nInflection_x;
-	//nInflection_x = nInflection_x>=coordinateRact.right?(coordinateRact.right-2):nInflection_x;
-	m_ftArrProportion[m_nChannelIndex] =1.0f* (nInflection_x-coordinateRact.left)/(coordinateRact.right-nInflection_x);
-	m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_ftArrProportion[m_nChannelIndex]);
+	m_fArrProportion[m_nChannelIndex] = 1.0f* (nInflection_x-coordinateRact.left)/(coordinateRact.right-nInflection_x);
+	m_strArrProportion[m_nChannelIndex].Format(_T("%.2f"), m_fArrProportion[m_nChannelIndex]);
 }
+
 //yTop坐标转yTop灰度值
 void CLevelWnd:: YTopCoordinateToGray()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nYTopCoordinate = m_arrCoordinateRact[m_nChannelIndex].top;
-	float ftScale = 255.0f/wholeRect.Width();
-	m_arrLevelMapRect[m_nChannelIndex].top = int((nYTopCoordinate-wholeRect.left)*ftScale);
+	float fScale = 255.0f/wholeRect.Width();
+	m_arrLevelMapRect[m_nChannelIndex].top = int((nYTopCoordinate-wholeRect.left)*fScale);
+	m_strLevelMapTop[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].top);
 }
+
 //yBottom坐标转yBottom灰度值
 void CLevelWnd::YBottomCoordinateToGray()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nYBottomCoordinate = m_arrCoordinateRact[m_nChannelIndex].bottom;
-	float ftScale = 255.0f/wholeRect.Width();
-	m_arrLevelMapRect[m_nChannelIndex].bottom = int((nYBottomCoordinate-wholeRect.left)*ftScale);
+	float fScale = 255.0f/wholeRect.Width();
+	m_arrLevelMapRect[m_nChannelIndex].bottom = int((nYBottomCoordinate-wholeRect.left)*fScale);
+	m_strLevelMapBottom[m_nChannelIndex].Format(_T("%d"), m_arrLevelMapRect[m_nChannelIndex].bottom);
 }
 
 //灰度转坐标
+
 //xLeft灰度值转xLeft坐标
 void CLevelWnd::XLeftGrayToCoordinate()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nXLeftGray = m_arrLevelMapRect[m_nChannelIndex].left;
-	if (m_ftTranslateProportion[m_nChannelIndex]!=NULL)
+	if (m_fTranslateProportion[m_nChannelIndex]!=NULL)
 	{
-		float ftScale = wholeRect.Width()/(m_ftMaxMatrix[m_nChannelIndex]-m_ftMinMatrix[m_nChannelIndex]+1);
-		m_arrCoordinateRact[m_nChannelIndex].left =int((nXLeftGray-m_ftMinMatrix[m_nChannelIndex])*ftScale+wholeRect.left+0.5*ftScale);
+		float fScale = wholeRect.Width()/(m_fMaxMatrix[m_nChannelIndex]-m_fMinMatrix[m_nChannelIndex]+1);
+		m_arrCoordinateRact[m_nChannelIndex].left =int((nXLeftGray-m_fMinMatrix[m_nChannelIndex])*fScale+wholeRect.left+0.5*fScale);
 	}
 	else
 	{
 		m_arrCoordinateRact[m_nChannelIndex].left = wholeRect.left;
 	}
 }
+
 //xRight灰度值转xRight坐标
 void CLevelWnd::XRightGrayToCoordinate()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nXRightGray = m_arrLevelMapRect[m_nChannelIndex].right;
-	if (m_ftTranslateProportion[m_nChannelIndex]!=NULL)
+	if (m_fTranslateProportion[m_nChannelIndex] != NULL)
 	{
-		float ftScale = wholeRect.Width()/(m_ftMaxMatrix[m_nChannelIndex]-m_ftMinMatrix[m_nChannelIndex]+1);
-		m_arrCoordinateRact[m_nChannelIndex].right =int((nXRightGray-m_ftMinMatrix[m_nChannelIndex])*ftScale+wholeRect.left+0.5*ftScale);
+		float fScale = wholeRect.Width()/(m_fMaxMatrix[m_nChannelIndex]-m_fMinMatrix[m_nChannelIndex]+1);
+		m_arrCoordinateRact[m_nChannelIndex].right = int((nXRightGray-m_fMinMatrix[m_nChannelIndex])*fScale+wholeRect.left+0.5*fScale);
 	}
 	else
 	{
 		m_arrCoordinateRact[m_nChannelIndex].right = wholeRect.right;
 	}
 }
+
 //拐点比例转拐点x坐标
 void CLevelWnd::ProportionToXInflection()
 {
 	const CRect& coordinateRact = m_arrCoordinateRact[m_nChannelIndex];
-	float& ftProportion = m_ftArrProportion[m_nChannelIndex];
-	//ftProportion = ftProportion<=0?0.01f:ftProportion;
-	//ftProportion = ftProportion>=256? 256.0f:ftProportion;
-	m_arrXInflection[m_nChannelIndex] = 	int(coordinateRact.Width()*ftProportion/(1.0f+ftProportion)+coordinateRact.left);
+	float& fProportion = m_fArrProportion[m_nChannelIndex];
+	m_arrXInflection[m_nChannelIndex] = int(coordinateRact.Width()*fProportion/(1.0f+fProportion)+coordinateRact.left);
 }
+
 //yTop灰度值转yTop坐标
 void CLevelWnd::YTopGrayToCoordinate()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nYTopGray = m_arrLevelMapRect[m_nChannelIndex].top;
 	float ftScale = wholeRect.Width()/256.0f;
-	m_arrCoordinateRact[m_nChannelIndex].top =int(nYTopGray*ftScale+wholeRect.left+0.5*ftScale);
+	m_arrCoordinateRact[m_nChannelIndex].top = int(nYTopGray*ftScale+wholeRect.left+0.5*ftScale);
 }
+
 //yBottom灰度值转yBottom坐标
 void CLevelWnd::YBottomGrayToCoordinate()
 {
 	const CRect& wholeRect = m_Items.at(m_nHistogramIndex).m_Rect;
 	const int& nYBottomGray = m_arrLevelMapRect[m_nChannelIndex].bottom;
 	float ftScale = wholeRect.Width()/256.0f;
-	m_arrCoordinateRact[m_nChannelIndex].bottom =int(nYBottomGray*ftScale+wholeRect.left+0.5*ftScale);
+	m_arrCoordinateRact[m_nChannelIndex].bottom = int(nYBottomGray*ftScale+wholeRect.left+0.5*ftScale);
 }
 
 //更新坐标
+
 //更新xLeft坐标
 void CLevelWnd::XLeftChangeCoordinate()
 {
@@ -1148,9 +1639,13 @@ void CLevelWnd::XLeftChangeCoordinate()
 	int nXLeftWidth = XLeftRect.Width();
 	XLeftRect.left = LONG(nNewCenter-0.5*nXLeftWidth);
 	XLeftRect.right = LONG(nNewCenter+0.5*nXLeftWidth);
-	CWnd*& pXLeft = m_Items.at(m_nSliderXLeftIndex).m_pItem;
-	pXLeft->MoveWindow(XLeftRect);
+	CWnd* pXLeft = m_Items.at(m_nSliderXLeftIndex).m_pItem;
+	if (pXLeft != NULL)
+	{
+		pXLeft->MoveWindow(XLeftRect);
+	}
 }
+
 //更新xRight坐标
 void CLevelWnd::XRightChangeCoordinate()
 {
@@ -1159,9 +1654,13 @@ void CLevelWnd::XRightChangeCoordinate()
 	int nXRightWidth = XRightRect.Width();
 	XRightRect.left = LONG(nNewCenter-0.5*nXRightWidth);
 	XRightRect.right = LONG(nNewCenter+0.5*nXRightWidth);
-	CWnd*& pXLeft = m_Items.at(m_nSliderXRightIndex).m_pItem;
-	pXLeft->MoveWindow(XRightRect);
+	CWnd* pXRight = m_Items.at(m_nSliderXRightIndex).m_pItem;
+	if (pXRight != NULL)
+	{
+		pXRight->MoveWindow(XRightRect);
+	}
 }
+
 //更新拐点坐标
 void CLevelWnd::XInflectionChangeCoordinate()
 {
@@ -1170,9 +1669,13 @@ void CLevelWnd::XInflectionChangeCoordinate()
 	int nXInflectionWidth = XInflectionRect.Width();
 	XInflectionRect.left = LONG(nNewCenter-0.5*nXInflectionWidth);
 	XInflectionRect.right = LONG(nNewCenter+0.5*nXInflectionWidth);
-	CWnd*& pXInflection = m_Items.at(m_nSliderXInflectionIndex).m_pItem;
-	pXInflection->MoveWindow(XInflectionRect);
+	CWnd* pXInflection = m_Items.at(m_nSliderXInflectionIndex).m_pItem;
+	if (pXInflection != NULL)
+	{
+		pXInflection->MoveWindow(XInflectionRect);
+	}
 }
+
 //更新yTop坐标
 void CLevelWnd::YTopChangeCoordinate()
 {
@@ -1181,9 +1684,13 @@ void CLevelWnd::YTopChangeCoordinate()
 	int nYTopWidth = YTopRect.Width();
 	YTopRect.left = LONG(nNewCenter-0.5*nYTopWidth);
 	YTopRect.right = LONG(nNewCenter+0.5*nYTopWidth);
-	CWnd*& pXLeft = m_Items.at(m_nSliderYTopIndex).m_pItem;
-	pXLeft->MoveWindow(YTopRect);
+	CWnd* pYTop = m_Items.at(m_nSliderYTopIndex).m_pItem;
+	if (pYTop != NULL)
+	{
+		pYTop->MoveWindow(YTopRect);
+	}
 }
+
 //更新yBottom坐标
 void CLevelWnd::YBottomChangeCoordinate()
 {
@@ -1192,6 +1699,10 @@ void CLevelWnd::YBottomChangeCoordinate()
 	int nYBottomWidth = YBottomRect.Width();
 	YBottomRect.left = LONG(nNewCenter-0.5*nYBottomWidth);
 	YBottomRect.right = LONG(nNewCenter+0.5*nYBottomWidth);
-	CWnd*& pXLeft = m_Items.at(m_nSliderYBottomIndex).m_pItem;
-	pXLeft->MoveWindow(YBottomRect);
+	CWnd* pYBottom= m_Items.at(m_nSliderYBottomIndex).m_pItem;
+	if (pYBottom != NULL)
+	{
+		pYBottom->MoveWindow(YBottomRect);
+	}
 }
+

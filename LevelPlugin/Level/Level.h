@@ -8,7 +8,7 @@
 #endif
 
 #include "resource.h"		// 主符号
-#include "LevelDlg.h"
+
 
 // CLevelApp
 // 有关此类实现的信息，请参阅 Level.cpp
@@ -19,14 +19,10 @@ class CLevelApp : public CWinApp
 public:
 	CLevelApp();
 
-private:
-	CLevelDlg m_LevelDlg;
-
 // 重写
 public:
 	virtual BOOL InitInstance();
-
 	DECLARE_MESSAGE_MAP()
-	afx_msg void OnImageLevel();
-	afx_msg void OnUpdateImageLevel(CCmdUI* pCmdUI);
+		afx_msg void OnImageLevel();
+		afx_msg void OnUpdateImageLevel(CCmdUI *pCmdUI);
 };
