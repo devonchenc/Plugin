@@ -1,4 +1,5 @@
 Plugin Framework based on MFC
+build by Visual Studio 2013
 ======
 
 Demo:
