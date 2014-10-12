@@ -66,7 +66,7 @@ BOOL CImageApp::InitInstance()
 	// 将用作文档、框架窗口和视图之间的连接
 	m_pDocTemplate = new CPIMultiDocTemplate(IDR_IMAGE,
 		RUNTIME_CLASS(CImageDocument),
-		RUNTIME_CLASS(CMDIChildWndEx), // 自定义 MDI 子框架
+		RUNTIME_CLASS(CPIMDIChildWndEx), // 自定义 MDI 子框架
 		RUNTIME_CLASS(CImageView));
 	if (!m_pDocTemplate)
 		return FALSE;

@@ -20,6 +20,7 @@ CLevelDlg::CLevelDlg(CWnd* pParent /*=NULL*/)
 
 CLevelDlg::~CLevelDlg()
 {
+
 }
 
 void CLevelDlg::DoDataExchange(CDataExchange* pDX)
@@ -41,12 +42,14 @@ int CLevelDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
+
 	CRect Rect;
 	GetClientRect(&Rect);
 	if (m_wndLevel.GetSafeHwnd()==NULL)
 	{
 		m_wndLevel.Create(NULL, NULL, WS_CHILD | WS_VISIBLE, Rect, this, IDW_LEVEL);
 	}
+
 	return 0;
 }
 

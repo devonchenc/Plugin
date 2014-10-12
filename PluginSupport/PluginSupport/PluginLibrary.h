@@ -48,7 +48,7 @@ PLUGIN_EXPORT void PIProgressDone();
 
 PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
 
-PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszCaption);
+PLUGIN_EXPORT void PIDockablePane(CWnd* pWnd, LPCTSTR lpszCaption);
 
 #ifndef PLUGIN_EXT_CLASS
 	#ifdef _AFXDLL
@@ -60,4 +60,6 @@ PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszC
 
 #include "PluginClass.h"
 #include <atlimage.h>
+#include <afxcontrolbars.h>
 #include "PIDocument.h"
+#include "PIMDIChildWndEx.h"

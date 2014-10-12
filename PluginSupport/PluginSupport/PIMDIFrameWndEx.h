@@ -31,7 +31,6 @@ private:
 	// Progress thread running flag
 	BOOL m_bProgressThreadRunning;
 
-//	CPIDockablePane* m_pDockablePane;
 	DockablePaneArray m_PaneArray;
 
 protected:

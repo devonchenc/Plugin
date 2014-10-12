@@ -57,6 +57,9 @@
     <ClCompile Include="PIDockablePane.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="PIMDIChildWndEx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PluginSupport.h">
@@ -105,6 +108,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="PIDockablePane.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="PIMDIChildWndEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
