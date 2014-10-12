@@ -23,6 +23,6 @@ public:
 public:
 	virtual BOOL InitInstance();
 	DECLARE_MESSAGE_MAP()
-		afx_msg void OnImageLevel();
-		afx_msg void OnUpdateImageLevel(CCmdUI *pCmdUI);
+	afx_msg void OnImageLevel();
+	afx_msg void OnUpdateImageLevel(CCmdUI *pCmdUI);
 };

@@ -75,6 +75,9 @@ void CLevelApp::OnImageLevel()
 
 	CLevelDlg dlg;
 	dlg.DoModal();
+
+//	CLevelDlg* pDlg = new CLevelDlg;
+//	PIDockablePane(pDlg, _T("Test"));
 }
 
 void CLevelApp::OnUpdateImageLevel(CCmdUI *pCmdUI)

@@ -170,6 +170,9 @@ int CDemoApp::ExitInstance()
 	// release plugin
 	PIReleasePlugin();
 
+//	int nResult = _CrtCheckMemory();
+//	_CrtDumpMemoryLeaks();
+
 	// removes all UI information about the application from registry
 	CleanState();
 

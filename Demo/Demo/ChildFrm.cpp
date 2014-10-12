@@ -27,8 +27,8 @@ CChildFrame::CChildFrame()
 
 CChildFrame::~CChildFrame()
 {
-}
 
+}
 
 BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 {

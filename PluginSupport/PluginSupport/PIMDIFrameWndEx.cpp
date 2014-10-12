@@ -13,7 +13,6 @@ IMPLEMENT_DYNCREATE(CPIMDIFrameWndEx, CMDIFrameWndEx)
 CPIMDIFrameWndEx::CPIMDIFrameWndEx()
 	: m_nProgressType(PI_PROGRESS_DLG)
 	, m_bProgressThreadRunning(FALSE)
-//	, m_pDockablePane(NULL)
 {
 
 }
@@ -161,7 +160,7 @@ LRESULT CPIMDIFrameWndEx::OnCreateDockablePane(WPARAM wParam, LPARAM lParam)
 		return FALSE;		// fail to create
 	}
 	pDockablePane->EnableDocking(CBRS_ALIGN_ANY);
-	DockPane(pDockablePane);
+	DockPane(pDockablePane, AFX_IDW_DOCKBAR_RIGHT);
 	m_PaneArray.Add(pDockablePane);
 
 	return 0;

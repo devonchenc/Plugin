@@ -112,6 +112,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClCompile Include="PIDockablePane.cpp" />
     <ClCompile Include="PIDocument.cpp" />
     <ClCompile Include="PIDocManager.cpp" />
+    <ClCompile Include="PIMDIChildWndEx.cpp" />
     <ClCompile Include="PIMDIFrameWndEx.cpp" />
     <ClCompile Include="PIMultiDocTemplate.cpp" />
     <ClCompile Include="PIToolBar.cpp" />
@@ -130,6 +131,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)..\\Demo\\Release</Command
     <ClInclude Include="PIDockablePane.h" />
     <ClInclude Include="PIDocument.h" />
     <ClInclude Include="PIDocManager.h" />
+    <ClInclude Include="PIMDIChildWndEx.h" />
     <ClInclude Include="PIMDIFrameWndEx.h" />
     <ClInclude Include="PIMultiDocTemplate.h" />
     <ClInclude Include="PIToolBar.h" />

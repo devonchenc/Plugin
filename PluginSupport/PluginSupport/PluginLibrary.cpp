@@ -209,8 +209,9 @@ PLUGIN_EXPORT LANGID PIGetThreadUILanguage()
 	return id;
 }
 
-PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszCaption)
+PLUGIN_EXPORT void PIDockablePane(CWnd* pWnd, LPCTSTR lpszCaption)
 {
+	HINSTANCE hInstance = AfxGetApp()->m_hInstance;
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
@@ -218,8 +219,8 @@ PLUGIN_EXPORT void PIDockablePane(HINSTANCE hInstance, CWnd* pWnd, LPCTSTR lpszC
 	if (pMainWnd == NULL)
 		return;
 
-//	if (!pMainWnd->IsKindOf(RUNTIME_CLASS(CPIMDIFrameWndEx)))
-//		return;
+	if (!pMainWnd->IsKindOf(RUNTIME_CLASS(CPIMDIFrameWndEx)))
+		return;
 	
 	CPluginWindow plinginWindow;
 	plinginWindow.hInstance = hInstance;

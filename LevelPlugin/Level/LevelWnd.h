@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ItemInfo.h"
 #include "LevelSlider.h"
 #include <vector>
@@ -20,7 +21,7 @@ protected:
 public:
 
 	/************************************************************************/
-	/* 消息响应型函数                                                                                 */
+	/*	消息响应型函数														*/
 	/************************************************************************/
 
 	//通道选择Combobox
@@ -79,67 +80,67 @@ public:
 	void WheelYBottom(UINT nFlags, float zDelta);
 
 	/************************************************************************/
-	/*数据传递型函数                                                                                  */
+	/*	数据传递型函数														*/
 	/************************************************************************/
 
-	//获取图片
+	// 获取图片
 	CImage* GetImage();
-	//初始化灰度直方图
+	// 初始化灰度直方图
 	void InitGrayValues();
-	//初始化灰度映射表
+	// 初始化灰度映射表
 	void InitGrayMap();
-	//初始化几何&灰度映射范围
+	// 初始化几何&灰度映射范围
 	void InitMapRect(const CRect& rect);
-	//绘制直方图
+	// 绘制直方图
 	void DrawHistogram(CDC& memDC);
-	//绘制灰度条
+	// 绘制灰度条
 	void DrawBar(CDC& memDC);
-	//设定直方图颜色
+	// 设定直方图颜色
 	COLORREF DrawColor();
-	//创建控件
+	// 创建控件
 	void NewItems();
-	//灰度映射
+	// 灰度映射
 	void GrayMapping();
-	//设置控件位置
+	// 设置控件位置
 	BOOL SetItemPosition(const CRect& newRect, const UINT& nIndex);
-	//更新图片
+	// 更新图片
 	BOOL UpdateImage();
-	//拷贝图片
+	// 拷贝图片
 	BOOL ImageCopy(const CImage& m_Image, CImage& m_CopyImage);
-	//判断输入
+	// 判断输入
 	BOOL CheckNum(CString );
 
-	//坐标转灰度
+	// 坐标转灰度
 
-	//Wnd调用坐标转灰度
+	// Wnd调用坐标转灰度
 	void CoordinateToGray(UINT nID, LONG center);
-	//xLeft坐标转xLeft灰度值
+	// xLeft坐标转xLeft灰度值
 	void XLeftCoordinateToGray();
-	//xRight坐标转xRight灰度值
+	// xRight坐标转xRight灰度值
 	void XRightCoordinateToGray();
-	//拐点x坐标转拐点比例
+	// 拐点x坐标转拐点比例
 	void XInflectionToProportion();
-	//yTop坐标转yTop灰度值
+	// yTop坐标转yTop灰度值
 	void YTopCoordinateToGray();
-	//yBottom坐标转yBottom灰度值
+	// yBottom坐标转yBottom灰度值
 	void YBottomCoordinateToGray();
 
-	//灰度转坐标
+	// 灰度转坐标
 
-	//xLeft灰度值转xLeft坐标
+	// xLeft灰度值转xLeft坐标
 	void XLeftGrayToCoordinate();
-	//xRight灰度值转xRight坐标
+	// xRight灰度值转xRight坐标
 	void XRightGrayToCoordinate();
-	//拐点比例转拐点x坐标
+	// 拐点比例转拐点x坐标
 	void ProportionToXInflection();
-	//yTop灰度值转yTop坐标
+	// yTop灰度值转yTop坐标
 	void YTopGrayToCoordinate();
-	//yBottom灰度值转yBottom坐标
+	// yBottom灰度值转yBottom坐标
 	void YBottomGrayToCoordinate();
 
-	//更新坐标
+	// 更新坐标
 
-	//更新xLeft坐标
+	// 更新xLeft坐标
 	void XLeftChangeCoordinate();
 	//更新xRight坐标
 	void XRightChangeCoordinate();

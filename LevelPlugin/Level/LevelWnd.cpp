@@ -1205,7 +1205,7 @@ void CLevelWnd::NewItems()
 			for (int nCount=0; nCount<nSourveNum; nCount++)
 			{
 				str.LoadString((nSourceID+nCount));
-				((CComboBox*)pItem)->InsertString(nCount, str);  
+				((CComboBox*)pItem)->InsertString(nCount, str);
 			}
 			((CComboBox*)pItem)->SetCurSel(0);
 			pItem->SetFont(&m_CtrlFont);
