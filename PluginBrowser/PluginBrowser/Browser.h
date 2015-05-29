@@ -6,7 +6,7 @@ protected:
 	CBrowserPlugin();
 
 public:
-	static CBrowserPlugin* Instance() { static CBrowserPlugin _instance; return &_instance; }
+	DECLARE_PLUGIN(CBrowserPlugin)
 
 	virtual void Init();
 

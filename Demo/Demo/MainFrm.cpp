@@ -181,6 +181,7 @@ void CMainFrame::Dump(CDumpContext& dc) const
 void CMainFrame::InitStatusBar()
 {
 	m_wndStatusBar.SetPaneWidth(nStatusProgress, 100);
+	m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
 	
 	m_wndStatusBar.SetPaneStyle(nStatusInfo, SBPS_STRETCH | SBPS_NOBORDERS);
 

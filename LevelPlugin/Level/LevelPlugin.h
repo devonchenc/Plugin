@@ -6,7 +6,7 @@ protected:
 	CLevelPlugin();
 
 public:
-	static CLevelPlugin* Instance() { static CLevelPlugin _instance; return &_instance; }
+	DECLARE_PLUGIN(CLevelPlugin)
 
 	virtual void Init();
 

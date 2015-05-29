@@ -6,7 +6,7 @@ protected:
 	CDrawPlugin();
 
 public:
-	static CDrawPlugin* Instance() { static CDrawPlugin _instance; return &_instance; }
+	DECLARE_PLUGIN(CDrawPlugin)
 
 	virtual void Init();
 

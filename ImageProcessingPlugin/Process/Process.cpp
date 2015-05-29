@@ -71,8 +71,8 @@ UINT InverseThread(LPVOID pParam)
 
 	CString str;
 	str.LoadString(ID_IMAGE_INVERSE);
-//	PIProgressInit(PI_PROGRESS_DLG, str);
-	PIProgressInit(PI_PROGRESS_BAR, str);
+	PIProgressInit(PI_PROGRESS_DLG, str);
+//	PIProgressInit(PI_PROGRESS_BAR, str);
 
 	CImage* pImage = (CImage*)pParam;
 
@@ -96,8 +96,8 @@ UINT InverseThread(LPVOID pParam)
 		LRESULT lResult = PIProgressPercent(j * 100 / nHeight);
 		if (!lResult)
 		{
-			// exit thread
-			return 0;
+			// quit thread
+			return 1;
 		}
 	}
 

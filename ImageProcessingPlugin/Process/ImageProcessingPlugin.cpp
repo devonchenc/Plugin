@@ -2,6 +2,8 @@
 #include "ImageProcessingPlugin.h"
 #include "Process.h"
 
+IMPLEMENT_PLUGIN(CImageProcessingPlugin)
+
 CImageProcessingPlugin::CImageProcessingPlugin()
 {
 
@@ -51,10 +53,4 @@ int CImageProcessingPlugin::GetDocTemplateCount()
 CPIMultiDocTemplate* CImageProcessingPlugin::GetDocTemplate(int nIndex)
 {
 	return NULL;
-}
-
-PLUGIN_EXPORT CImageProcessingPlugin* GetInstance()
-{
-	CImageProcessingPlugin* pInstance = CImageProcessingPlugin::Instance();
-	return pInstance;
 }

@@ -2,6 +2,8 @@
 #include "Browser.h"
 #include "PluginBrowser.h"
 
+IMPLEMENT_PLUGIN(CBrowserPlugin)
+
 CBrowserPlugin::CBrowserPlugin()
 {
 
@@ -50,10 +52,4 @@ int CBrowserPlugin::GetDocTemplateCount()
 CPIMultiDocTemplate* CBrowserPlugin::GetDocTemplate(int nIndex)
 {
 	return NULL;
-}
-
-PLUGIN_EXPORT CBrowserPlugin* GetInstance()
-{
-	CBrowserPlugin* pInstance = CBrowserPlugin::Instance();
-	return pInstance;
 }

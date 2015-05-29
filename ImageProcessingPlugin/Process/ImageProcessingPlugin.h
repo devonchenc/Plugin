@@ -6,7 +6,7 @@ protected:
 	CImageProcessingPlugin();
 
 public:
-	static CImageProcessingPlugin* Instance() { static CImageProcessingPlugin _instance; return &_instance; }
+	DECLARE_PLUGIN(CImageProcessingPlugin)
 
 	virtual void Init();
 

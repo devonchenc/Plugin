@@ -58,6 +58,13 @@ PLUGIN_EXPORT void PIDockablePane(CWnd* pWnd, LPCTSTR lpszCaption);
 	#endif
 #endif
 
+// Macro definition
+#define DECLARE_PLUGIN(class_name) \
+	static class_name* Instance(){ static class_name _instance; return &_instance; }
+
+#define IMPLEMENT_PLUGIN(class_name) \
+	PLUGIN_EXPORT class_name* GetInstance(){ return class_name::Instance(); }
+
 #include "PluginClass.h"
 #include <atlimage.h>
 #include <afxcontrolbars.h>

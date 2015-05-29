@@ -2,6 +2,8 @@
 #include "ImagePlugin.h"
 #include "Image.h"
 
+IMPLEMENT_PLUGIN(CImagePlugin)
+
 CImagePlugin::CImagePlugin()
 {
 
@@ -49,10 +51,4 @@ CPIMultiDocTemplate* CImagePlugin::GetDocTemplate(int nIndex)
 
 	CImageApp* pApp = (CImageApp*)AfxGetApp();
 	return pApp->GetDocTemplate();
-}
-
-PLUGIN_EXPORT CImagePlugin* GetInstance()
-{
-	CImagePlugin* pInstance = CImagePlugin::Instance();
-	return pInstance;
 }

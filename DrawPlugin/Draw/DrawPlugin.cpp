@@ -2,6 +2,8 @@
 #include "DrawPlugin.h"
 #include "Draw.h"
 
+IMPLEMENT_PLUGIN(CDrawPlugin)
+
 CDrawPlugin::CDrawPlugin()
 {
 
@@ -89,10 +91,4 @@ int CDrawPlugin::GetDocTemplateCount()
 CPIMultiDocTemplate* CDrawPlugin::GetDocTemplate(int nIndex)
 {
 	return NULL;
-}
-
-PLUGIN_EXPORT CDrawPlugin* GetInstance()
-{
-	CDrawPlugin* pInstance = CDrawPlugin::Instance();
-	return pInstance;
 }

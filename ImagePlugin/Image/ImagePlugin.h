@@ -6,7 +6,7 @@ protected:
 	CImagePlugin();
 
 public:
-	static CImagePlugin* Instance() { static CImagePlugin _instance; return &_instance; }
+	DECLARE_PLUGIN(CImagePlugin)
 
 	virtual void Init();
 

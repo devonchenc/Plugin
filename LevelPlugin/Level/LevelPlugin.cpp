@@ -2,6 +2,8 @@
 #include "LevelPlugin.h"
 #include "Level.h"
 
+IMPLEMENT_PLUGIN(CLevelPlugin)
+
 CLevelPlugin::CLevelPlugin()
 {
 
@@ -51,10 +53,4 @@ int CLevelPlugin::GetDocTemplateCount()
 CPIMultiDocTemplate* CLevelPlugin::GetDocTemplate(int nIndex)
 {
 	return NULL;
-}
-
-PLUGIN_EXPORT CLevelPlugin* GetInstance()
-{
-	CLevelPlugin* pInstance = CLevelPlugin::Instance();
-	return pInstance;
 }
