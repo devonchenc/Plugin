@@ -127,7 +127,7 @@ BEGIN
         POPUP "语言(&L)"
         BEGIN
             MENUITEM "English(&E)",                 32772
-            MENUITEM "中文简体(&C)",                    32773
+            MENUITEM "中文简体(&C)",                    ID_LANGUAGE_CHS
         END
     END
     POPUP "窗口(&W)"
@@ -223,6 +223,12 @@ BEGIN
     ID_INDICATOR_SCRL       "滚动"
     ID_INDICATOR_OVR        "改写"
     ID_INDICATOR_REC        "记录"
+END
+
+STRINGTABLE
+BEGIN
+    ID_LANGUAGE_ENG         "ID_LANGUAGE_ENG"
+    ID_LANGUAGE_CHS         "简体中文"
     ID_INDICATOR_PROGRESS   " "
 END
 
@@ -336,12 +342,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_EDIT_MENU           "编辑"
-END
-
-STRINGTABLE
-BEGIN
-    ID_LANGUAGE_ENG         "English"
-    ID_LANGUAGE_CHS         "简体中文"
 END
 
 #endif    // 中文(简体，中国) resources
@@ -635,6 +635,12 @@ BEGIN
     ID_INDICATOR_SCRL       "SCRL"
     ID_INDICATOR_OVR        "OVR"
     ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE
+BEGIN
+    ID_LANGUAGE_ENG         "English"
+    ID_LANGUAGE_CHS         "Chinese Simplified"
     ID_INDICATOR_PROGRESS   " "
 END
 
@@ -748,12 +754,6 @@ END
 STRINGTABLE
 BEGIN
     IDS_EDIT_MENU           "Edit"
-END
-
-STRINGTABLE
-BEGIN
-    ID_LANGUAGE_ENG         "English"
-    ID_LANGUAGE_CHS         "Chinese Simplified"
 END
 
 #endif    // 英语(美国) resources

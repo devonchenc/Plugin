@@ -19,7 +19,12 @@ CPluginBrowserDlg::CPluginBrowserDlg(CWnd* pParent /*=NULL*/)
 
 CPluginBrowserDlg::~CPluginBrowserDlg()
 {
-
+	for (int i = 0; i < m_PluginInfoArray.GetSize(); i++)
+	{
+		CPluginInfo* pPluginInfo = m_PluginInfoArray.GetAt(i);
+		delete pPluginInfo;
+	}
+	m_PluginInfoArray.RemoveAll();
 }
 
 void CPluginBrowserDlg::DoDataExchange(CDataExchange* pDX)
