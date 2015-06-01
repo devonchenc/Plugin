@@ -121,16 +121,3 @@ PLUGIN_EXPORT BOOL PIHandleMessage(MSG* pMsg, CWnd* pSender)
 		return FALSE;
 	}
 }
-
-PLUGIN_EXPORT void PIReleasePlugin()
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
-	const PluginArray& array = pApp->GetPluginArray();
-	for (int i=0; i<array.GetSize(); i++)
-	{
-		CPluginWrapper* pPluginWrapper = array.GetAt(i);
-		pPluginWrapper->ReleasePlugin();
-	}
-}

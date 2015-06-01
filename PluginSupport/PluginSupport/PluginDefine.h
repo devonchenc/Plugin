@@ -42,6 +42,9 @@
 	{
 		HINSTANCE hInstance;
 		CWnd* pWnd;
+		CRect rect;
+		BOOL bShow;
+		LPCTSTR lpszCaption;
 	};
 #endif
 

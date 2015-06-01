@@ -4,11 +4,6 @@
 
 IMPLEMENT_PLUGIN(CLevelPlugin)
 
-CLevelPlugin::CLevelPlugin()
-{
-
-}
-
 void CLevelPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -17,11 +12,6 @@ void CLevelPlugin::Init()
 	CMenu append;
 	append.LoadMenu(IDR_LEVEL_MENU);
 	MergeMenu(&append, TRUE);
-}
-
-void CLevelPlugin::Release()
-{
-
 }
 
 void CLevelPlugin::Query(CPluginInfo& plugininfo)
@@ -37,20 +27,4 @@ void CLevelPlugin::Query(CPluginInfo& plugininfo)
 //	CString str;
 //	str.LoadString(IDS_STRING_MENU_LABEL);
 //	plugininfo.m_strMenuLabel = str;
-}
-
-void CLevelPlugin::Draw(CDC* pDC)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-}
-
-int CLevelPlugin::GetDocTemplateCount()
-{
-	return 0;
-}
-
-CPIMultiDocTemplate* CLevelPlugin::GetDocTemplate(int nIndex)
-{
-	return NULL;
 }

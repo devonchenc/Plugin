@@ -167,9 +167,6 @@ int CDemoApp::ExitInstance()
 	//TODO: handle additional resources you may have added
 	AfxOleTerm(FALSE);
 
-	// release plugin
-	PIReleasePlugin();
-
 //	int nResult = _CrtCheckMemory();
 //	_CrtDumpMemoryLeaks();
 

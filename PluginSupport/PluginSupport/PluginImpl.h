@@ -20,8 +20,6 @@ PLUGIN_EXPORT void PIDraw(CDC* pDC);
 
 PLUGIN_EXPORT BOOL PIHandleMessage(MSG* pMsg, CWnd* pSender);
 
-PLUGIN_EXPORT void PIReleasePlugin();
-
 struct ToolbarInfo
 {
 	int nPluginIndex;

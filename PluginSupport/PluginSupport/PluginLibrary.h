@@ -1,11 +1,7 @@
 
 #pragma once
 
-#ifdef __cplusplus
-	#define PLUGIN_EXPORT extern "C" __declspec(dllexport)
-#else
-	#define PLUGIN_EXPORT __declspec(dllexport)
-#endif
+#include "PluginDefine.h"
 
 #ifndef PLUGIN_NO_AUTO_LIB
 	#ifdef _DEBUG
@@ -15,6 +11,12 @@
 		#pragma comment(lib, "..\\..\\PluginSupport\\Release\\PluginSupport.lib")
 		#pragma message("Automatically link with PluginSupport Release")
 	#endif
+#endif
+
+#ifdef __cplusplus
+	#define PLUGIN_EXPORT extern "C" __declspec(dllexport)
+#else
+	#define PLUGIN_EXPORT __declspec(dllexport)
 #endif
 
 PLUGIN_EXPORT void PIEnableUI(CCmdUI* pCmdUI, BOOL bEnable);
@@ -48,7 +50,7 @@ PLUGIN_EXPORT void PIProgressDone();
 
 PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
 
-PLUGIN_EXPORT void PIDockablePane(CWnd* pWnd, LPCTSTR lpszCaption);
+PLUGIN_EXPORT void PIDockablePane(CPluginWindow* pPluginWindow);
 
 #ifndef PLUGIN_EXT_CLASS
 	#ifdef _AFXDLL
