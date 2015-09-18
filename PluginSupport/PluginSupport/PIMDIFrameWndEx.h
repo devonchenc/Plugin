@@ -15,7 +15,7 @@ protected:
 	virtual ~CPIMDIFrameWndEx();
 
 public:
-	virtual void ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialog);
+	virtual void ProgressInit(int nProgressType, LPCTSTR lpszText, CDialog** pDialog);
 	virtual BOOL ProgressPercent(int nPercent);
 	virtual void ProgressDone();
 

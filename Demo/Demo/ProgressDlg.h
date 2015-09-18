@@ -4,7 +4,7 @@
 
 // CProgressDlg 对话框
 
-class CProgressDlg : public CDialog
+class CProgressDlg : public CDialogEx
 {
 	DECLARE_DYNAMIC(CProgressDlg)
 
@@ -15,6 +15,12 @@ public:
 public:
 	void SetPercent(int nPercent);
 
+	void SetCaption(CString strCaption)		{ m_strCaption = strCaption; }
+
+private:
+	CString m_strCaption;
+
+public:
 // 对话框数据
 	enum { IDD = IDD_PROGRESS_DLG };
 

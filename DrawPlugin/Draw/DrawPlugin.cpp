@@ -4,11 +4,6 @@
 
 IMPLEMENT_PLUGIN(CDrawPlugin)
 
-CDrawPlugin::CDrawPlugin()
-{
-
-}
-
 void CDrawPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -20,11 +15,6 @@ void CDrawPlugin::Init()
 
 	// merge toolbar
 	MergeToolbar(IDR_DRAW_TOOLBAR);
-}
-
-void CDrawPlugin::Release()
-{
-
 }
 
 void CDrawPlugin::Query(CPluginInfo& plugininfo)
@@ -81,14 +71,4 @@ void CDrawPlugin::Draw(CDC* pDC)
 		bitmap.DeleteObject();
 		memDC.DeleteDC();
 	}
-}
-
-int CDrawPlugin::GetDocTemplateCount()
-{
-	return 0;
-}
-
-CPIMultiDocTemplate* CDrawPlugin::GetDocTemplate(int nIndex)
-{
-	return NULL;
 }

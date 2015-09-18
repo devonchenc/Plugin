@@ -4,11 +4,6 @@
 
 IMPLEMENT_PLUGIN(CImageProcessingPlugin)
 
-CImageProcessingPlugin::CImageProcessingPlugin()
-{
-
-}
-
 void CImageProcessingPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -17,11 +12,6 @@ void CImageProcessingPlugin::Init()
 	CMenu append;
 	append.LoadMenu(IDR_PROCESS_MENU);
 	MergeMenu(&append, TRUE);
-}
-
-void CImageProcessingPlugin::Release()
-{
-
 }
 
 void CImageProcessingPlugin::Query(CPluginInfo& plugininfo)
@@ -37,20 +27,4 @@ void CImageProcessingPlugin::Query(CPluginInfo& plugininfo)
 	CString str;
 	str.LoadString(IDS_STRING_MENU_LABEL);
 	plugininfo.m_strMenuLabel = str;
-}
-
-void CImageProcessingPlugin::Draw(CDC* pDC)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-}
-
-int CImageProcessingPlugin::GetDocTemplateCount()
-{
-	return 0;
-}
-
-CPIMultiDocTemplate* CImageProcessingPlugin::GetDocTemplate(int nIndex)
-{
-	return NULL;
 }

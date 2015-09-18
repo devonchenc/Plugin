@@ -1,7 +1,6 @@
 
 #include "stdafx.h"
-//#include "PIMultiDocTemplate.h"
-//#include "PluginImpl.h"
+#include "PluginImpl.h"
 #include "PluginSupport.h"
 #include "PluginWrapper.h"
 
@@ -114,7 +113,7 @@ PLUGIN_EXPORT BOOL PIHandleMessage(MSG* pMsg, CWnd* pSender)
 	if (bReslut)
 	{
 		ASSERT(pFNMessageProc != NULL);
-		return pFNMessageProc(pMsg);
+		return BOOL(pFNMessageProc(pMsg));
 	}
 	else
 	{

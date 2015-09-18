@@ -2,21 +2,13 @@
 
 class CBrowserPlugin : public CPlugin
 {
-protected:
-	CBrowserPlugin();
-
-public:
 	DECLARE_PLUGIN(CBrowserPlugin)
 
+private:
+	CBrowserPlugin(){}
+
+public:
 	virtual void Init();
 
-	virtual void Release();
-
 	virtual void Query(CPluginInfo& plugininfo);
-
-	virtual void Draw(CDC* pDC);
-
-	virtual int GetDocTemplateCount();
-
-	virtual CPIMultiDocTemplate* GetDocTemplate(int nIndex);
 };

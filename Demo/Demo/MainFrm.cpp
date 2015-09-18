@@ -196,16 +196,22 @@ UINT ShowProgressDlgThread(LPVOID pParam)
 	return 0;
 }
 
-void CMainFrame::ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialog)
+void CMainFrame::ProgressInit(int nProgressType, LPCTSTR lpszText, CDialog** pDialog)
 {
-	CPIMDIFrameWndEx::ProgressInit(bDlgOrBar, lpszText, pDialog);
+	CPIMDIFrameWndEx::ProgressInit(nProgressType, lpszText, pDialog);
 
-	if (bDlgOrBar == PI_PROGRESS_DLG)
+	if (nProgressType == PI_PROGRESS_THREAD_DLG)
 	{
 		AfxBeginThread(ShowProgressDlgThread, &m_wndProgressDlg);
 		*pDialog = &m_wndProgressDlg;
 	}
-	else if (bDlgOrBar == PI_PROGRESS_BAR)
+	else if (nProgressType == PI_PROGRESS_NATIVE_DLG)
+	{
+		*pDialog = &m_wndProgressDlg;
+		m_wndProgressDlg.SetCaption(lpszText);
+		m_wndProgressDlg.DoModal();
+	}
+	else if (nProgressType == PI_PROGRESS_BAR)
 	{
 		m_wndStatusBar.SetTipText(nStatusProgress, lpszText);
 		m_wndStatusBar.EnablePaneProgressBar(nStatusProgress, 100L, TRUE);
@@ -214,7 +220,7 @@ void CMainFrame::ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialo
 
 BOOL CMainFrame::ProgressPercent(int nPercent)
 {
-	if (GetProgressType() == PI_PROGRESS_DLG)
+	if (GetProgressType() == PI_PROGRESS_THREAD_DLG || GetProgressType() == PI_PROGRESS_NATIVE_DLG)
 	{
 		if (m_wndProgressDlg.GetSafeHwnd())
 		{
@@ -233,7 +239,7 @@ void CMainFrame::ProgressDone()
 {
 	CPIMDIFrameWndEx::ProgressDone();
 
-	if (GetProgressType() == PI_PROGRESS_DLG)
+	if (GetProgressType() == PI_PROGRESS_THREAD_DLG || GetProgressType() == PI_PROGRESS_NATIVE_DLG)
 	{
 		if (m_wndProgressDlg.GetSafeHwnd())
 		{

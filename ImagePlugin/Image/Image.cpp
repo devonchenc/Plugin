@@ -50,7 +50,6 @@ CImageApp::CImageApp()
 	// 将所有重要的初始化放置在 InitInstance 中
 }
 
-
 // 唯一的一个 CImageApp 对象
 
 CImageApp theApp;

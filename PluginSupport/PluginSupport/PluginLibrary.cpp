@@ -121,7 +121,7 @@ PLUGIN_EXPORT CView* PIGetActiveView()
 }
 
 // Progress Dialog
-PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
+PLUGIN_EXPORT void PIProgressInit(int nProgressType, LPCTSTR lpszText)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -129,9 +129,9 @@ PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
 	if (pMainWnd == NULL)
 		return;
-	
-	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)bDlgOrBar, (LPARAM)lpszText);
-	if (bDlgOrBar != PI_PROGRESS_DLG || pDialog == NULL)
+
+	CDialog* pDialog = (CDialog*)pMainWnd->SendMessage(WM_PROGRESS_INIT, (WPARAM)nProgressType, (LPARAM)lpszText);
+	if (nProgressType != PI_PROGRESS_THREAD_DLG || pDialog == NULL)
 		return;
 
 	int nCount = 0;
@@ -161,7 +161,7 @@ PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText)
 	}
 }
 
-PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent)
+PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent, BOOL bSupportCancel)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
@@ -169,7 +169,14 @@ PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent)
 	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
 	if (pMainWnd)
 	{
-		return pMainWnd->SendMessage(WM_PROGRESS_PERCENT, (WPARAM)NULL, (LPARAM)nPercent);
+		if (bSupportCancel)
+		{
+			return pMainWnd->SendMessage(WM_PROGRESS_PERCENT, (WPARAM)NULL, (LPARAM)nPercent);
+		}
+		else
+		{
+			return pMainWnd->PostMessage(WM_PROGRESS_PERCENT, (WPARAM)NULL, (LPARAM)nPercent);
+		}
 	}
 	else
 	{
@@ -222,4 +229,19 @@ PLUGIN_EXPORT void PIDockablePane(CPluginWindow* pPluginWindow)
 		return;
 
 	pMainWnd->SendMessage(WM_CREATE_DOCKABLE_PANE, (WPARAM)&pPluginWindow, (LPARAM)NULL);
+}
+
+PLUGIN_EXPORT void PICreateWidget(CPluginWindow* pPluginWindow)
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	CWnd* pMainWnd = pApp->GetMainApp()->m_pMainWnd;
+	if (pMainWnd == NULL)
+		return;
+
+	if (!pMainWnd->IsKindOf(RUNTIME_CLASS(CPIMDIFrameWndEx)))
+		return;
+
+	pMainWnd->SendMessage(WM_CREATE_WIDGET, (WPARAM)pPluginWindow, (LPARAM)NULL);
 }

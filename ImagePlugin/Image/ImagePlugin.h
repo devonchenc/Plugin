@@ -2,19 +2,13 @@
 
 class CImagePlugin : public CPlugin
 {
-protected:
-	CImagePlugin();
-
-public:
 	DECLARE_PLUGIN(CImagePlugin)
 
-	virtual void Init();
+private:
+	CImagePlugin(){}
 
-	virtual void Release();
-
+public:
 	virtual void Query(CPluginInfo& plugininfo);
-
-	virtual void Draw(CDC* pDC);
 
 	virtual int GetDocTemplateCount();
 

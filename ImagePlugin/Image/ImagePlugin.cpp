@@ -4,21 +4,6 @@
 
 IMPLEMENT_PLUGIN(CImagePlugin)
 
-CImagePlugin::CImagePlugin()
-{
-
-}
-
-void CImagePlugin::Init()
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-}
-
-void CImagePlugin::Release()
-{
-
-}
-
 void CImagePlugin::Query(CPluginInfo& plugininfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -32,12 +17,6 @@ void CImagePlugin::Query(CPluginInfo& plugininfo)
 	CString str;
 	str.LoadString(IDS_STRING_MENU_LABEL);
 	plugininfo.m_strMenuLabel = str;
-}
-
-void CImagePlugin::Draw(CDC* pDC)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
 }
 
 int CImagePlugin::GetDocTemplateCount()

@@ -11,7 +11,7 @@
 IMPLEMENT_DYNCREATE(CPIMDIFrameWndEx, CMDIFrameWndEx)
 
 CPIMDIFrameWndEx::CPIMDIFrameWndEx()
-	: m_nProgressType(PI_PROGRESS_DLG)
+	: m_nProgressType(PI_PROGRESS_THREAD_DLG)
 	, m_bProgressThreadRunning(FALSE)
 {
 
@@ -41,9 +41,9 @@ END_MESSAGE_MAP()
 
 // CPIMDIFrameWndEx 消息处理程序
 
-void CPIMDIFrameWndEx::ProgressInit(BOOL bDlgOrBar, LPCTSTR lpszText, CDialog** pDialog)
+void CPIMDIFrameWndEx::ProgressInit(int nProgressType, LPCTSTR lpszText, CDialog** pDialog)
 {
-	m_nProgressType = bDlgOrBar;
+	m_nProgressType = nProgressType;
 	m_bProgressThreadRunning = TRUE;
 }
 
@@ -120,10 +120,10 @@ LRESULT CPIMDIFrameWndEx::OnGetActiveView(WPARAM wParam, LPARAM lParam)
 
 LRESULT CPIMDIFrameWndEx::OnProgressInit(WPARAM wParam, LPARAM lParam)
 {
-	BOOL bDlgOrBar = wParam;
+	int nProgressType = int(wParam);
 	LPCTSTR lpszText = (LPCTSTR)lParam;
 	CDialog* pDialog = NULL;
-	ProgressInit(bDlgOrBar, lpszText, &pDialog);
+	ProgressInit(nProgressType, lpszText, &pDialog);
 	return (LRESULT)pDialog;
 }
 

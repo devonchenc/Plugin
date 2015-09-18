@@ -25,7 +25,11 @@ BOOL CPIDocument::OnNewDocument()
 
 CPIDocument::~CPIDocument()
 {
-
+	if (m_pImage)
+	{
+		delete m_pImage;
+		m_pImage = NULL;
+	}
 }
 
 BEGIN_MESSAGE_MAP(CPIDocument, CDocument)

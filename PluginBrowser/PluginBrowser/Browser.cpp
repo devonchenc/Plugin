@@ -4,11 +4,6 @@
 
 IMPLEMENT_PLUGIN(CBrowserPlugin)
 
-CBrowserPlugin::CBrowserPlugin()
-{
-
-}
-
 void CBrowserPlugin::Init()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -17,11 +12,6 @@ void CBrowserPlugin::Init()
 	CMenu append;
 	append.LoadMenu(IDR_BROWSER_MENU);
 	MergeMenu(&append, TRUE);
-}
-
-void CBrowserPlugin::Release()
-{
-
 }
 
 void CBrowserPlugin::Query(CPluginInfo& plugininfo)
@@ -37,19 +27,4 @@ void CBrowserPlugin::Query(CPluginInfo& plugininfo)
 	CString str;
 	str.LoadString(IDS_STRING_MENU_LABEL);
 	plugininfo.m_strMenuLabel = str;
-}
-
-void CBrowserPlugin::Draw(CDC* pDC)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-}
-
-int CBrowserPlugin::GetDocTemplateCount()
-{
-	return 0;
-}
-
-CPIMultiDocTemplate* CBrowserPlugin::GetDocTemplate(int nIndex)
-{
-	return NULL;
 }

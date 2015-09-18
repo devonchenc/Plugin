@@ -1,7 +1,12 @@
 
 #pragma once
 
+#include <atlimage.h>
+#include <afxcontrolbars.h>
 #include "PluginDefine.h"
+#include "PluginClass.h"
+#include "PIDocument.h"
+#include "PIMDIChildWndEx.h"
 
 #ifndef PLUGIN_NO_AUTO_LIB
 	#ifdef _DEBUG
@@ -40,11 +45,12 @@ PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 PLUGIN_EXPORT CView* PIGetActiveView();
 
 // Progress Dialog&StatusBar
-#define PI_PROGRESS_DLG		0
-#define PI_PROGRESS_BAR		1
-PLUGIN_EXPORT void PIProgressInit(BOOL bDlgOrBar = PI_PROGRESS_DLG, LPCTSTR lpszText = NULL);
+#define PI_PROGRESS_THREAD_DLG		0
+#define PI_PROGRESS_NATIVE_DLG		1
+#define PI_PROGRESS_BAR				2
+PLUGIN_EXPORT void PIProgressInit(int nProgressType = PI_PROGRESS_THREAD_DLG, LPCTSTR lpszText = NULL);
 
-PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent);
+PLUGIN_EXPORT LRESULT PIProgressPercent(int nPercent, BOOL bSupportCancel = FALSE);
 
 PLUGIN_EXPORT void PIProgressDone();
 
@@ -52,23 +58,4 @@ PLUGIN_EXPORT LANGID PIGetThreadUILanguage();
 
 PLUGIN_EXPORT void PIDockablePane(CPluginWindow* pPluginWindow);
 
-#ifndef PLUGIN_EXT_CLASS
-	#ifdef _AFXDLL
-		#define PLUGIN_EXT_CLASS	AFX_CLASS_EXPORT
-	#else
-		#define PLUGIN_EXT_CLASS	// not used with static builds
-	#endif
-#endif
-
-// Macro definition
-#define DECLARE_PLUGIN(class_name) \
-	static class_name* Instance(){ static class_name _instance; return &_instance; }
-
-#define IMPLEMENT_PLUGIN(class_name) \
-	PLUGIN_EXPORT class_name* GetInstance(){ return class_name::Instance(); }
-
-#include "PluginClass.h"
-#include <atlimage.h>
-#include <afxcontrolbars.h>
-#include "PIDocument.h"
-#include "PIMDIChildWndEx.h"
+PLUGIN_EXPORT void PICreateWidget(CPluginWindow* pPluginWindow);

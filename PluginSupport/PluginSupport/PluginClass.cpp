@@ -66,9 +66,9 @@ int CPlugin::InsertToolbar(UINT nIDResource, CString strText)
 	// calculate command offset
 	info.nCommandIDIndex = CPluginWrapper::GetCommandIDIndex();
 	info.strText = strText;
-	int nCommandCount = pMainApp->m_pMainWnd->SendMessage(WM_TOOLBAR_EVENT, (WPARAM)FALSE, (LPARAM)&info);
+	LRESULT nCommandCount = pMainApp->m_pMainWnd->SendMessage(WM_TOOLBAR_EVENT, (WPARAM)FALSE, (LPARAM)&info);
 
-	return nCommandCount;
+	return int(nCommandCount);
 }
 
 // this code was taken from the article

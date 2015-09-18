@@ -23,7 +23,7 @@ void CLevelPlugin::Query(CPluginInfo& plugininfo)
 	plugininfo.m_strHelp = _T("For Image Processing");
 	plugininfo.m_strAuthor = _T("Wangqian");
 	plugininfo.m_strCopyRight = _T("Copyright Wangqian");
-	plugininfo.m_strDate = _T("2014.6.15");
+	plugininfo.m_strDate = _T("2015.9.18");
 //	CString str;
 //	str.LoadString(IDS_STRING_MENU_LABEL);
 //	plugininfo.m_strMenuLabel = str;

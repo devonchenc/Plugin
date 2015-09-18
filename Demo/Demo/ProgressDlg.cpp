@@ -9,10 +9,10 @@
 
 // CProgressDlg 对话框
 
-IMPLEMENT_DYNAMIC(CProgressDlg, CDialog)
+IMPLEMENT_DYNAMIC(CProgressDlg, CDialogEx)
 
 CProgressDlg::CProgressDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CProgressDlg::IDD, pParent)
+	: CDialogEx(CProgressDlg::IDD, pParent)
 {
 
 }
@@ -24,11 +24,11 @@ CProgressDlg::~CProgressDlg()
 
 void CProgressDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_PROGRESS1, m_ctrlProgress);
 }
 
-BEGIN_MESSAGE_MAP(CProgressDlg, CDialog)
+BEGIN_MESSAGE_MAP(CProgressDlg, CDialogEx)
 	ON_WM_NCHITTEST()
 END_MESSAGE_MAP()
 
@@ -36,11 +36,25 @@ END_MESSAGE_MAP()
 
 BOOL CProgressDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	CDialogEx::OnInitDialog();
 
-	// TODO:  在此添加额外的初始化
 	m_ctrlProgress.SetRange(0, 100);
 	m_ctrlProgress.SetPos(0);
+
+	if (m_strCaption.IsEmpty())
+	{
+		// remove title bar
+		ModifyStyle(WS_CAPTION, 0);
+
+		CRect rect;
+		GetWindowRect(rect);
+		SetWindowPos(NULL, 0, 0, rect.Width(), rect.Height() - 32, SWP_NOMOVE | SWP_NOZORDER | SWP_FRAMECHANGED);
+	}
+	else
+	{
+		SetWindowText(m_strCaption);
+		m_strCaption.Empty();
+	}
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// 异常: OCX 属性页应返回 FALSE
@@ -60,17 +74,15 @@ void CProgressDlg::SetPercent(int nPercent)
 
 void CProgressDlg::OnCancel()
 {
-	// TODO: 在此添加专用代码和/或调用基类
 	CDemoApp* pApp = (CDemoApp*)AfxGetApp();
 	CMainFrame* pMainFrame = (CMainFrame*)pApp->m_pMainWnd;
 	pMainFrame->SetProgressThreadRunning(FALSE);
 
-	CDialog::OnCancel();
+	CDialogEx::OnCancel();
 }
 
 LRESULT CProgressDlg::OnNcHitTest(CPoint point)
 {
-	// TODO: 在此添加消息处理程序代码和/或调用默认值
 	return HTCAPTION;
-	return CDialog::OnNcHitTest(point);
+	return CDialogEx::OnNcHitTest(point);
 }
