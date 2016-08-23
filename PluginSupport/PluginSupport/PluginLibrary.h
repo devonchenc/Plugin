@@ -1,6 +1,5 @@
 
 #pragma once
-
 #include <atlimage.h>
 #include <afxcontrolbars.h>
 #include "PluginDefine.h"
