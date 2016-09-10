@@ -142,4 +142,9 @@ echo finish</Command>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="Image.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

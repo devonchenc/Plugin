@@ -30,4 +30,5 @@ public:
 	virtual BOOL InitInstance();
 
 	DECLARE_MESSAGE_MAP()
+	afx_msg void OnPluginImage();
 };

@@ -8,6 +8,8 @@ private:
 	CImagePlugin(){}
 
 public:
+	virtual void Init();
+
 	virtual void Query(CPluginInfo& plugininfo);
 
 	virtual int GetDocTemplateCount();

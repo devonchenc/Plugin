@@ -91,6 +91,14 @@
       pMainApp->AddDocTemplate(pDocTemplate);  
   2，关闭程序时，CMainFrame::OnClose()
       pDocManager->RemovePluginDocTemplate();
+
+================================================================================
+# 关于插件菜单
+  1，创建菜单资源
+  2，合并插件菜单到容器主菜单，CBrowserPlugin::Init()
+       会有便利工具：CPlugin::MergeMenu
+问题：怎么确定不同插件菜单的相对顺序。
+  3，实现菜单处理，可以在插件app里，void CPluginBrowserApp::OnPluginBrowser()
   
 
 ================================================================================

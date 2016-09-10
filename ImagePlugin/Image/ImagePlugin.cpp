@@ -4,6 +4,19 @@
 
 IMPLEMENT_PLUGIN(CImagePlugin)
 
+void CImagePlugin::Init()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// merge menu
+	CMenu append;
+	append.LoadMenu(IDR_IMAGE_MENU);
+	MergeMenu(&append, TRUE);
+
+	// merge toolbar
+//	MergeToolbar(IDR_DRAW_TOOLBAR);
+}
+
 void CImagePlugin::Query(CPluginInfo& plugininfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());

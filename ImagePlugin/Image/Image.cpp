@@ -39,6 +39,7 @@
 // CImageApp
 
 BEGIN_MESSAGE_MAP(CImageApp, CWinApp)
+	ON_COMMAND(ID_PLUGIN_IMAGE, &CImageApp::OnPluginImage)
 END_MESSAGE_MAP()
 
 
@@ -71,4 +72,13 @@ BOOL CImageApp::InitInstance()
 		return FALSE;
 
 	return TRUE;
+}
+
+
+void CImageApp::OnPluginImage()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	AfxMessageBox(_T("OnPluginImage"));
+//	m_pDocManager->OpenDocumentFile(_T(""));
 }
