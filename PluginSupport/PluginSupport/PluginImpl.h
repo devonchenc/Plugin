@@ -4,7 +4,7 @@
 #include "PluginLibrary.h"
 
 // exported function for main application
-
+// 创建pluginSupport, 加载所有插件
 PLUGIN_EXPORT void PIInitPlugin(CWinApp* pApp);
 
 // register plugin document templates

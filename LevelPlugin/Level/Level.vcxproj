@@ -79,6 +79,7 @@
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
+echo finish
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -111,6 +112,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
+echo finish
 </Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>

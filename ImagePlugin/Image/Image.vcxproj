@@ -75,7 +75,7 @@
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
-</Command>
+echo finish</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -107,7 +107,7 @@ copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
-</Command>
+echo finish</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

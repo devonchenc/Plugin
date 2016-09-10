@@ -9,18 +9,91 @@
     class PLUGIN_EXT_CLASS CPIView : public CScrollView
     
  # 大致了解PluginSupport.dll模块：
-  PluginDefine.h：定义类型：结构，模板，自定义消息
-  PluginImpl.h: 输出一些c方法。
+  // dll输出 
+  PluginDefine.h：定义类型：结构，模板，自定义消息 
   PluginLibrary.h: 输出一些c方法。
-  PluginClass.h:  是插件的接口？class PLUGIN_EXT_CLASS CPlugin？
-  PluginSupport.h: dll的app。class CPluginSupportApp : public CWinApp
-  PI****.h: 重写各种控件。class PLUGIN_EXT_CLASS CPIView : public CScrollView
+  PluginImpl.h: 输出一些c方法。
+    // 创建pluginSupport, 加载所有插件
+    PLUGIN_EXPORT void PIInitPlugin(CWinApp* pApp);
+  // dll实现
+  PluginSupport.h: dll的app。保存插件封装的数组。
+                  class CPluginSupportApp : public CWinApp            
+  PluginWrapper.h: 封装插件的管理接口、描述等。CPluginInfo m_PluginInfo;CPlugin* m_pPlugin;
+  PluginClass.h: 插件的管理接口，每个插件必须实现。class PLUGIN_EXT_CLASS CPlugin？   
+  // 重写各种控件
+  PI****.h: class PLUGIN_EXT_CLASS CPIView : public CScrollView
 
-# 再看怎么写1个插件？比如Image插件
-  class CImagePlugin : public CPlugin，重写了其中的几个方法，每个插件都要重写这个类型，用来插件管理？？？
+# 看怎么写1个插件？比如Image插件
+  class CImagePlugin : public CPlugin，准备文档模板，提供本插件描述，用来插件管理？==》export
   class CImageApp : public CWinApp：创建1个Plugin系统的DocTemplate
-  class CImageDocument : public CPIDocument
-  class CImageView : public CScrollView，为什么不是CPIView？？？
+  class CImageDocument : public CPIDocument，继承CPI***, 从框架调用docment==》export
+  class CImageView : public CScrollView，为什么不是CPIView？不从框架调用view。
+# MEMO: 容器要什么模块，就输出什么模块
+
+# 再看典型1个插件 PluginBrowser
+  class CBrowserPlugin : public CPlugin, 添加菜单，提供本插件描述 ==》export
+  其他模块都不继承CPI***，因为从菜单调用插件功能。
+
+# 接着看容器怎么加载插件
+  搜索插件：void CPluginBrowserDlg::SearchPlugin()，去找app目录下的dll
+  动态加载dll：HINSTANCE hInstance = LoadLibrary(strFileName);
+  找到c函数：GETINSTANCE pfnGetInstance = (GETINSTANCE)GetProcAddress(hInstance, "GetInstance"); 
+  ===》 GetInstance在哪里？
+  返回管理接口：CPlugin* pPlugin = pfnGetInstance();
+  查询接口描述：pPlugin->Query(*pInfo)
+  释放dll：FreeLibrary(hInstance);
+  
+# 关于插件的c函数：GetInstance
+	每个插件都只有这个c函数，用来创建插件实例。
+	定义：在PluginDefine.h中，定义了宏来实现GetInstance()。
+    调用插件类的Instance()方法。返回插件管理接口CPlugin的类型
+		#define IMPLEMENT_PLUGIN(class_name) \
+		PLUGIN_EXPORT class_name* GetInstance(){ return class_name::Instance(); }
+	实现：在ImagePlugin.cpp里，
+		IMPLEMENT_PLUGIN(CImagePlugin)
+		class CImagePlugin : public CPlugin
+    PLUGIN_EXPORT CImagePlugin* GetInstance(){ return CImagePlugin::Instance(); }
+    
+    class CImagePlugin : public CPlugin
+	   DECLARE_PLUGIN(CImagePlugin)
+     #define DECLARE_PLUGIN(class_name) \
+	     static class_name* Instance(){ static class_name _instance; return &_instance; } \
+# MEMO: 每个插件，只有1个静态的实例？？？
+
+================================================================================
+# 容器怎么创建、加载、引用插件？
+  在MainFrame里没有找到。 class CMainFrame : public CPIMDIFrameWndEx
+  在App里，BOOL CDemoApp::InitInstance()， PIInitPlugin(this); 
+
+# 容器加载插件
+  void CPluginSupportApp::LoadPlugin(CWinApp* pApp)
+  加载exe目录下的dll。m_hInstance = LoadLibrary(strFileName);
+  找到GetInstance方法。m_pfnGetInstance = (GETINSTANCE)GetProcAddress(m_hInstance, "GetInstance");
+  创建插件实例。m_pPlugin = m_pfnGetInstance(); 
+  插件被封装在CPluginWrapper里。
+  这些wrapper被保存在插件数组里。CPluginSupportApp::m_PluginArray
+  轮询插件数组，初始化每个插件。
+    m_PluginArray.GetAt(i)->InitPlugin(pApp, i);
+      每个插件要编号i
+      设置commandID的第1个序号：#define PLUGIN_COMMAND_BEGIN	50000
+      UINT CPluginWrapper::m_nCommandIDIndex = PLUGIN_COMMAND_BEGIN;
+      初始化插件；m_pPlugin->Init(); 总是向容器主菜单添加菜单项。
+      例如DrawPlugin: void CDrawPlugin::Init()
+		m_PluginArray.GetAt(i)->QueryPlugin();
+
+# 关于容器DocumentTemplate的操作
+  1，初始化时，在BOOL CDemoApp::InitInstance()中
+  替换插件的文档模板管理器：ReplaceDocManager();
+      m_pDocManager = new CPIDocManager;
+  注册插件的文档模板：PIRegisterDocTemplates();
+      遍历所有插件，取出文档模板
+      CDocTemplate* pDocTemplate = pPluginWrapper->GetDocTemplate(j);
+      pMainApp->AddDocTemplate(pDocTemplate);  
+  2，关闭程序时，CMainFrame::OnClose()
+      pDocManager->RemovePluginDocTemplate();
+  
+
+================================================================================
   
 # 这些插件都是“动态链接到 MFC 的规则 DLL”
   Regular DLLs Dynamically Linked to MFC
