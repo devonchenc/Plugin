@@ -80,5 +80,8 @@ void CImageApp::OnPluginImage()
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	AfxMessageBox(_T("OnPluginImage"));
-//	m_pDocManager->OpenDocumentFile(_T(""));
+	CWinApp* pMainApp = PIGetMainApp();
+	pMainApp->PostThreadMessage(ID_FILE_NEW, 0, 0); // Thread = NULL
+	CWnd* pMainWnd = PIGetMainWnd();
+	pMainWnd->SendMessage(WM_CLOSE, 0, 0);	// good
 }

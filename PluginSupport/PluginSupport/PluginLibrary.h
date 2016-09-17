@@ -39,6 +39,10 @@ PLUGIN_EXPORT void PIRegisterMessage(int nPluginIndex, UINT nMessage, MESSAGEPRO
 
 PLUGIN_EXPORT void PIUnregisterMessage(int nPluginIndex, UINT nMessage);
 
+// wyc: add functions to access container.
+PLUGIN_EXPORT CWinApp* PIGetMainApp();
+PLUGIN_EXPORT CWnd* PIGetMainWnd();
+
 PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 
 PLUGIN_EXPORT CView* PIGetActiveView();

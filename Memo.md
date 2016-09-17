@@ -1,3 +1,12 @@
+================================================================================
+关于插件的app
+app就是全局变量
+CImageApp theApp;
+dllmain会调用CImageApp::InitInstance()
+
+
+================================================================================
+== 插件基础类
 # 先看所有插件的基础PluginSupport.dll输出哪些内容
   查找PLUGIN_EXT_CLASS，封装了一些MFC的class
     class PLUGIN_EXT_CLASS CPIDocManager : public CDocManager
@@ -17,12 +26,42 @@
     PLUGIN_EXPORT void PIInitPlugin(CWinApp* pApp);
   // dll实现
   PluginSupport.h: dll的app。保存插件封装的数组。
-                  class CPluginSupportApp : public CWinApp            
+    class CPluginSupportApp : public CWinApp            
   PluginWrapper.h: 封装插件的管理接口、描述等。CPluginInfo m_PluginInfo;CPlugin* m_pPlugin;
   PluginClass.h: 插件的管理接口，每个插件必须实现。class PLUGIN_EXT_CLASS CPlugin？   
   // 重写各种控件
   PI****.h: class PLUGIN_EXT_CLASS CPIView : public CScrollView
 
+# 注意PluginSupport.dll不是1个可调用的插件。
+  没有声明自己是插件：DECLARE_PLUGIN，IMPLEMENT_PLUGIN
+  在插件浏览器里看不到这个dll。
+
+# 问题：可调用插件怎么引用PluginSupport？
+  在每个插件的stdafx.h里，引用插件基础类。
+    #include "..\\..\\PluginSupport\\PluginSupport\\PluginLibrary.h"
+  在PluginLibrary.h里，加载动态库
+    #pragma comment(lib, "..\\..\\PluginSupport\\Debug\\PluginSupport.lib")
+		#pragma message("Automatically link with PluginSupport Debug")
+    
+
+================================================================================
+== 创建插件
+# 在stdafx.h里引用PluginLibLibrary.h, PluginSupport.lib。
+
+# 在插件类里继承插件基础类，用宏快速实现插件类方法。
+    class CImagePlugin : public CPlugin
+    DECLARE_PLUGIN(CImagePlugin)
+    IMPLEMENT_PLUGIN(CImagePlugin)
+
+# IMPLEMENT_PLUGIN定义了1个输出函数，创建这个静态实例。
+  插件容器调用这个方法，创建1个插件。
+  #define IMPLEMENT_PLUGIN(class_name) \
+	PLUGIN_EXPORT class_name* GetInstance(){ return class_name::Instance(); }
+      
+# DECLARE_PLUGIN定义了1个插件类的静态实例。 
+  #define DECLARE_PLUGIN(class_name) \
+	static class_name* Instance(){ static class_name _instance; return &_instance; } \
+  
 # 看怎么写1个插件？比如Image插件
   class CImagePlugin : public CPlugin，准备文档模板，提供本插件描述，用来插件管理？==》export
   class CImageApp : public CWinApp：创建1个Plugin系统的DocTemplate
@@ -33,39 +72,20 @@
 # 再看典型1个插件 PluginBrowser
   class CBrowserPlugin : public CPlugin, 添加菜单，提供本插件描述 ==》export
   其他模块都不继承CPI***，因为从菜单调用插件功能。
-
-# 接着看容器怎么加载插件
-  搜索插件：void CPluginBrowserDlg::SearchPlugin()，去找app目录下的dll
-  动态加载dll：HINSTANCE hInstance = LoadLibrary(strFileName);
-  找到c函数：GETINSTANCE pfnGetInstance = (GETINSTANCE)GetProcAddress(hInstance, "GetInstance"); 
-  ===》 GetInstance在哪里？
-  返回管理接口：CPlugin* pPlugin = pfnGetInstance();
-  查询接口描述：pPlugin->Query(*pInfo)
-  释放dll：FreeLibrary(hInstance);
   
-# 关于插件的c函数：GetInstance
-	每个插件都只有这个c函数，用来创建插件实例。
-	定义：在PluginDefine.h中，定义了宏来实现GetInstance()。
-    调用插件类的Instance()方法。返回插件管理接口CPlugin的类型
-		#define IMPLEMENT_PLUGIN(class_name) \
-		PLUGIN_EXPORT class_name* GetInstance(){ return class_name::Instance(); }
-	实现：在ImagePlugin.cpp里，
-		IMPLEMENT_PLUGIN(CImagePlugin)
-		class CImagePlugin : public CPlugin
-    PLUGIN_EXPORT CImagePlugin* GetInstance(){ return CImagePlugin::Instance(); }
-    
-    class CImagePlugin : public CPlugin
-	   DECLARE_PLUGIN(CImagePlugin)
-     #define DECLARE_PLUGIN(class_name) \
-	     static class_name* Instance(){ static class_name _instance; return &_instance; } \
-# MEMO: 每个插件，只有1个静态的实例？？？
-
 ================================================================================
-# 容器怎么创建、加载、引用插件？
-  在MainFrame里没有找到。 class CMainFrame : public CPIMDIFrameWndEx
-  在App里，BOOL CDemoApp::InitInstance()， PIInitPlugin(this); 
+== 加载插件
+# 容器怎么加载插件？
+  在容器App里，BOOL CDemoApp::InitInstance()， PIInitPlugin(this); 
+  PIInitPlugin是PluginSupport里的1个方法
+    PLUGIN_EXPORT void PIInitPlugin(CWinApp* pApp)
+  进入PluginSupport的App
+        CPluginSupportApp* pThisApp = (CPluginSupportApp*)AfxGetApp();
+	      // load plugin
+	      pThisApp->SetMainApp(pApp);
+	      pThisApp->LoadPlugin(pApp)
 
-# 容器加载插件
+# 搜索、初始化插件
   void CPluginSupportApp::LoadPlugin(CWinApp* pApp)
   加载exe目录下的dll。m_hInstance = LoadLibrary(strFileName);
   找到GetInstance方法。m_pfnGetInstance = (GETINSTANCE)GetProcAddress(m_hInstance, "GetInstance");
@@ -81,14 +101,49 @@
       例如DrawPlugin: void CDrawPlugin::Init()
 		m_PluginArray.GetAt(i)->QueryPlugin();
 
-# 关于容器DocumentTemplate的操作
+================================================================================
+== 调用插件、容器
+# 容器app调用插件：从c dll函数
+# 插件调用自己：windows消息
+# 插件调用容器app：PluginLibrary.h
+	   CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	   CWinApp* pMainApp = pApp->GetMainApp();
+	   CWnd* pMainWnd = pMainApp->m_pMainWnd;
+     pMainWnd->SendMessage();
+     
+# 2个错误的方法
+/*  直接创建的DocTemplate ===> 错误
+//	因为在创建CMDIChildWnd::Create时，找不到MainFrame，ENSURE_VALID(pMainWnd);
+	if (!m_pDocTemplate)
+		m_pDocTemplate = new CPIMultiDocTemplate(IDR_IMAGE,
+			RUNTIME_CLASS(CImageDocument),
+			RUNTIME_CLASS(CPIMDIChildWndEx), // 自定义 MDI 子框架
+			RUNTIME_CLASS(CImageView));
+	m_pDocTemplate->OpenDocumentFile(_T(""), FALSE, TRUE);
+*/
+/*	
+// 从PluginLibrary到容器App ===> 错误
+//	因为在创建CMDIChildWnd::Create时，找不到MainFrame，ENSURE_VALID(pMainWnd);
+//	BOOL CMDIChildWnd::Create(LPCTSTR lpszClassName,
+//		CWinThread *pThread = AfxGetThread();
+//		ENSURE_VALID(pThread);
+//		CWnd* pMainWnd = pThread->m_pMainWnd;
+//		ENSURE_VALID(pMainWnd);
+	CWinApp* pMainApp = PIGetMainWinApp();
+	POSITION pos = pMainApp->GetFirstDocTemplatePosition();
+	CDocTemplate* pDocTemplate = pMainApp->GetNextDocTemplate(pos);
+	pDocTemplate->OpenDocumentFile(NULL);
+*/
+
+================================================================================
+# 关于文档模板DocumentTemplate的
   1，初始化时，在BOOL CDemoApp::InitInstance()中
   替换插件的文档模板管理器：ReplaceDocManager();
       m_pDocManager = new CPIDocManager;
   注册插件的文档模板：PIRegisterDocTemplates();
       遍历所有插件，取出文档模板
       CDocTemplate* pDocTemplate = pPluginWrapper->GetDocTemplate(j);
-      pMainApp->AddDocTemplate(pDocTemplate);  
+      pMainApp->AddDocTemplate(pDocTemplate);   // pMainApp是容器app
   2，关闭程序时，CMainFrame::OnClose()
       pDocManager->RemovePluginDocTemplate();
 
