@@ -30,6 +30,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_MESSAGE(WM_TOOLBAR_EVENT, &CMainFrame::OnToolbarEvent)
 	ON_COMMAND(ID_INDICATOR_PROGRESS, &CMainFrame::OnIndicatorProgress)
 	ON_WM_CLOSE()
+//	ON_COMMAND(ID_FILE_NEW, &CMainFrame::OnFileNew)
+	ON_MESSAGE(WMU_FILE_NEW, &CMainFrame::OnFileNew)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -524,4 +526,11 @@ void CMainFrame::OnIndicatorProgress()
 
 	m_wndStatusBar.SetPaneProgress(nStatusProgress, 0);
 	m_wndStatusBar.SetTipText(nStatusProgress, NULL);
+}
+
+LRESULT CMainFrame::OnFileNew(WPARAM wParam, LPARAM lParam)
+{
+	CDemoApp* pMainApp = (CDemoApp*)AfxGetApp();
+	pMainApp->OnFileNew();
+	return 0;
 }

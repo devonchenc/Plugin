@@ -33,9 +33,12 @@ BEGIN_MESSAGE_MAP(CDemoApp, CWinAppEx)
 	ON_UPDATE_COMMAND_UI(ID_LANGUAGE_CHS, &CDemoApp::OnUpdateLanguageChs)
 END_MESSAGE_MAP()
 
+void CDemoApp::OnFileNew()
+{
+	CWinAppEx::OnFileNew();
+}
 
 // CDemoApp construction
-
 CDemoApp::CDemoApp()
 {
 	m_bHiColorIcons = TRUE;
