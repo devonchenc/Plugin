@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Image2Plugin.cpp">
+      <Filter>plugin</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2Document.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2View.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="Image2.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="Image2Plugin.h">
+      <Filter>plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2Document.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="Image2View.h">
+      <Filter>app</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\Image2.rc2">
+      <Filter>resource</Filter>
+    </None>
+    <None Include="Image2.def">
+      <Filter>app</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="app">
+      <UniqueIdentifier>{fec64c43-110c-4901-91c0-2f84fd54f2df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="plugin">
+      <UniqueIdentifier>{4ada8f73-56b8-4def-859b-2d30622ba93c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resource">
+      <UniqueIdentifier>{300d7567-5f37-4890-95e5-e8c58329bfcc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Image2.rc">
+      <Filter>resource</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
