@@ -42,7 +42,7 @@ public:
 
 	virtual int GetDocTemplateCount()	{ return 0; }
 
-	virtual CPIMultiDocTemplate* GetDocTemplate(int nIndex)	{ return NULL; }
+	virtual CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId)	{ return NULL; }
 
 protected:
 	int MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel = FALSE);

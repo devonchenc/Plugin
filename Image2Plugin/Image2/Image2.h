@@ -20,10 +20,16 @@ public:
 	CImage2App();
 
 public:
-	CPIMultiDocTemplate* GetDocTemplate()	{ return m_pDocTemplate; }
+	CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId) {
+		m_nPluginId = nPluginId;
+		m_nDocTemplateId = nDocTemplateId;
+		return m_pDocTemplate; 
+	}
 
 private:
 	CPIMultiDocTemplate* m_pDocTemplate;
+	int m_nPluginId;
+	int m_nDocTemplateId;
 
 // ÖØÐ´
 public:

@@ -22,13 +22,15 @@ PLUGIN_EXPORT void PIRegisterDocTemplates()
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
 
+	// for plugins
 	const PluginArray& array = pApp->GetPluginArray();
 	for (int i=0; i<array.GetSize(); i++)
 	{
+		// for docTemplate in plugin
 		CPluginWrapper* pPluginWrapper = array.GetAt(i);
 		for (int j = 0; j < pPluginWrapper->GetDocTemplateCount(); j++)
 		{
-			CDocTemplate* pDocTemplate = pPluginWrapper->GetDocTemplate(j);
+			CDocTemplate* pDocTemplate = pPluginWrapper->GetDocTemplate(i,j);
 			// plugin said it had one, but didn't supply it
 			ASSERT(pDocTemplate);
 			pMainApp->AddDocTemplate(pDocTemplate);

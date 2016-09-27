@@ -37,10 +37,10 @@ int CImage2Plugin::GetDocTemplateCount()
 	return 1;
 }
 
-CPIMultiDocTemplate* CImage2Plugin::GetDocTemplate(int nIndex)
+CPIMultiDocTemplate* CImage2Plugin::GetDocTemplate(int nPluginId, int nDocTemplateId)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CImage2App* pApp = (CImage2App*)AfxGetApp();
-	return pApp->GetDocTemplate();
+	return pApp->GetDocTemplate(nPluginId, nDocTemplateId);
 }

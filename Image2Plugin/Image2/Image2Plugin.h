@@ -14,5 +14,5 @@ public:
 
 	virtual int GetDocTemplateCount();
 
-	virtual CPIMultiDocTemplate* GetDocTemplate(int nIndex);
+	virtual CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId);
 };

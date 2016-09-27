@@ -88,5 +88,5 @@ void CImageApp::OnPluginImage()
 	// 
 	CWnd* pMainWnd = PIGetMainWnd();
 //	pMainWnd->SendMessage(WM_CLOSE, 0, 0);	// good
-	pMainWnd->PostMessage(WMU_FILE_NEW, 0, 0);	// good
+	pMainWnd->PostMessage(WMU_FILE_NEW, m_nPluginId, m_nDocTemplateId);	// good
 }
