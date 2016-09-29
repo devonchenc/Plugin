@@ -48,12 +48,14 @@ void CImageView::OnInitialUpdate()
 
 void CImageView::OnDraw(CDC* pDC)
 {
-	CImageDocument* pDoc = GetDocument();
+/*	CImageDocument* pDoc = GetDocument();
 	CImage* pImage = pDoc->GetImage();
 	if (pImage)
 	{
 		pImage->Draw(pDC->GetSafeHdc(), 0, 0);
-	}
+	}*/
+	CString strText("image");
+	pDC->TextOut(0, 0, strText);
 }
 
 // CImageView ’Ô∂œ

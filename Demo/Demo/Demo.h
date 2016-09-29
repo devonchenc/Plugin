@@ -53,7 +53,7 @@ public:
 	afx_msg void OnLanguageChs();
 	afx_msg void OnUpdateLanguageChs(CCmdUI* pCmdUI);
 public:
-	afx_msg void OnFileNew();
+	afx_msg void OnFileNew(int nDocTemplateId);
 };
 
 extern CDemoApp theApp;

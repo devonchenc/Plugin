@@ -29,6 +29,7 @@ struct ToolbarInfo
 	CString strText;
 };
 
+
 #include "PIToolBar.h"
 #include "PIView.h"
 #include "PIDocManager.h"

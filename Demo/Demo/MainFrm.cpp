@@ -531,6 +531,7 @@ void CMainFrame::OnIndicatorProgress()
 LRESULT CMainFrame::OnFileNew(WPARAM wParam, LPARAM lParam)
 {
 	CDemoApp* pMainApp = (CDemoApp*)AfxGetApp();
-	pMainApp->OnFileNew();
+	int nDocTemplateId = (int)wParam;
+	pMainApp->OnFileNew(nDocTemplateId);
 	return 0;
 }
