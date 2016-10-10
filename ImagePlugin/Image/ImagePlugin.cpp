@@ -10,7 +10,7 @@ void CImagePlugin::Init()
 
 	// merge menu
 	CMenu append;
-	append.LoadMenu(IDR_IMAGE_MENU);
+	append.LoadMenu(IDR_IMAGE_MERGE_MENU);
 	MergeMenu(&append, TRUE);
 
 	// merge toolbar
