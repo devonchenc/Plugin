@@ -44,6 +44,7 @@ public:
 
 protected:  // control bar embedded members
 	CMFCMenuBar			m_wndMenuBar;
+	CMFCRibbonBar		m_wndRibbonBar; // ribbonbar
 	CMFCToolBar			m_wndToolBar;
 	CMFCStatusBar		m_wndStatusBar;
 	CMFCToolBarImages	m_UserImages;
@@ -66,9 +67,14 @@ protected:
 	afx_msg LRESULT OnMenuEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg LRESULT OnToolbarEvent(WPARAM wParam, LPARAM lParam);
 	afx_msg void OnIndicatorProgress();
-	DECLARE_MESSAGE_MAP()
 
 	afx_msg LRESULT OnFileNew(WPARAM wParam, LPARAM lParam);
+	afx_msg void OnRibbonCmdImage();
+	afx_msg void OnRibbonCmdImage1();
+
+	DECLARE_MESSAGE_MAP()
+
+	
 public:
 	virtual void GetMessageString(UINT nID, CString& rMessage) const;
 };

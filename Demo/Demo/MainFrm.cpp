@@ -32,6 +32,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_WM_CLOSE()
 //	ON_COMMAND(ID_FILE_NEW, &CMainFrame::OnFileNew)
 	ON_MESSAGE(WMU_FILE_NEW, &CMainFrame::OnFileNew)
+	ON_COMMAND(ID_BUTTON_IMAGE, &CMainFrame::OnRibbonCmdImage)
+	ON_COMMAND(ID_BUTTON_IMAGE1, &CMainFrame::OnRibbonCmdImage1)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -76,8 +78,11 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create menubar\n");
 		return -1;		// fail to create
 	}
-
 	m_wndMenuBar.SetPaneStyle(m_wndMenuBar.GetPaneStyle() | CBRS_SIZE_DYNAMIC | CBRS_TOOLTIPS | CBRS_FLYBY);
+
+	// todo: 为什么先创建ribbonBar再创建menuBar会报错？
+	m_wndRibbonBar.Create(this); // ribbonbar
+	m_wndRibbonBar.LoadFromResource(IDR_RIBBON1);
 
 	// prevent the menu bar from taking the focus on activation
 	CMFCPopupMenu::SetForceMenuFocus(FALSE);
@@ -534,4 +539,12 @@ LRESULT CMainFrame::OnFileNew(WPARAM wParam, LPARAM lParam)
 	int nDocTemplateId = (int)wParam;
 	pMainApp->OnFileNew(nDocTemplateId);
 	return 0;
+}
+
+void CMainFrame::OnRibbonCmdImage() {
+	AfxMessageBox(_T("On Ribbon Cmd Image"));
+}
+
+void CMainFrame::OnRibbonCmdImage1() {
+	AfxMessageBox(_T("On Ribbon Cmd Image 1"));
 }
