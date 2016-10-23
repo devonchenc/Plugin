@@ -9,10 +9,10 @@
 int CPlugin::MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
 
+	// get menubar
 	HMENU hMenu = NULL;
 	pMainApp->m_pMainWnd->SendMessage(WM_MENU_EVENT, (WPARAM)FALSE, (LPARAM)&hMenu);
 	ASSERT(hMenu != NULL);
@@ -23,11 +23,26 @@ int CPlugin::MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel)
 	CMenu ParentMenu;
 	ParentMenu.Attach(hMenu);
 	int nCommandCount = MergeMenuImpl(&ParentMenu, pMenuAdd, pPluginWrapper, bTopLevel);
+
 	// refresh menu
 	pMainApp->m_pMainWnd->SendMessage(WM_MENU_EVENT, (WPARAM)TRUE, (LPARAM)&ParentMenu);
 	ParentMenu.Detach();
 
 	return nCommandCount;
+}
+
+int CPlugin::MergeRibbonBar()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	CWinApp* pMainApp = pApp->GetMainApp();
+
+	// get ***
+	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)FALSE, (LPARAM)0);
+
+	// update ***
+	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)TRUE, (LPARAM)0);
+	return 0;
 }
 
 // merge toolbar

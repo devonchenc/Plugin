@@ -152,6 +152,12 @@ dllmain会调用CImageApp::InitInstance()
   1，创建菜单资源
   2，合并插件菜单到容器主菜单，CBrowserPlugin::Init()
        会有便利工具：CPlugin::MergeMenu
+     找到容器程序的菜单句柄：     
+       HMENU hMenu = NULL;
+	     pMainApp->m_pMainWnd->SendMessage(WM_MENU_EVENT, (WPARAM)FALSE, (LPARAM)&hMenu);
+     容器程序的菜单事件处理
+       LRESULT CMainFrame::OnMenuEvent
+
 问题：怎么确定不同插件菜单的相对顺序。
   3，实现菜单处理，可以在插件app里，void CPluginBrowserApp::OnPluginBrowser()
   

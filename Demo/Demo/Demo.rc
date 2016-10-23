@@ -435,6 +435,7 @@ BEGIN
     POPUP "&Help"
     BEGIN
         MENUITEM "&About Demo...",              ID_APP_ABOUT
+        MENUITEM "Test",                        ID_HELP_TEST
     END
 END
 

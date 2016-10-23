@@ -154,8 +154,6 @@ echo finish
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
     <None Include="PluginSupport.def" />
     <None Include="res\PluginSupport.rc2" />
   </ItemGroup>
