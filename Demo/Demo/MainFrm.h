@@ -44,10 +44,13 @@ public:
 
 protected:  // control bar embedded members
 	CMFCMenuBar			m_wndMenuBar;
+
 	CMFCRibbonBar		m_wndRibbonBar;
+	CMenu				m_wndRibbonBarMenu;
+	
 	CMFCToolBar			m_wndToolBar;
-	CMFCStatusBar		m_wndStatusBar;
 	CMFCToolBarImages	m_UserImages;
+	CMFCStatusBar		m_wndStatusBar;
 
 	CProgressDlg		m_wndProgressDlg;
 
@@ -79,6 +82,8 @@ protected:
 public:
 	virtual void GetMessageString(UINT nID, CString& rMessage) const;
 	afx_msg void OnHelpTest();
+
+	void AddSubMenu2RibbonBar(CMenu* pSubMenu);
 };
 
 

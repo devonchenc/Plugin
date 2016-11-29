@@ -12,7 +12,7 @@ int CPlugin::MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel)
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
 
-	// get menubar
+	// get menu
 	HMENU hMenu = NULL;
 	pMainApp->m_pMainWnd->SendMessage(WM_MENU_EVENT, (WPARAM)FALSE, (LPARAM)&hMenu);
 	ASSERT(hMenu != NULL);
@@ -31,17 +31,39 @@ int CPlugin::MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel)
 	return nCommandCount;
 }
 
-int CPlugin::MergeRibbonBar()
+int CPlugin::MergeRibbonBar(const CMenu* pMenuAdd)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
 
-	// get ***
-	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)FALSE, (LPARAM)0);
+	// get menu
+	HMENU hMenu = NULL;
+	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)FALSE, (LPARAM)&hMenu);
+	ASSERT(hMenu != NULL);
 
-	// update ***
-	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)TRUE, (LPARAM)0);
+	// pMenuAdd --> hMenu
+	CMenu menu;
+	menu.Attach(hMenu);
+	CMenu* pDestMenu = menu.GetSubMenu(0);
+
+	CMenu* pSrcMenu = pMenuAdd->GetSubMenu(0);
+	UINT itemCount = pSrcMenu->GetMenuItemCount();
+	for (UINT i = 0; i < itemCount; ++i) {
+		CString sMenuAddString;
+		pSrcMenu->GetMenuString(i, sMenuAddString, MF_BYPOSITION);
+		UINT nState = pSrcMenu->GetMenuState(i, MF_BYPOSITION);
+		UINT nItemID = pSrcMenu->GetMenuItemID(i);
+		if (pDestMenu->AppendMenu(nState, CPluginWrapper::GetCommandIDIndex(), sMenuAddString)) {
+			CPluginWrapper* pPluginWrapper = pApp->GetPluginArray().GetAt(m_nPluginIndex);
+			pPluginWrapper->AddCommand(nItemID);
+		}
+	} // for
+	hMenu = menu.GetSafeHmenu();
+
+	// refresh menu
+	pMainApp->m_pMainWnd->SendMessage(WMU_RIBBONBAR_EVENT, (WPARAM)TRUE, (LPARAM)hMenu);
+	menu.Detach();
 	return 0;
 }
 

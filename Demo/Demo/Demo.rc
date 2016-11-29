@@ -159,6 +159,14 @@ BEGIN
     MENUITEM "Windows 7(&D)",               ID_VIEW_APPLOOK_WINDOWS_7
 END
 
+IDR_RIBBONBAR_MENU MENU
+BEGIN
+    POPUP "RibbonBar"
+    BEGIN
+        MENUITEM SEPARATOR
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

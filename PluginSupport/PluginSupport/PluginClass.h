@@ -47,7 +47,7 @@ public:
 protected:
 	int MergeMenu(const CMenu* pMenuAdd, BOOL bTopLevel = FALSE);
 
-	int MergeRibbonBar();
+	int MergeRibbonBar(const CMenu* pMenuAdd);
 
 	// merge toolbar
 	int MergeToolbar(UINT nIDResource);
