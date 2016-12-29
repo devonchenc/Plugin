@@ -35,7 +35,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CPIMDIFrameWndEx)
 	ON_MESSAGE(WMU_FILE_NEW, &CMainFrame::OnFileNew)
 	ON_COMMAND(ID_BUTTON_IMAGE, &CMainFrame::OnRibbonCmdImage)
 	ON_COMMAND(ID_BUTTON_IMAGE1, &CMainFrame::OnRibbonCmdImage1)
-	ON_COMMAND(ID_HELP_TEST, &CMainFrame::OnHelpTest)
+//	ON_COMMAND(ID_HELP_TEST, &CMainFrame::OnHelpTest)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -413,6 +413,13 @@ LRESULT CMainFrame::OnRibbonbarEvent(WPARAM wParam, LPARAM lParam) {
 		AddSubMenu2RibbonBar(pSubMenu);
 	}
 	else { 
+		// clear
+		CMenu* pSubMenu = m_wndRibbonBarMenu.GetSubMenu(0);
+		UINT nMenuItemCount = pSubMenu->GetMenuItemCount();
+		TRACE1("MenuItemCount=%d\n", nMenuItemCount);
+		for (UINT nItem = 1; nItem < nMenuItemCount; ++nItem) {
+			pSubMenu->DeleteMenu(1, MF_BYPOSITION);
+		}
 		// return menu from RibbonBar
 		HMENU* pMenu = (HMENU*)lParam;
 		*pMenu = m_wndRibbonBarMenu.GetSafeHmenu();
@@ -567,90 +574,6 @@ void CMainFrame::OnRibbonCmdImage1() {
 	AfxMessageBox(_T("On Ribbon Cmd Image 1"));
 }
 
-void CMainFrame::OnHelpTest()
-{
-	// category
-	const _TCHAR CAT_NAME[] = _T("常用");
-	CMFCRibbonCategory* pCategory = nullptr;
-	int nCategoryCount = m_wndRibbonBar.GetCategoryCount();
-	TRACE1("CatCount=%d\n", nCategoryCount);
-	for (int nCatId = 0; nCatId < nCategoryCount; ++nCatId) {
-		CMFCRibbonCategory* pCat = m_wndRibbonBar.GetCategory(nCatId);
-		LPCTSTR pCatName = pCat->GetName();
-		TRACE2("CatId=%d, Name=%s\n", nCatId, pCatName);
-		if (0 == _tcscmp(CAT_NAME, pCatName)) {
-			pCategory = pCat;
-			break;
-		}
-	}
-	if (nullptr == pCategory) {
-		AfxMessageBox(_T("Can not find category"));
-		return;
-	}
-	// pannel
-	const _TCHAR PAN_NAME[] = _T("文档");
-	CMFCRibbonPanel* pPanel = nullptr;
-	int nPanelCount = pCategory->GetPanelCount();
-	TRACE1("PannelCount=%d\n", nPanelCount);
-	for (int nPanId = 0; nPanId < nPanelCount; ++nPanId) {
-		CMFCRibbonPanel* pPan = pCategory->GetPanel(nPanId);
-		LPCTSTR pPanName = pPan->GetName();
-		TRACE2("PanId=%d, Name=%s\n", nPanId, pPanName);
-		if (0 == _tcscmp(PAN_NAME, pPanName)) {
-			pPanel = pPan;
-			break;
-		}
-	}
-	if (nullptr == pPanel) {
-		AfxMessageBox(_T("Can not find pannel"));
-		return;
-	}
-	// element
-	const _TCHAR ELE_NAME[] = _T("新建");
-	CMFCRibbonBaseElement* pElement = nullptr;
-	int nElementCount = pPanel->GetCount();
-	TRACE1("ElementCount=%d\n", nElementCount);
-	for (int nEleId = 0; nEleId < nElementCount; ++nEleId) {
-		CMFCRibbonBaseElement* pEle = pPanel->GetElement(nEleId);
-		TRACE3("EleId=%d, Text=%s, HasMenu=%d\n", nEleId, pEle->GetText(), pEle->HasMenu());
-		if (0 == _tcscmp(ELE_NAME, pEle->GetText())) {
-			pElement = pEle;
-			break;
-		}
-	}
-	if (nullptr == pElement) {
-		AfxMessageBox(_T("Can not find element"));
-		return;
-	}
-//	pPanel->SetElementMenu(ID_BUTTON_IMAGE, IDR_POPUP_EDIT);
-	// button
-	CMFCRibbonButton* pButton = (CMFCRibbonButton*)pElement;
-	const CArray<CMFCRibbonBaseElement*, CMFCRibbonBaseElement*>& items = pButton->GetSubItems();
-	int nItemsCount = items.GetCount();
-	TRACE1("ItemsCount=%d\n", nItemsCount);
-	for (int nItemId = 0; nItemId < items.GetCount(); ++nItemId) {
-		CMFCRibbonBaseElement* pEle = items.GetAt(nItemId);
-		TRACE3("ItemId=%d, Text=%s, CmdID=%d\n", nItemId, pEle->GetText(), pEle->GetID());
-	}
-	// menu --> button.items; =================================================
-	CMenu menu;
-	menu.LoadMenu(IDR_POPUP_EDIT);
-	CMenu* pSubMenu = menu.GetSubMenu(0);
-	UINT nMenuItemCount = pSubMenu->GetMenuItemCount();
-	TRACE1("MenuItemCount=%d\n", nMenuItemCount);
-	for (UINT nItem = 0; nItem < nMenuItemCount; ++nItem) {
-		UINT nMenuID = pSubMenu->GetMenuItemID(nItem);
-		CString strMenuItem;
-		pSubMenu->GetMenuString(nItem, strMenuItem, MF_BYPOSITION);
-		TRACE3("Menu.pos=%d, id=%ld, text=%s\n", nItem, nMenuID, strMenuItem);
-		//
-		CMFCRibbonButton* pSubButton = new CMFCRibbonButton();
-		pSubButton->SetID(nMenuID);
-		pSubButton->SetText(strMenuItem);
-		pButton->AddSubItem(pSubButton);
-	}
-}
-
 void CMainFrame::AddSubMenu2RibbonBar(CMenu* pSubMenu)
 {
 	// category
@@ -731,3 +654,93 @@ void CMainFrame::AddSubMenu2RibbonBar(CMenu* pSubMenu)
 		pButton->AddSubItem(pSubButton);
 	}
 }
+
+/*
+void CMainFrame::OnHelpTest()
+{
+// category
+const _TCHAR CAT_NAME[] = _T("常用");
+CMFCRibbonCategory* pCategory = nullptr;
+int nCategoryCount = m_wndRibbonBar.GetCategoryCount();
+TRACE1("CatCount=%d\n", nCategoryCount);
+for (int nCatId = 0; nCatId < nCategoryCount; ++nCatId) {
+CMFCRibbonCategory* pCat = m_wndRibbonBar.GetCategory(nCatId);
+LPCTSTR pCatName = pCat->GetName();
+TRACE2("CatId=%d, Name=%s\n", nCatId, pCatName);
+if (0 == _tcscmp(CAT_NAME, pCatName)) {
+pCategory = pCat;
+break;
+}
+}
+if (nullptr == pCategory) {
+AfxMessageBox(_T("Can not find category"));
+return;
+}
+
+// pannel
+const _TCHAR PAN_NAME[] = _T("文档");
+CMFCRibbonPanel* pPanel = nullptr;
+int nPanelCount = pCategory->GetPanelCount();
+TRACE1("PannelCount=%d\n", nPanelCount);
+for (int nPanId = 0; nPanId < nPanelCount; ++nPanId) {
+CMFCRibbonPanel* pPan = pCategory->GetPanel(nPanId);
+LPCTSTR pPanName = pPan->GetName();
+TRACE2("PanId=%d, Name=%s\n", nPanId, pPanName);
+if (0 == _tcscmp(PAN_NAME, pPanName)) {
+pPanel = pPan;
+break;
+}
+}
+if (nullptr == pPanel) {
+AfxMessageBox(_T("Can not find pannel"));
+return;
+}
+
+// element
+const _TCHAR ELE_NAME[] = _T("新建");
+CMFCRibbonBaseElement* pElement = nullptr;
+int nElementCount = pPanel->GetCount();
+TRACE1("ElementCount=%d\n", nElementCount);
+for (int nEleId = 0; nEleId < nElementCount; ++nEleId) {
+CMFCRibbonBaseElement* pEle = pPanel->GetElement(nEleId);
+TRACE3("EleId=%d, Text=%s, HasMenu=%d\n", nEleId, pEle->GetText(), pEle->HasMenu());
+if (0 == _tcscmp(ELE_NAME, pEle->GetText())) {
+pElement = pEle;
+break;
+}
+}
+if (nullptr == pElement) {
+AfxMessageBox(_T("Can not find element"));
+return;
+}
+//	pPanel->SetElementMenu(ID_BUTTON_IMAGE, IDR_POPUP_EDIT);
+
+// button
+CMFCRibbonButton* pButton = (CMFCRibbonButton*)pElement;
+const CArray<CMFCRibbonBaseElement*, CMFCRibbonBaseElement*>& items = pButton->GetSubItems();
+int nItemsCount = items.GetCount();
+TRACE1("ItemsCount=%d\n", nItemsCount);
+for (int nItemId = 0; nItemId < items.GetCount(); ++nItemId) {
+CMFCRibbonBaseElement* pEle = items.GetAt(nItemId);
+TRACE3("ItemId=%d, Text=%s, CmdID=%d\n", nItemId, pEle->GetText(), pEle->GetID());
+}
+
+// menu --> button.items; =================================================
+CMenu menu;
+menu.LoadMenu(IDR_POPUP_EDIT);
+CMenu* pSubMenu = menu.GetSubMenu(0);
+UINT nMenuItemCount = pSubMenu->GetMenuItemCount();
+TRACE1("MenuItemCount=%d\n", nMenuItemCount);
+for (UINT nItem = 0; nItem < nMenuItemCount; ++nItem) {
+UINT nMenuID = pSubMenu->GetMenuItemID(nItem);
+CString strMenuItem;
+pSubMenu->GetMenuString(nItem, strMenuItem, MF_BYPOSITION);
+TRACE3("Menu.pos=%d, id=%ld, text=%s\n", nItem, nMenuID, strMenuItem);
+//
+CMFCRibbonButton* pSubButton = new CMFCRibbonButton();
+pSubButton->SetID(nMenuID);
+pSubButton->SetText(strMenuItem);
+pButton->AddSubItem(pSubButton);
+}
+}
+*/

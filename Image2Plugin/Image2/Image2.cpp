@@ -78,15 +78,7 @@ BOOL CImage2App::InitInstance()
 void CImage2App::OnPluginImage()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-
-	AfxMessageBox(_T("OnPluginImage2"));
-
-	CWinApp* pMainApp = PIGetMainApp();
-	pMainApp->PostThreadMessage(ID_FILE_NEW, 0, 0); // failed: Thread = NULL
-//	::PostAppMessage()
-
-	// 
+	AfxMessageBox(_T("OnPluginImage2")); 
 	CWnd* pMainWnd = PIGetMainWnd();
-//	pMainWnd->SendMessage(WM_CLOSE, 0, 0);	// good
 	pMainWnd->PostMessage(WMU_FILE_NEW, m_nPluginId, m_nDocTemplateId);	// good
 }

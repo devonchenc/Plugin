@@ -12,6 +12,7 @@ void CImagePlugin::Init()
 	CMenu append;
 	append.LoadMenu(IDR_IMAGE_MERGE_MENU);
 	MergeMenu(&append, TRUE);
+	MergeRibbonBar(&append);
 
 	// merge toolbar
 //	MergeToolbar(IDR_DRAW_TOOLBAR);

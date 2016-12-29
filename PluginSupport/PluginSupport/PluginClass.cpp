@@ -36,6 +36,7 @@ int CPlugin::MergeRibbonBar(const CMenu* pMenuAdd)
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
 	CWinApp* pMainApp = pApp->GetMainApp();
+	CPluginWrapper* pPluginWrapper = pApp->GetPluginArray().GetAt(m_nPluginIndex);
 
 	// get menu
 	HMENU hMenu = NULL;
@@ -46,7 +47,6 @@ int CPlugin::MergeRibbonBar(const CMenu* pMenuAdd)
 	CMenu menu;
 	menu.Attach(hMenu);
 	CMenu* pDestMenu = menu.GetSubMenu(0);
-
 	CMenu* pSrcMenu = pMenuAdd->GetSubMenu(0);
 	UINT itemCount = pSrcMenu->GetMenuItemCount();
 	for (UINT i = 0; i < itemCount; ++i) {
@@ -54,10 +54,8 @@ int CPlugin::MergeRibbonBar(const CMenu* pMenuAdd)
 		pSrcMenu->GetMenuString(i, sMenuAddString, MF_BYPOSITION);
 		UINT nState = pSrcMenu->GetMenuState(i, MF_BYPOSITION);
 		UINT nItemID = pSrcMenu->GetMenuItemID(i);
-		if (pDestMenu->AppendMenu(nState, CPluginWrapper::GetCommandIDIndex(), sMenuAddString)) {
-			CPluginWrapper* pPluginWrapper = pApp->GetPluginArray().GetAt(m_nPluginIndex);
-			pPluginWrapper->AddCommand(nItemID);
-		}
+		UINT nVirtualItemID = pPluginWrapper->AddCommand(nItemID);
+		pDestMenu->AppendMenu(nState, nVirtualItemID, sMenuAddString);
 	} // for
 	hMenu = menu.GetSafeHmenu();
 
@@ -163,8 +161,15 @@ int CPlugin::MergeMenuImpl(CMenu* pMenuDestination, const CMenu* pMenuAdd, CPlug
 			// read the source and append at the destination
 			UINT nState = pMenuAdd->GetMenuState(iLoop, MF_BYPOSITION);
 			UINT nItemID = pMenuAdd->GetMenuItemID(iLoop);
-
-			if (pMenuDestination->AppendMenu(nState, CPluginWrapper::GetCommandIDIndex(), sMenuAddString))
+			// modify by wyc
+			UINT nVirtualItemID = pPluginWrapper->AddCommand(nItemID);
+			if (pMenuDestination->AppendMenu(nState, nVirtualItemID, sMenuAddString)) {
+				// menu item added, don't forget to correct the item count
+				iMenuDestItemCount++;
+				nCommandCount++;
+			}
+			// modified 
+/*			if (pMenuDestination->AppendMenu(nState, CPluginWrapper::GetCommandIDIndex(), sMenuAddString))
 			{
 				// menu item added, don't forget to correct the item count
 				iMenuDestItemCount++;
@@ -172,7 +177,7 @@ int CPlugin::MergeMenuImpl(CMenu* pMenuDestination, const CMenu* pMenuAdd, CPlug
 
 				// add new command
 				pPluginWrapper->AddCommand(nItemID);
-			}
+			} */
 			else
 			{
 				TRACE(_T("Plugin: AppendMenu failed!\n"));
