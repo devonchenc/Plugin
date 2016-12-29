@@ -1,6 +1,5 @@
 
 #pragma once
-
 #include <atlimage.h>
 #include <afxcontrolbars.h>
 #include "PluginDefine.h"
@@ -39,6 +38,10 @@ typedef LRESULT (__cdecl* MESSAGEPROC)(MSG* pMsg);
 PLUGIN_EXPORT void PIRegisterMessage(int nPluginIndex, UINT nMessage, MESSAGEPROC pFN);
 
 PLUGIN_EXPORT void PIUnregisterMessage(int nPluginIndex, UINT nMessage);
+
+// wyc: add functions to access container.
+PLUGIN_EXPORT CWinApp* PIGetMainApp();
+PLUGIN_EXPORT CWnd* PIGetMainWnd();
 
 PLUGIN_EXPORT CDocument* PIGetActiveDocument();
 

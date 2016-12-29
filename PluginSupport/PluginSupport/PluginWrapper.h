@@ -28,7 +28,7 @@ public:
 	void ExecutePlugin(UINT nCommandID, CCmdUI* pCmdUI);
 	void Draw(CDC* pDC);
 	int GetDocTemplateCount();
-	CPIMultiDocTemplate* GetDocTemplate(int nIndex);
+	CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId);
 
 	HINSTANCE GetInstance() const;
 	const CPluginInfo& GetPluginInfo() const;

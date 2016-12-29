@@ -1,11 +1,11 @@
 #pragma once
 
-class CImagePlugin : public CPlugin
+class CImage2Plugin : public CPlugin
 {
-	DECLARE_PLUGIN(CImagePlugin)
+	DECLARE_PLUGIN(CImage2Plugin)
 
 private:
-	CImagePlugin(){}
+	CImage2Plugin(){}
 
 public:
 	virtual void Init();

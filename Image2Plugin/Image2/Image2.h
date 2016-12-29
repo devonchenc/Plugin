@@ -14,16 +14,16 @@
 // 有关此类实现的信息，请参阅 Image.cpp
 //
 
-class CImageApp : public CWinApp
+class CImage2App : public CWinApp
 {
 public:
-	CImageApp();
+	CImage2App();
 
 public:
-	CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId)	{ 
+	CPIMultiDocTemplate* GetDocTemplate(int nPluginId, int nDocTemplateId) {
 		m_nPluginId = nPluginId;
 		m_nDocTemplateId = nDocTemplateId;
-		return m_pDocTemplate;
+		return m_pDocTemplate; 
 	}
 
 private:

@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "Image.h"
-#include "ImageDocument.h"
-#include "ImageView.h"
+#include "Image2.h"
+#include "Image2Document.h"
+#include "Image2View.h"
 #include <afxMDIChildWndEx.h>
 
 #ifdef _DEBUG
@@ -38,14 +38,14 @@
 
 // CImageApp
 
-BEGIN_MESSAGE_MAP(CImageApp, CWinApp)
-	ON_COMMAND(ID_PLUGIN_IMAGE, &CImageApp::OnPluginImage)
+BEGIN_MESSAGE_MAP(CImage2App, CWinApp)
+	ON_COMMAND(ID_PLUGIN_IMAGE, &CImage2App::OnPluginImage)
 END_MESSAGE_MAP()
 
 
 // CImageApp 构造
 
-CImageApp::CImageApp()
+CImage2App::CImage2App()
 {
 	// TODO: 在此处添加构造代码，
 	// 将所有重要的初始化放置在 InitInstance 中
@@ -53,21 +53,21 @@ CImageApp::CImageApp()
 
 // 唯一的一个 CImageApp 对象
 
-CImageApp theApp;
+CImage2App theApp;
 
 
 // CImageApp 初始化
 
-BOOL CImageApp::InitInstance()
+BOOL CImage2App::InitInstance()
 {
 	CWinApp::InitInstance();
 
 	// 注册应用程序的文档模板。文档模板
 	// 将用作文档、框架窗口和视图之间的连接
 	m_pDocTemplate = new CPIMultiDocTemplate(IDR_IMAGE,
-		RUNTIME_CLASS(CImageDocument),
+		RUNTIME_CLASS(CImage2Document),
 		RUNTIME_CLASS(CPIMDIChildWndEx), // 自定义 MDI 子框架
-		RUNTIME_CLASS(CImageView));
+		RUNTIME_CLASS(CImage2View));
 	if (!m_pDocTemplate)
 		return FALSE;
 
@@ -75,10 +75,10 @@ BOOL CImageApp::InitInstance()
 }
 
 
-void CImageApp::OnPluginImage()
+void CImage2App::OnPluginImage()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
-	AfxMessageBox(_T("OnPluginImage"));
+	AfxMessageBox(_T("OnPluginImage2")); 
 	CWnd* pMainWnd = PIGetMainWnd();
 	pMainWnd->PostMessage(WMU_FILE_NEW, m_nPluginId, m_nDocTemplateId);	// good
 }

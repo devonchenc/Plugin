@@ -30,19 +30,26 @@
 #define ID_VIEW_APPLOOK_WINDOWS_7       219
 #define IDS_EDIT_MENU                   306
 #define IDD_PROGRESS_DLG                310
+#define IDR_RIBBON1                     311
+#define IDR_RIBBONBAR_MENU              312
 #define IDC_PROGRESS1                   1000
 #define ID_VIEW_LANGUAGE                32771
 #define ID_LANGUAGE_ENG                 32772
 #define ID_LANGUAGE_CHS                 32773
 #define ID_IMAGE                        32774
 #define ID_INDICATOR_PROGRESS           32775
+#define ID_BUTTON2                      32776
+#define ID_BUTTON_IMAGE                 32778
+#define ID_BUTTON_IMAGE1                32779
+#define ID_HELP_TEST                    32780
+#define ID_RIBBON_BAR                   32781
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        311
-#define _APS_NEXT_COMMAND_VALUE         32776
+#define _APS_NEXT_RESOURCE_VALUE        313
+#define _APS_NEXT_COMMAND_VALUE         32782
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           310
 #endif

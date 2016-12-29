@@ -90,11 +90,11 @@ int CPluginWrapper::GetDocTemplateCount()
 	return m_pPlugin->GetDocTemplateCount();
 }
 
-CPIMultiDocTemplate* CPluginWrapper::GetDocTemplate(int nIndex)
+CPIMultiDocTemplate* CPluginWrapper::GetDocTemplate(int nPluginId, int nDocTemplateId)
 {
-	ASSERT(nIndex >= 0);
-	ASSERT(nIndex < GetDocTemplateCount());
-	return m_pPlugin->GetDocTemplate(nIndex);
+	ASSERT(nDocTemplateId >= 0);
+	ASSERT(nDocTemplateId < GetDocTemplateCount());
+	return m_pPlugin->GetDocTemplate(nPluginId, nDocTemplateId);
 }
 
 HINSTANCE CPluginWrapper::GetInstance() const

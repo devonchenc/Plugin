@@ -159,6 +159,14 @@ BEGIN
     MENUITEM "Windows 7(&D)",               ID_VIEW_APPLOOK_WINDOWS_7
 END
 
+IDR_RIBBONBAR_MENU MENU
+BEGIN
+    POPUP "RibbonBar"
+    BEGIN
+        MENUITEM SEPARATOR
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -191,6 +199,14 @@ BEGIN
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Ribbon
+//
+
+IDR_RIBBON1             RT_RIBBON_XML           "res\\ribbon1.mfcribbon-ms"
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -427,6 +443,7 @@ BEGIN
     POPUP "&Help"
     BEGIN
         MENUITEM "&About Demo...",              ID_APP_ABOUT
+        MENUITEM "Test",                        ID_HELP_TEST
     END
 END
 
@@ -500,13 +517,16 @@ END
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON                    "res\\Demo.ico"
 
+
 /////////////////////////////////////////////////////////////////////////////
 //
 // Bitmap
 //
 
 IDR_MAINFRAME           BITMAP                  "res\\Toolbar.bmp"
+
 IDR_MAINFRAME_256       BITMAP                  "res\\Toolbar256.bmp"
+
 
 /////////////////////////////////////////////////////////////////////////////
 //

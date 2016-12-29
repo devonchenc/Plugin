@@ -4,6 +4,20 @@
 
 IMPLEMENT_PLUGIN(CImagePlugin)
 
+void CImagePlugin::Init()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+
+	// merge menu
+	CMenu append;
+	append.LoadMenu(IDR_IMAGE_MERGE_MENU);
+	MergeMenu(&append, TRUE);
+	MergeRibbonBar(&append);
+
+	// merge toolbar
+//	MergeToolbar(IDR_DRAW_TOOLBAR);
+}
+
 void CImagePlugin::Query(CPluginInfo& plugininfo)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
@@ -24,10 +38,10 @@ int CImagePlugin::GetDocTemplateCount()
 	return 1;
 }
 
-CPIMultiDocTemplate* CImagePlugin::GetDocTemplate(int nIndex)
+CPIMultiDocTemplate* CImagePlugin::GetDocTemplate(int nPluginId, int nDocTemplateId)
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());
 
 	CImageApp* pApp = (CImageApp*)AfxGetApp();
-	return pApp->GetDocTemplate();
+	return pApp->GetDocTemplate(nPluginId, nDocTemplateId);
 }

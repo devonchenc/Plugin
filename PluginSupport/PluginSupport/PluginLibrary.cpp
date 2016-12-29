@@ -88,6 +88,20 @@ PLUGIN_EXPORT void PIUnregisterMessage(int nPluginIndex, UINT nMessage)
 	}
 }
 
+PLUGIN_EXPORT CWinApp* PIGetMainApp()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	return pApp->GetMainApp();
+}
+
+PLUGIN_EXPORT CWnd* PIGetMainWnd()
+{
+	AFX_MANAGE_STATE(AfxGetStaticModuleState());
+	CPluginSupportApp* pApp = (CPluginSupportApp*)AfxGetApp();
+	return pApp->GetMainApp()->m_pMainWnd;
+}
+
 PLUGIN_EXPORT CDocument* PIGetActiveDocument()
 {
 	AFX_MANAGE_STATE(AfxGetStaticModuleState());

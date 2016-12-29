@@ -2,37 +2,37 @@
 //
 
 #include "stdafx.h"
-#include "Image.h"
-#include "ImageView.h"
+#include "Image2.h"
+#include "Image2View.h"
 
-#include "ImageDocument.h"
+#include "Image2Document.h"
 
 // CImageView
 
-IMPLEMENT_DYNCREATE(CImageView, CScrollView)
+IMPLEMENT_DYNCREATE(CImage2View, CScrollView)
 
-CImageView::CImageView()
+CImage2View::CImage2View()
 {
 
 }
 
-CImageView::~CImageView()
+CImage2View::~CImage2View()
 {
 
 }
 
-BEGIN_MESSAGE_MAP(CImageView, CScrollView)
+BEGIN_MESSAGE_MAP(CImage2View, CScrollView)
 END_MESSAGE_MAP()
 
 // CImageView 绘图
 
-void CImageView::OnInitialUpdate()
+void CImage2View::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
 	CSize sizeTotal;
 
-	CImageDocument* pDoc = GetDocument();
+	CImage2Document* pDoc = GetDocument();
 	CImage* pImage = pDoc->GetImage();
 	if (pImage)
 	{
@@ -46,37 +46,37 @@ void CImageView::OnInitialUpdate()
 	SetScrollSizes(MM_TEXT, sizeTotal);
 }
 
-void CImageView::OnDraw(CDC* pDC)
+void CImage2View::OnDraw(CDC* pDC)
 {
-/*	CImageDocument* pDoc = GetDocument();
+/*	CImage2Document* pDoc = GetDocument();
 	CImage* pImage = pDoc->GetImage();
 	if (pImage)
 	{
 		pImage->Draw(pDC->GetSafeHdc(), 0, 0);
 	}*/
-	CString strText("image");
+	CString strText("IMAGE 2");
 	pDC->TextOut(0, 0, strText);
 }
 
 // CImageView 诊断
 
 #ifdef _DEBUG
-void CImageView::AssertValid() const
+void CImage2View::AssertValid() const
 {
 	CScrollView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-void CImageView::Dump(CDumpContext& dc) const
+void CImage2View::Dump(CDumpContext& dc) const
 {
 	CScrollView::Dump(dc);
 }
 #endif
 
-CImageDocument* CImageView::GetDocument() const // 非调试版本是内联的
+CImage2Document* CImage2View::GetDocument() const // 非调试版本是内联的
 {
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImageDocument)));
-	return (CImageDocument*)m_pDocument;
+	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CImage2Document)));
+	return (CImage2Document*)m_pDocument;
 }
 #endif //_DEBUG
 

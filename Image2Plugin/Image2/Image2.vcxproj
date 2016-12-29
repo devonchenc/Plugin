@@ -11,8 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{9FC49A8C-C4BF-4854-82BE-BB0DCF9EC53D}</ProjectGuid>
-    <RootNamespace>Level</RootNamespace>
+    <ProjectGuid>{1C5F334B-4D1F-40F9-A410-3B0FC6CD4A7E}</ProjectGuid>
+    <RootNamespace>Image</RootNamespace>
     <Keyword>MFCDLLProj</Keyword>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -57,12 +57,11 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ModuleDefinitionFile>.\Level.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\Image2.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -73,14 +72,10 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
-    <Bscmake>
-      <PreserveSbr>true</PreserveSbr>
-    </Bscmake>
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
-echo finish
-</Command>
+echo finish</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -98,7 +93,7 @@ echo finish
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ModuleDefinitionFile>.\Level.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\Image2.def</ModuleDefinitionFile>
     </Link>
     <Midl>
       <MkTypLibCompatible>false</MkTypLibCompatible>
@@ -112,52 +107,44 @@ echo finish
     <PostBuildEvent>
       <Command>mkdir $(SolutionDir)$(Configuration)
 copy $(OutDir)$(TargetName)$(TargetExt) $(SolutionDir)$(Configuration)
-echo finish
-</Command>
+echo finish</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ItemInfo.cpp" />
-    <ClCompile Include="Level.cpp" />
-    <ClCompile Include="LevelDlg.cpp" />
-    <ClCompile Include="LevelPlugin.cpp" />
-    <ClCompile Include="LevelSlider.cpp" />
-    <ClCompile Include="LevelWnd.cpp" />
+    <ClCompile Include="Image2.cpp" />
+    <ClCompile Include="Image2Document.cpp" />
+    <ClCompile Include="Image2Plugin.cpp" />
+    <ClCompile Include="Image2View.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ItemInfo.h" />
-    <ClInclude Include="Level.h" />
-    <ClInclude Include="LevelDlg.h" />
-    <ClInclude Include="LevelPlugin.h" />
-    <ClInclude Include="LevelSlider.h" />
-    <ClInclude Include="LevelWnd.h" />
+    <ClInclude Include="Image2.h" />
+    <ClInclude Include="Image2Document.h" />
+    <ClInclude Include="Image2Plugin.h" />
+    <ClInclude Include="Image2View.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Level.def" />
-    <None Include="res\Level.rc2" />
+    <None Include="Image2.def" />
+    <None Include="res\Image2.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Level.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="bitmap1.bmp" />
+    <ResourceCompile Include="Image2.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="Level.rc" />
+      <UserProperties RESOURCE_FILE="Image.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>

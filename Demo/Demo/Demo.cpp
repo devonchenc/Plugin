@@ -23,7 +23,7 @@
 BEGIN_MESSAGE_MAP(CDemoApp, CWinAppEx)
 	ON_COMMAND(ID_APP_ABOUT, &CDemoApp::OnAppAbout)
 	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
+//	ON_COMMAND(ID_FILE_NEW, &CWinAppEx::OnFileNew)
 	ON_COMMAND(ID_FILE_OPEN, &CWinAppEx::OnFileOpen)
 	// Standard print setup command
 	ON_COMMAND(ID_FILE_PRINT_SETUP, &CWinAppEx::OnFilePrintSetup)
@@ -34,8 +34,29 @@ BEGIN_MESSAGE_MAP(CDemoApp, CWinAppEx)
 END_MESSAGE_MAP()
 
 
-// CDemoApp construction
+void CDemoApp::OnFileNew(int nDocTemplateId)
+{
+//	CWinAppEx::OnFileNew();
+	CDocTemplate *pTemp = nullptr;
+//	m_mapStrategyTmpl.Lookup(docType, (void *&)pTemp);
+	int n = 0;
+	POSITION pos = GetFirstDocTemplatePosition();
+	while (NULL != pos) {
+		CDocTemplate* pDocTemplate = GetNextDocTemplate(pos);
+		if (n == nDocTemplateId) {
+			pTemp = pDocTemplate;
+			break;
+		}
+		++n;
+	}
+	if (nullptr != pTemp)
+	{
+		pTemp->OpenDocumentFile(NULL);
+	}
 
+}
+
+// CDemoApp construction
 CDemoApp::CDemoApp()
 {
 	m_bHiColorIcons = TRUE;
